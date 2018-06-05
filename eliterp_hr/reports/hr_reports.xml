@@ -1,6 +1,348 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
+        <!--Rol individual-->
+        <template id="eliterp_report_hr_payslip">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">RRHH-002-ROL-V1</t>
+                    <t t-set="report_title">ROL DE PAGO</t>
+                    <t t-set="flag">1</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Empleado:</strong>
+                                    <p t-field="doc.employee_id"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Identificación:</strong>
+                                    <p t-field="doc.employee_id.identification_id"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Departamento:</strong>
+                                    <p t-field="doc.employee_id.department_id.name"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Cargo:</strong>
+                                    <p t-field="doc.employee_id.job_id.name"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha ingreso:</strong>
+                                    <p t-field="doc.employee_id.admission_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Período:</strong>
+                                    <p t-esc="'Del %s hasta el %s' % (doc.date_from, doc.date_to)"/>
+                                </div>
+                            </div>
+
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr style="border: none;">
+                                                <th style="border-bottom: none;" class="text-center col-xs-12">
+                                                    <strong>INGRESOS</strong>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.input_line_ids" t-as="line">
+                                                <tr style="border: none;">
+                                                    <td style="border-right: none;" class="text-left col-xs-6">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                    <td style="border-right: none;" class="text-right col-xs-6">
+                                                        <span t-esc='"%.2f" % line.amount'/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr style="border: none;">
+                                                <td style="border-right: none;" class="text-right col-xs-6">
+                                                    <span>
+                                                        <b>TOTAL INGRESOS</b>
+                                                    </span>
+                                                </td>
+                                                <td style="border-right: none;" class="text-right col-xs-6">
+                                                    <b>
+                                                        <span t-esc='"%.2f" % sum(line.amount for line in doc.input_line_ids)'/>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="col-xs-6">
+                                    <table class="table table-condensed">
+                                        <thead>
+                                            <tr style="border: none;">
+                                                <th style="border-bottom: none;" class="text-center col-xs-12">
+                                                    <strong>EGRESOS</strong>
+                                                </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <t t-foreach="doc.input_line_ids_2" t-as="line">
+                                                <tr style="border: none;">
+                                                    <td style="border-right: none;" class="text-left col-xs-6">
+                                                        <span t-field="line.name"/>
+                                                    </td>
+                                                    <td style="border-right: none;" class="text-right col-xs-6">
+                                                        <span t-esc='"%.2f" % line.amount'/>
+                                                    </td>
+                                                </tr>
+                                            </t>
+                                            <tr style="border: none;">
+                                                <td style="border-right: none;" class="text-right col-xs-6">
+                                                    <span>
+                                                        <b>TOTAL EGRESOS</b>
+                                                    </span>
+                                                </td>
+                                                <td style="border-right: none;" class="text-right col-xs-6">
+                                                    <b>
+                                                        <span t-esc='"%.2f" % sum(line.amount for line in doc.input_line_ids_2)'/>
+                                                    </b>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            <div class="clearfix text-center">
+                                <h3>NETO A RECIBIR:&amp;nbsp;
+                                    <strong>
+                                        <span t-esc='"%.2f" % doc.net_receive'/>
+                                    </strong>
+                                </h3>
+                            </div>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_hr_payslip"
+                model="hr.payslip"
+                string="Rol individual"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_hr.eliterp_report_hr_payslip"
+                file="eliterp_hr.eliterp_report_hr_payslip"
+                print_report_name="'Rol individual - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Rol consolidado -->
+        <template id="eliterp_report_hr_payslip_run">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">RRHH-003-NOM-V1</t>
+                    <t t-set="report_title">NÓMINA - ROL CONSOLIDADO</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <strong>Fecha documento:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Período:</strong>
+                                    <p t-esc="'Del %s hasta el %s' % (doc.date_start, doc.date_end)"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">NOMBRE</th>
+                                        <th class="text-center">FECHA DE INGRESO</th>
+                                        <th class="text-center">DÍAS</th>
+                                        <th class="text-center">SUELDO</th>
+                                        <th class="text-center">FR</th>
+                                        <th class="text-center">13º</th>
+                                        <th class="text-center">14º</th>
+                                        <th class="text-center">Otros ING.</th>
+                                        <th class="text-center">TOTAL ING.</th>
+                                        <th class="text-center">AQ</th>
+                                        <th class="text-center">IESS 9.45%</th>
+                                        <th class="text-center">IESS 17.60%</th>
+                                        <th class="text-right">PAQ</th>
+                                        <th class="text-right">PQ</th>
+                                        <th class="text-right">PH</th>
+                                        <th class="text-right">MULTAS</th>
+                                        <th class="text-right">Faltas/Atrasos</th>
+                                        <th class="text-right">CELULAR</th>
+                                        <th class="text-right">OTROS EGR.</th>
+                                        <th class="text-right">TOTAL EGR.</th>
+                                        <th class="text-right">NETO RECIBIR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.lines_payslip_run" t-as="line">
+                                        <td>
+                                            <span t-field="line.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.admission_date"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line.worked_days"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line.wage"/>
+                                        </td>
+                                        <td class="text-center">
+                                            <span t-field="line.reserve_funds"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.tenth_3"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.tenth_4"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.other_income"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.total_income"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.payment_advance"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.iess_personal"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.iess_patronal"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.loan_payment_advance"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.loan_unsecured"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.loan_mortgage"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.penalty"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.absence"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.cellular_plan"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.other_expenses"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.total_expenses"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.net_receive"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <p t-if="doc.comment">
+                                <span class="text-center" t-field="doc.comment"/>
+                            </p>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_hr_payslip_run"
+                model="hr.payslip.run"
+                string="Rol consolidado"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_hr.eliterp_report_hr_payslip_run"
+                file="eliterp_hr.eliterp_report_hr_payslip_run"
+                print_report_name="'Rol consolidado - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Anticipo de quincena -->
+        <template id="eliterp_report_advance_payment">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">RRHH-001-ADQ-V1</t>
+                    <t t-set="report_title">ANTICIPO DE QUINCENA</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <strong>Fecha documento:</strong>
+                                    <p t-field="doc.create_date"/>
+
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Período:</strong>
+                                    <p t-field="doc.period"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center col-xs-6">Empleado</th>
+                                        <th class="text-right col-xs-3">Monto</th>
+                                        <th class="text-center col-xs-3">Firma</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.lines_advance" t-as="line">
+                                        <td>
+                                            <span t-field="line.employee_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.amount_advance"/>
+                                        </td>
+                                        <td>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <div class="clearfix">
+                                <div class="row">
+                                    <div class="col-xs-9">
+                                        <table class="table table-condensed">
+                                            <tr>
+                                                <td class="text-right col-xs-6">
+                                                    <strong>Total</strong>
+                                                </td>
+                                                <td class="col-xs-3 text-right">
+                                                    <span t-esc="'%.2f' % doc.total"/>
+                                                </td>
+                                            </tr>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_advance_payment"
+                model="eliterp.advance.payment"
+                string="Anticipo de quincena"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_hr.eliterp_report_advance_payment"
+                file="eliterp_hr.eliterp_report_advance_payment"
+                print_report_name="'Anticipo de quincena - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_portrait"
+        />
         <!--Reporte de empleados-->
         <template id="eliterp_report_employee_report">
             <t t-call="web.html_container">
