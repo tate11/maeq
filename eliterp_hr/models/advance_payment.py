@@ -57,14 +57,13 @@ class AdvancePayment(models.Model):
         account = self.env['account.account'].search([('name', '=', 'NÓMINA POR PAGAR')], limit=1)
         return account[0].id if account else False
 
-
     @api.multi
     def print_advance(self):
         """
         Imprimimos anticipo
         """
         self.ensure_one()
-        pass
+        return self.env.ref('eliterp_hr.eliterp_action_report_advance_payment').report_action(self)
 
     def load_employees(self):
         """

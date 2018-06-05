@@ -87,10 +87,10 @@ class Payslip(models.Model):
     @api.multi
     def print_role(self):
         """
-        Imprimir rol individual
+        Imprimimos rol individual
         """
         self.ensure_one()
-        pass
+        return self.env.ref('eliterp_hr.eliterp_action_report_hr_payslip').report_action(self)
 
     @api.model
     def create(self, vals):

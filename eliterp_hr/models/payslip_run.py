@@ -69,6 +69,14 @@ class ReasonDenyPayslipRun(models.TransientModel):
 class PayslipRun(models.Model):
     _inherit = 'hr.payslip.run'
 
+    @api.multi
+    def print_payslip_run(self):
+        """
+        Imprimimos rol consolidado
+        """
+        self.ensure_one()
+        return self.env.ref('eliterp_hr.eliterp_action_report_hr_payslip_run').report_action(self)
+
     @api.model
     def _default_journal(self):
         """
@@ -470,3 +478,5 @@ class PayslipRun(models.Model):
     count_employees = fields.Integer('No. Empleados', compute='_get_count_employees')
     approval_user = fields.Many2one('res.users', 'Aprobado por', copy=False)
     comment = fields.Text('Notas y comentarios', readonly=True, states={'draft': [('readonly', False)]})
+
+
