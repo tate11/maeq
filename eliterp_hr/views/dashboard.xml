@@ -172,7 +172,7 @@
                   name="RRHH"
                   web_icon="eliterp_hr,static/description/icon.png"
                   groups="hr.group_hr_user,hr.group_hr_manager"
-                  sequence="70"/>
+                  sequence="8"/>
 
         <menuitem id="eliterp_menu_hr_employees"
                   name="Empleados"

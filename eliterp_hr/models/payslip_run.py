@@ -398,7 +398,7 @@ class PayslipRun(models.Model):
     @api.multi
     def duplicate(self):
         """
-        TODO: Duplicar el rol consolidado
+        Duplicar el rol consolidado, creando nuevas funciones
         :return: object
         """
         start = time.strftime('%Y-%m-01')
@@ -412,7 +412,7 @@ class PayslipRun(models.Model):
                 'date_from': start,
                 'date_to': end,
             })
-            input_ids = Payslip.get_inputs(new_role, new_role.employee_id)
+            input_ids = Payslip.get_inputs(new_role.employee_id, new_role)
             input_lines = Payslip.input_line_ids.browse([])
             input_lines_2 = Payslip.input_line_ids_2.browse([])
             input_lines_3 = Payslip.input_line_ids_3.browse([])
@@ -423,8 +423,8 @@ class PayslipRun(models.Model):
                     input_lines_2 += input_lines_2.new(r)
                 if r['type'] == 'PROVISIÓN':
                     input_lines_3 += input_lines_3.new(r)
-            # Actualizamos categoría de rol
-            Payslip.update({
+            # Actualizamos líneas del nuevo rol
+            new_role.update({
                 'input_line_ids': input_lines,
                 'input_line_ids_2': input_lines_2,
                 'input_line_ids_3': input_lines_3
@@ -434,7 +434,7 @@ class PayslipRun(models.Model):
         values['date_end'] = end
         values['name'] = "%s [%s]" % (month, start[:4])
         object = self.create(values)
-        object.add_roles()
+        object.add_roles()  # Realizamos la acción para duplicar el rol
         # Regresamos al mismo creado
         imd = self.env['ir.model.data']
         action = imd.xmlid_to_object('eliterp_hr.eliterp_action_payslip_run')

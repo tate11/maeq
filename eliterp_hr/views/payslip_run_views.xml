@@ -21,7 +21,7 @@
         <field name="name">eliterp_view_tree_payslip_run</field>
         <field name="model">hr.payslip.run</field>
         <field name="arch" type="xml">
-             <tree default_order='date_start desc'
+            <tree default_order='date_start desc'
                   decoration-info="state == 'draft'"
                   decoration-success="state == 'closed'"
                   decoration-muted="state == 'deny'">
@@ -100,7 +100,10 @@
             <field name="slip_ids" position="replace">
                 <!--Columnas de cada fila del rol consolidado-->
                 <field name="lines_payslip_run">
-                    <tree>
+                    <tree create="false"
+                          delete="false"
+                          edit="false"
+                          default_order="name asc">
                         <field name="name"/>
                         <!--TODO: VIEW
                         <field name="departament"/>

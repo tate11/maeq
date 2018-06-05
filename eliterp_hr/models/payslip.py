@@ -117,7 +117,7 @@ class Payslip(models.Model):
         return self.write({'state': 'done'})
 
     @api.model
-    def get_inputs(self, employee_id):
+    def get_inputs(self, employee_id, role=None):
         """
         MM: Obtenemos la lista de reglas salariales
         :param employee_id:
@@ -131,7 +131,7 @@ class Payslip(models.Model):
         local_dict = {
             'contract': employee_id.contract_id,  # Último contrato de empleado
             'employee': employee_id,
-            'payslip': self,
+            'payslip': role if role else self,
             'result': 0.00
         }
 
