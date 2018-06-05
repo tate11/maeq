@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record id="eliterp_view_button_leave" model="ir.ui.view">
-            <field name="name">eliterp_view_button_leave</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr_holidays.view_employee_form_leave_inherit"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='leaves_count']" position="attributes">
-                    <attribute name="string">Ausencias</attribute>
-                </xpath>
-            </field>
-        </record>
         <!--Vistas del menú Tipos de ausencia-->
         <record id="eliterp_view_tree_holidays_status" model="ir.ui.view">
             <field name="name">eliterp_view_tree_holidays_status</field>

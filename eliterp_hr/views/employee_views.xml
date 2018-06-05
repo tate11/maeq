@@ -95,7 +95,7 @@
                 <xpath expr="//field[@name='category_ids']" position="attributes"><!--Etiquetas-->
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//notebook" position="replace"><!--Reemplazamos todo-->
+                <xpath expr="//notebook" position="replace"><!--Reemplazamos todo el formulario-->
                     <notebook>
                         <page name="public" string="Información pública">
                             <group string="Datos personales" col="4">

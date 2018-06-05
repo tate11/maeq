@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record id="eliterp_view_button_payroll" model="ir.ui.view">
-            <field name="name">eliterp_view_button_payroll</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="hr_payroll.payroll_hr_employee_view_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='payslip_count']" position="attributes">
-                    <attribute name="string">Roles</attribute>
-                </xpath>
-            </field>
-        </record>
         <record id="eliterp_view_form_employee_field_account_payroll" model="ir.ui.view">
             <field name="name">eliterp_view_form_employee_field_account_payroll</field>
             <field name="model">hr.employee</field>
