@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Ocultar menú Empleados-->
+        <record id="hr.menu_hr_root" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <!--Ocultar menú Nómina-->
+        <record id="hr_payroll.menu_hr_payroll_root" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <!--Ocultar menú Ausencias-->
+        <record id="hr_holidays.menu_hr_holidays_root" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>-->
+        <!--Ocultar menú Asistencias-->
+        <record id="hr_attendance.menu_hr_attendance_root" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

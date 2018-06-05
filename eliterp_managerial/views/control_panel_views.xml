@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Control de obligaciones-->
+        <record id="eliterp_view_form_lines_control_panel" model="ir.ui.view">
+            <field name="name">eliterp_view_form_lines_control_panel</field>
+            <field name="model">eliterp.control.panel</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="load_months"
+                                class="oe_highlight"
+                                attrs="{'invisible':[('count_months', '=', True)]}"
+                                type="object" string="Cargar meses"/>
+                    </header>
+                    <sheet>
+                        <div id="o_employee_container">
+                            <div id="o_employee_main">
+                                <field name="image" widget="image" class="oe_avatar"/>
+                                <div class="oe_title">
+                                    <label for="name" class="oe_edit_only"/>
+                                    <h1>
+                                        <field name="name" placeholder="Nombre de institución"/>
+                                    </h1>
+                                </div>
+                            </div>
+                        </div>
+                        <group col="4">
+                            <field name="type"/>
+                            <field name="year"/>
+                            <field name="month"
+                                   attrs="{'invisible':[('type', '!=', 'annual')], 'required':[('type', '==', 'annual')]}"/>
+                            <field name="management_day"/>
+                            <field name="institution_day"/>
+                            <field name="obligation"/>
+                            <field name="document"/>
+                            <field name="responsable"/>
+                            <field name="count_months" invisible="1"/>
+                        </group>
+                        <group string="Líneas de proceso">
+                            <field name="lines_process" nolabel="1">
+                                <tree create="false"
+                                      decoration-info="state=='new'"
+                                      decoration-muted="state=='defeated'"
+                                      decoration-success="state == 'done'">
+                                    <field name="date"/>
+                                    <field name="management_date"/>
+                                    <field name="adjunt"
+                                           string="Adjunto"
+                                           filename="adjunt_name"
+                                           widget="binary"/>
+                                    <field name="adjunt_name" invisible="1"/>
+                                    <field name="comment"/>
+                                    <field name="state"/>
+                                    <field name="flag" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_lines_control_panel" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_lines_control_panel</field>
+            <field name="model">eliterp.control.panel</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="obligation"/>
+                    <field name="type"/>
+                    <field name="management_day"/>
+                    <field name="institution_day"/>
+                    <field name="document"/>
+                </tree>
+            </field>
+        </record>
+        <!--Vistas del menú Panel de control-->
+        <record id="eliterp_view_tree_lines_process_panel" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_lines_process_panel</field>
+            <field name="model">eliterp.control.panel.line</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state=='new'"
+                      decoration-muted="state=='defeated'"
+                      decoration-success="state == 'done'"
+                      default_order='date asc'
+                >
+                    <field name="name_panel"/>
+                    <field name="type_panel"/>
+                    <field name="obligation_panel"/>
+                    <field name="date"/>
+                    <button name="export_file" string="Descargar" type="object"
+                            class="oe_highlight"/>
+                    <field name="comment"/>
+                    <field name="state"/>
+                    <field name="departament_panel" invisible="1"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_lines_process_panel" model="ir.ui.view">
+            <field name="name">eliterp_view_form_lines_process_panel</field>
+            <field name="model">eliterp.control.panel.line</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4">
+                            <field name="date" readonly="1"/>
+                            <field name="management_date"
+                                   attrs="{'required': [('date', '!=', False)]}"/>
+                            <field name="adjunt"
+                                   filename="adjunt_name"
+                                   widget="binary"/>
+                            <field name="adjunt_name" invisible="1"/>
+                        </group>
+                        <group>
+                            <field name="comment" placeholder="p.e Informar novedades"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+    </data>
+</odoo>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data>
+        <!--Factura de proveedor-->
+        <template id="eliterp_report_invoice_supplier">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="eliterp_management.eliterp_register_layout_report">
+                        <div class="page">
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_invoice_supplier"
+                model="account.invoice"
+                string="Factura de proveedor"
+                report_type="qweb-pdf"
+                name="eliterp_accounting.eliterp_report_invoice_supplier"
+                file="eliterp_accounting.eliterp_report_invoice_supplier"
+        />
+        <!--Notas de crédito-->
+        <template id="report_credit_notes">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-call="eliterp_management.eliterp_register_layout_report">
+                        <div class="page">
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_credit_note"
+                model="eliterp.credit.debit.notes"
+                string="Nota de crédito bancaria"
+                report_type="qweb-pdf"
+                name="eliterp_accounting.eliterp_report_credit_note"
+                file="eliterp_accounting.eliterp_report_credit_note"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Plantilla-->
+        <template id="eliterp_report_control_panel">
+            <t t-call="web.external_layout">
+                <t t-foreach="docs" t-as="doc">
+                    <div class="page">
+                        <!--Repetido-->
+                        <style type="text/css">
+                            table > thead > tr > th {
+                            border: 1px solid black;
+                            }
+                        </style>
+                        <div class="col-xs-12" style="margin: 0px; padding:0px; padding-right:30px;">
+                            <hr style="border-top: 1px solid white;border-bottom: 4px solid red; background-color:None;"></hr>
+                        </div>
+                        <div class="col-xs-12" style="margin: 0px; padding:0px; padding-right:30px;">
+                            <table class="table table-condensed" style="font-size: 8pt;">
+                                <thead>
+                                    <tr style="border: 1px solid black; background-color: #D3D3D3;">
+                                        <th class="text-center col-xs-3">
+                                            <strong>INSTITUCIÓN</strong>
+                                        </th>
+                                        <th class="text-center col-xs-1">
+                                            <strong>FRECUENCIA</strong>
+                                        </th>
+                                        <th class="text-center col-xs-2">
+                                            <strong>OBLIGACIÓN</strong>
+                                        </th>
+                                        <th class="text-center col-xs-2">
+                                            <strong>FECHA</strong>
+                                        </th>
+                                        <th class="text-center col-xs-3">
+                                            <strong>NOVEDADES</strong>
+                                        </th>
+                                        <th class="text-center col-xs-1">
+                                            <strong>ESTADO</strong>
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="doc._get_records(doc)" t-as="line">
+                                        <tr>
+                                            <td class="text-center">
+                                                <img t-attf-src="data:image/jpg;base64,{{ line['image'] }}"
+                                                     style="width:64px; height:64px; margin-left:60px;"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="line['type']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="line['obligation']"/>
+                                            </td>
+
+                                            <td class="text-center">
+                                                <span t-esc="line['date']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="line['comment']"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-esc="line['state']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </t>
+            </t>
+        </template>
+        <!--Reporte de Panel de control-->
+        <report
+                id="eliterp_action_report_to_control_panel"
+                model="eliterp.report.control.panel"
+                string="Panel de control"
+                report_type="qweb-pdf"
+                name="eliterp_managerial.eliterp_report_control_panel"
+                file="eliterp_managerial.eliterp_report_control_panel"
+                groups="eliterp_managerial.eliterp_group_managerial_manager"
+        />
+        <report
+                id="eliterp_action_report_to_control_panel_xlsx"
+                model="eliterp.report.control.panel"
+                string="Panel de control"
+                report_type="xlsx"
+                name="eliterp_managerial.eliterp_report_control_panel.xlsx"
+                file="eliterp_managerial.eliterp_report_control_panel.xlsx"
+                attachment_use="False"
+        />
+    </data>
+</odoo>

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Aplicación-->
+        <record model="ir.module.category" id="eliterp_category_managerial">
+            <field name="name">Gerencial</field>
+            <field name="description">Le ayuda a manejar sus aprobaciones, y contro de obligaciones,
+                también da un resumen de todo o importante de la empresa.
+            </field>
+            <field name="sequence">71</field>
+        </record>
+        <!--Grupos-->
+        <record id="eliterp_group_managerial_user" model="res.groups">
+            <field name="name">Usuario gerencial</field>
+            <field name="category_id" ref="eliterp_category_managerial"/>
+        </record>
+        <record id="eliterp_group_managerial_manager" model="res.groups">
+            <field name="name">Responsable gerencial</field>
+            <field name="category_id" ref="eliterp_category_managerial"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,129 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas de Proveedores/Clientes-->
+        <record id='eliterp_view_tree_res_partner' model='ir.ui.view'>
+            <field name='name'>eliterp_view_tree_res_partner</field>
+            <field name='model'>res.partner</field>
+            <field name='inherit_id' ref='base.view_partner_tree'/>
+            <field name='arch' type='xml'>
+                <tree position="replace">
+                    <tree>
+                        <field name="display_name"/>
+                        <field name="function" invisible="1"/>
+                        <field name="documentation_number"/>
+                        <field name="state_id" string="Provincia"/>
+                        <field name="street" string="Dirección"/>
+                        <field name="phone"/>
+                        <field name="email"/>
+                        <field name="user_id" invisible="1"/>
+                        <field name="is_company" invisible="1"/>
+                        <field name="country_id" invisible="1"/>
+                        <field name="parent_id" invisible="1"/>
+                        <field name="active" invisible="1"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_res_partner" model="ir.ui.view">
+            <field name="name">eliterp_view_form_res_partner</field>
+            <field name='model'>res.partner</field>
+            <field name='inherit_id' ref='base.view_partner_form'/>
+            <field name='arch' type='xml'>
+                <xpath expr="//field[@name='name']" position="attributes">
+                    <attribute name="placeholder">Razón social</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="attributes"><!--NIF-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='vat']" position="after">
+                    <label for="documentation_number" string="Identificación"/>
+                    <div class="o_row">
+                        <field name="type_documentation" class="oe_inline" required="1"/>
+                        No.
+                        <field name="documentation_number" class="oe_inline" required="1"/>
+                    </div>
+                </xpath>
+                <xpath expr="//field[@name='street']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='function']" position="after"><!--Puesto de trabajo-->
+                    <field name="sex" attrs="{'invisible': [('company_type', '==', 'company')]}"/>
+                    <field name="civil_status" attrs="{'invisible': [('company_type', '=', 'company')]}"/>
+                </xpath>
+                <xpath expr="//field[@name='phone']" position="attributes">
+                    <attribute name="required">1</attribute>
+                </xpath>
+                <field name="country_id" position="replace"/><!--País-->
+                <field name="city" position="replace">
+                    <field name="country_id"
+                           placeholder="País.."
+                           class="o_address_country"
+                           options="{'no_open': True, 'no_create': True}"/>
+                </field>
+                <xpath expr="//field[@name='state_id']" position="attributes">
+                    <attribute name="placeholder">Provincia..</attribute>
+                    <attribute name="options">{'no_open': True, 'no_create': True}</attribute>
+                </xpath>
+                <field name="state_id" position="after">
+                    <field name="city" placeholder="City" class="o_address_city" invisible="1"/><!--Ciudad-->
+                    <field name="canton"
+                           placeholder="Cantón.."
+                           class="o_address_state"
+                           options="{'no_open': True, 'no_create': True}"
+                           domain="[('state_id', '=', state_id)]"/>
+                    <field name="parish"
+                           placeholder="Parroquia.."
+                           class="o_address_state"
+                           options="{'no_open': True, 'no_create': True}"
+                           domain="[('canton_id','=',canton)]"/>
+                </field>
+                <xpath expr="//field[@name='zip']" position="attributes"><!--C.P.-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='category_id']" position="attributes"><!--Etiquetas-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='title']" position="attributes"><!--Título-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='lang']" position="attributes"><!--Idioma-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//form/sheet/notebook/page[@name='sales_purchases']"
+                       position="attributes"><!--Paǵina, Ventas y Compras-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id='eliterp_view_form_res_partner_property' model='ir.ui.view'>
+            <field name='name'>eliterp_view_form_res_partner_property</field>
+            <field name='model'>res.partner</field>
+            <field name='inherit_id' ref='account.view_partner_property_form'/>
+            <field name='arch' type='xml'>
+                <xpath expr="//group[@name='acc_sale']" position="attributes"><!--Grupo Venta-->
+                    <attribute name="attrs">{'invisible':[('customer','=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='trust']" position="attributes"><!--Grado de confianza para este deudor-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//group[@name='acc_purchase']" position="attributes"><!--Grupo Compra-->
+                    <attribute name="attrs">{'invisible':[('customer','=', True)]}</attribute>
+                </xpath>
+                <xpath expr="//group[@name='fiscal_information']" position="attributes"><!--Grupo Información fiscal-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--Grupo Asientos contables-->
+                <xpath expr="//field[@name='property_account_receivable_id']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('customer', '=', False)]}</attribute>
+                </xpath>
+                <xpath expr="//field[@name='property_account_payable_id']" position="after">
+                    <field name="related_party" required="1"/>
+                </xpath>
+                <xpath expr="//field[@name='property_account_payable_id']" position="attributes">
+                    <attribute name="attrs">{'invisible':[('customer', '=', True)]}</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

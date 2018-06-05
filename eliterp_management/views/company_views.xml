@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <record id="eliterp_view_form_company" model="ir.ui.view">
+        <field name="name">eliterp_view_form_company</field>
+        <field name="model">res.company</field>
+        <field name="inherit_id" ref="base.view_company_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='report_footer']" position="after"><!--Pie de página del informe-->
+                <field name="report_color" widget="color"/>
+            </xpath>
+        </field>
+    </record>
+</odoo>

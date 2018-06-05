@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--TODO: Cambiamos logo de pantalla de inicio (Enterprise)-->
+<templates id="template" xml:space="preserve">
+    <t t-extend="AppSwitcher.Content">
+        <t t-jquery=".o_application_switcher_footer" t-operation="replace">
+            <div class="o_application_switcher_footer">
+                <img src="/eliterp_management/static/src/img/logo.png" alt="Eliterp"/>
+            </div>
+        </t>
+    </t>
+</templates>

@@ -1,0 +1,152 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--Vistas del menú Rol consolidado-->
+    <record id="eliterp_view_form_reason_deny_payslip_wizard" model="ir.ui.view">
+        <field name="name">eliterp_view_form_reason_deny_payslip_wizard</field>
+        <field name="model">eliterp.reason.deny.payslip.run</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="description"/>
+                </group>
+                <footer>
+                    <button name="deny_payslip_run" type="object" class="oe_highlight"
+                            string="Confirmar"/>
+                    <button string="Descartar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="eliterp_view_tree_payslip_run" model="ir.ui.view">
+        <field name="name">eliterp_view_tree_payslip_run</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="arch" type="xml">
+             <tree default_order='date_start desc'
+                  decoration-info="state == 'draft'"
+                  decoration-success="state == 'closed'"
+                  decoration-muted="state == 'deny'">
+                <field name="name"/>
+                <field name="date_start"/>
+                <field name="date_end"/>
+                <field name="count_employees"/>
+                <field name="total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="eliterp_view_form_payslip_run" model="ir.ui.view">
+        <field name="name">eliterp_view_form_payslip_run</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll.hr_payslip_run_form"/>
+        <field name="arch" type="xml">
+            <xpath expr="//separator" position="replace">
+            </xpath>
+            <button name="close_payslip_run" position="replace">
+                <button name="print_payslip_run"
+                        string="Imprimir rol"
+                        class="oe_highlight"
+                        type="object"/>
+                <button name="duplicate"
+                        string="Duplicar rol"
+                        states="closed"
+                        groups="hr.group_hr_manager"
+                        type="object"/>
+                <button name="add_roles"
+                        string="Añadir roles"
+                        type="object"
+                        states="draft"
+                        class="oe_highlight"/>
+                <button name="to_approve"
+                        string="Solicitar aprobación"
+                        type="object"
+                        states="draft"
+                        class="oe_highlight"/>
+                <button name="approve"
+                        string="Aprobar"
+                        states="to_approve"
+                        groups="eliterp_hr.eliterp_group_approve_payroll"
+                        type="object"
+                        class="oe_highlight"/>
+                <button name="open_reason_deny_payslip_run"
+                        type="object"
+                        states="to_approve"
+                        groups="eliterp_hr.eliterp_group_deny_payroll"
+                        string="Negar"/>
+                <button name="confirm_payslip_run"
+                        string="Contabilizar"
+                        type="object"
+                        states="approve"
+                        class="oe_highlight"/>
+            </button>
+            <xpath expr="//h1" position="after">
+                <group string="Novedades y comentarios">
+                    <field name="comment" nolabel="1"/>
+                </group>
+            </xpath>
+            <button name="%(hr_payroll.action_hr_payslip_by_employees)d" position="attributes"><!--Generate Payslips-->
+                <attribute name="invisible">1</attribute>
+            </button>
+            <field name="credit_note" position="before">
+                <field name="move_id"
+                       attrs="{'invisible': [('state', '!=', 'closed')]}"
+                       readonly="1"/>
+                <field name="approval_user"
+                       attrs="{'invisible': [('state', '!=', 'closed')]}"
+                       readonly="1"/>
+            </field>
+            <field name="credit_note" position="attributes"><!--Nota de crédito-->
+                <attribute name="invisible">1</attribute>
+            </field>
+            <field name="slip_ids" position="replace">
+                <!--Columnas de cada fila del rol consolidado-->
+                <field name="lines_payslip_run">
+                    <tree>
+                        <field name="name"/>
+                        <!--TODO: VIEW
+                        <field name="departament"/>
+                        -->
+                        <field name="admission_date"/>
+                        <field name="worked_days"/>
+                        <field name="wage" sum="Total"/>
+                        <field name="extra_hours" sum="Total"/>
+                        <!--TODO: VIEW                            <
+                            <field name="additional_hours" sum="Total"/>
+                        -->
+                        <field name="reserve_funds"/>
+                        <field name="tenth_3"/>
+                        <field name="tenth_4"/>
+                        <field name="other_income"/>
+                        <field name="total_income"/>
+
+                        <field name="payment_advance"/>
+                        <field name="iess_personal" sum="Total"/>
+                        <field name="iess_patronal"/>
+                        <!--TODO: VIEW
+                        <field name="loan_payment_advance"/>
+                        -->
+                        <field name="loan_unsecured"/>
+                        <field name="loan_mortgage"/>
+                        <field name="penalty"/>
+                        <field name="absence"/>
+                        <field name="cellular_plan"/>
+                        <field name="other_expenses"/>
+                        <field name="total_expenses"/>
+                        <field name="net_receive" sum="Total"/>
+                        <field name="role_id" invisible="1"/>
+                    </tree>
+                </field>
+            </field>
+        </field>
+    </record>
+
+    <record id="eliterp_view_form_payslip_run_1" model="ir.ui.view">
+        <field name="name">eliterp_view_form_payslip_run_2</field>
+        <field name="model">hr.payslip.run</field>
+        <field name="inherit_id" ref="hr_payroll_account.hr_payslip_run_form_inherit"/>
+        <field name="arch" type="xml">
+            <field name="journal_id" position="attributes"><!--Diario de salario-->
+                <attribute name="invisible">1</attribute>
+            </field>
+        </field>
+    </record>
+</odoo>

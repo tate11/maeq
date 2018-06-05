@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <menuitem name="Aplicaciones"
+                  id="base.menu_management"
+                  web_icon="eliterp_management,static/description/apps.png"
+                  sequence="310"/>
+        <menuitem name="Configuraciones"
+                  id="base.menu_administration"
+                  web_icon="eliterp_management,static/description/configuration.png"
+                  sequence="500"/>
+
+    </data>
+</odoo>
+
+
+
+

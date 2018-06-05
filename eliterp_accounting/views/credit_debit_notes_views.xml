@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="eliterp_view_form_notes_cancel_reason_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_notes_cancel_reason_wizard</field>
+            <field name="model">eliterp.notes.cancel.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <footer>
+                        <button name="cancel_note"
+                                type="object"
+                                class="oe_highlight"
+                                string="Confirmar"/>
+                        <button string="Descartar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--Vistas del menú Notas de crédito-->
+        <record id="eliterp_view_tree_credit_notes" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_credit_notes</field>
+            <field name="model">eliterp.credit.debit.notes</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'"
+                      decoration-muted="state == 'cancel'"
+                      decoration-success="state == 'posted'"
+                      default_order='date desc'>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="bank_id"/>
+                    <field name="amount"/>
+                    <field name="account_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_credit_notes" model="ir.ui.view">
+            <field name="name">eliterp_view_form_credit_notes</field>
+            <field name="model">eliterp.credit.debit.notes</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="confirm_note"
+                                class="oe_highlight"
+                                string="Contabilizar"
+                                states="draft"
+                                type="object"/>
+                        <button name="print_note"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir nota"/>
+                        <button name="open_notes_cancel_reason"
+                                string="Cancelar"
+                                states="posted"
+                                type="object"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,posted"
+                               modifiers="{'readonly': true}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="concept" attrs="{'readonly':[('state', '==','posted')]}"/>
+                            <field name="move_id" invisible="1"/>
+                        </group>
+                        <group col="2">
+                            <group string="Debe">
+                                <field name="bank_id" attrs="{'readonly':[('state', '==', 'posted')]}"
+                                       options="{'no_create': True}"/>
+                            </group>
+                            <group string="Haber">
+                                <field name="date" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                                <field name="amount" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                                <field name="account_id" attrs="{'readonly':[('state', '==','posted')]}"
+                                       options="{'no_create': True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Vistas del menú Notas de débito-->
+        <record id="eliterp_view_tree_debit_notes" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_debit_notes</field>
+            <field name="model">eliterp.credit.debit.notes</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state == 'draft'"
+                      decoration-muted="state == 'cancel'"
+                      decoration-success="state == 'posted'"
+                      default_order='date desc'>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="account_id"/>
+                    <field name="amount"/>
+                    <field name="bank_id"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_debit_notes" model="ir.ui.view">
+            <field name="name">eliterp_view_form_debit_notes</field>
+            <field name="model">eliterp.credit.debit.notes</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="confirm_note"
+                                class="oe_highlight"
+                                string="Contabilizar"
+                                states="draft"
+                                type="object"/>
+                        <button name="print_note"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir nota"/>
+                        <button name="open_notes_cancel_reason"
+                                string="Cancelar"
+                                states="posted"
+                                type="object"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,posted"
+                               modifiers="{'readonly': true}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group>
+                            <field name="concept" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                            <field name="move_id" invisible="1"/>
+                        </group>
+                        <group col="2">
+                            <group string="Debe">
+                                <field name="date" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                                <field name="amount" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                                <field name="account_id" attrs="{'readonly':[('state', '==', 'posted')]}"
+                                       options="{'no_create':True}"/>
+                            </group>
+                            <group string="Haber">
+                                <field name="bank_id" attrs="{'readonly':[('state', '==', 'posted')]}"
+                                       options="{'no_create':True}"/>
+                            </group>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
+

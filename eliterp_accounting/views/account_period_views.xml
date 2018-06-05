@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Período contable-->
+        <record id="eliterp_view_form_account_period" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_period</field>
+            <field name="model">eliterp.account.period</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="load_months"
+                                class="oe_highlight"
+                                type="object"
+                                string="Cargar meses"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="6">
+                            <field name="year_accounting"/>
+                            <field name="start_date"/>
+                            <field name="closing_date"/>
+                        </group>
+                        <group string="Líneas de Período contable" col="1">
+                            <field name="lines_period" nolabel="1">
+                                <tree decoration-muted="'closing_date', '&lt;', context_today().strftime('%Y-%m-%d')"
+                                      create="false">
+                                    <field name="month"/>
+                                    <field name="start_date"/>
+                                    <field name="closing_date"/>
+                                    <field name="code" invisible="1"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_account_period" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_account_period</field>
+            <field name="model">eliterp.account.period</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="start_date"/>
+                    <field name="closing_date"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

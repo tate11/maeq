@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Marca de máquinas-->
+        <record id="eliterp_view_form_machines_brand" model="ir.ui.view">
+            <field name="name">eliterp.view.form.machines.brand</field>
+            <field name="model">eliterp.machines.brand</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button"
+                                    icon="fa-th-list"
+                                    name="action_view_machines"
+                                    type="object">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="machines_quantity"/>
+                                    </span>
+                                    <span class="o_stat_text">Máquinas</span>
+                                </div>
+                            </button>
+                        </div>
+                        <div class="oe_title">
+                            <label for="name" string="Nombre" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="short_name"/>
+                            <field name="image" widget="image" class="oe_avatar"/>
+                        </group>
+                        <group col="4" string="Modelos">
+                            <field name="models_ids" nolabel="1">
+                                <tree create="false" edit="false">
+                                    <field name="name"/>
+                                    <field name="use"/>
+                                    <field name="description"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_machines_brand" model="ir.ui.view">
+            <field name="name">eliterp.view.tree.machines.brand</field>
+            <field name="model">eliterp.machines.brand</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="short_name"/>
+                    <field name="machines_quantity"/>
+                </tree>
+            </field>
+        </record>
+        <!--Vistas del menú Máquinas-->
+        <record id="eliterp_view_kanban_machine" model="ir.ui.view">
+            <field name="name">eliterp.view.kanban.machine</field>
+            <field name="model">eliterp.machine</field>
+            <field name="arch" type="xml">
+                <kanban>
+                    <field name="id"/>
+                    <field name="image"/>
+                    <templates>
+                        <t t-name="kanban-box">
+                            <div class="oe_kanban_global_click">
+                                <t t-if="record.image.raw_value">
+                                    <div class="o_kanban_image">
+                                        <img t-att-src="kanban_image('eliterp.machine', 'image', record.id.raw_value)"/>
+                                    </div>
+                                </t>
+                                <div class="oe_kanban_details">
+                                    <div class="o_kanban_record_top">
+                                        <div class="o_kanban_record_headings">
+                                            <strong class="o_kanban_record_title">
+                                                <field name="name"/>
+                                            </strong>
+                                            <span t-if="record.machines_brand_id.raw_value"
+                                                  class="o_kanban_record_subtitle">
+                                                <field name="machines_brand_id"/>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </t>
+                    </templates>
+                </kanban>
+            </field>
+        </record>
+        <record id="eliterp_view_form_machine" model="ir.ui.view">
+            <field name="name">eliterp.view.form.machine</field>
+            <field name="model">eliterp.machine</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="operative,repair"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_button_box" name="button_box">
+                            <button class="oe_stat_button"
+                                    icon="fa-tachometer">
+                                <div class="o_field_widget o_stat_info">
+                                    <span class="o_stat_value">
+                                        <field name="horometro_real"/>
+                                    </span>
+                                    <span class="o_stat_text">Horómetro</span>
+                                </div>
+                            </button>
+                            <button name="toggle_active" type="object" class="oe_stat_button" icon="fa-archive">
+                                <field name="active" widget="boolean_button" options='{"terminology": "archive"}'/>
+                            </button>
+                        </div>
+                        <field name="image" widget="image" class="oe_avatar"/>
+                        <div class="oe_title">
+                            <label for="machines_brand_id" string="Marca" class="oe_edit_only"/>
+                            <h1>
+                                <field name="machines_brand_id"/>
+                            </h1>
+                            <h1>
+                                <field name="machines_model_id"
+                                       domain="[('machines_brand_id', '=', machines_brand_id)]"/>
+
+                            </h1>
+                            <h1>
+                                <field name="name" placeholder="p.e CAT001"/>
+                            </h1>
+                        </div>
+                        <notebook>
+                            <page string="Información general">
+                                <group col="4">
+                                    <field name="serie"/>
+                                    <field name="registration"/>
+                                    <field name="acquisition_date"/>
+                                    <field name="type"/>
+                                    <label for="horometro_initial"/>
+                                    <div class="o_row">
+                                        <field name="horometro_initial"
+                                               attrs="{'readonly': [('count_cmc', '!=', 0)]}"/>
+                                        <span>horas</span>
+                                    </div>
+                                    <field name="count_cmc" invisible="1"/>
+                                </group>
+                                <group col="4" string="Valores">
+                                    <field name="catalog_value" widget="monetary"/>
+                                    <field name="residual_value" widget="monetary"/>
+                                    <field name="currency_id" invisible="1"/>
+                                </group>
+                            </page>
+                            <page string="Especificaciones">
+                                <group>
+                                    <group string="Motor">
+                                        <field name="model_motor"/>
+                                        <field name="year_motor"/>
+                                        <label for="power"/>
+                                        <div class="o_row">
+                                            <field name="power"/>
+                                            <span>hp</span>
+                                        </div>
+                                    </group>
+                                    <group string="Dimensiones">
+                                        <label for="height"/>
+                                        <div class="o_row">
+                                            <field name="height"/>
+                                            <span>pulgadas</span>
+                                        </div>
+                                        <label for="width"/>
+                                        <div class="o_row">
+                                            <field name="width"/>
+                                            <span>pulgadas</span>
+                                        </div>
+                                        <label for="longitude"/>
+                                        <div class="o_row">
+                                            <field name="longitude"/>
+                                            <span>pulgadas</span>
+                                        </div>
+                                    </group>
+                                </group>
+                                <group>
+                                    <group string="Pesos">
+                                        <label for="cabin_weight"/>
+                                        <div class="o_row">
+                                            <field name="cabin_weight"/>
+                                            <span>kg</span>
+                                        </div>
+                                        <label for="roof_weight"/>
+                                        <div class="o_row">
+                                            <field name="roof_weight"/>
+                                            <span>kg</span>
+                                        </div>
+                                    </group>
+                                </group>
+                            </page>
+                            <page string="Historial">
+                                <group col="4">
+                                    <field name="lines_history" nolabel="1">
+                                        <tree editable="bottom" edit="false">
+                                            <field name="type"/>
+                                            <field name="description"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                    <div class="oe_chatter">
+                        <field name="message_follower_ids" widget="mail_followers"/>
+                        <field name="message_ids" widget="mail_thread" options='{"thread_level": 1}'/>
+                    </div>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_machine" model="ir.ui.view">
+            <field name="name">eliterp.view.tree.machine</field>
+            <field name="model">eliterp.machine</field>
+            <field name="arch" type="xml">
+                <tree decoration-success="state == 'operative'"
+                      decoration-muted="state == 'out_of_service'">
+                    <field name="machines_brand_id"/>
+                    <field name="name"/>
+                    <field name="acquisition_date"/>
+                    <field name="type"/>
+                    <field name="horometro_real"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <!--Vistas del menú Modelo de máquinas-->
+        <record id="eliterp_view_form_machines_model" model="ir.ui.view">
+            <field name="name">eliterp_view_form_machines_model</field>
+            <field name="model">eliterp.machines.model</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="machines_brand_id" string="Marca" class="oe_edit_only"/>
+                            <h1>
+                                <field name="machines_brand_id"/>
+                            </h1>
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                            <h1>
+                                <field name="use" placeholder="p.e Excavar"/>
+                            </h1>
+                        </div>
+                        <group col="4" string="Descripción">
+                            <field name="description" nolabel="1"/>
+                        </group>
+                        <group col="4" string="Tabla de mantenimientos">
+                            <field name="table_maintenance" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="name"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_machines_model" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_machines_model</field>
+            <field name="model">eliterp.machines.model</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="machines_brand_id"/>
+                    <field name="name"/>
+                    <field name="use"/>
+                    <field name="description"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

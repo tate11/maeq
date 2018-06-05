@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Facturas de Proveedor-->
+        <record id="eliterp_view_form_account_invoice_supplier" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_invoice_supplier</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form/div[@class='alert alert-info']" position="replace">
+                    <!--TODO-->
+                </xpath>
+                <xpath expr="//field[@name='purchase_id']" position="after"><!--Agregar Orden de Compra-->
+                    <field name="account_analytic_id" options="{'no_create': True}"/>
+                    <field name="concept" required="1"/>
+                    <field name="attach_invoice" filename="attached_name"
+                           widget="binary" attrs="{'invisible':[('type', '=', 'in_refund')]}"/>
+                    <field name="attached_name" invisible="1"/>
+                </xpath>
+                <xpath expr="//notebook/page[1]" position="attributes"><!--Página/Factura-->
+                    <attribute name="string">Detalle de factura</attribute>
+                </xpath>
+                <xpath expr="//field[@name='user_id']" position="attributes"><!--Responsable-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="replace"><!--Plazos de pago-->
+                    <field name="payment_conditions"/>
+                    <field name="payment_term_id"
+                           attrs="{'invisible':[('payment_conditions', '!=', 'credit')]}"/>
+                </xpath>
+                <xpath expr="//page[@name='other_info']//field[@name='name']"
+                       position="replace"><!--Referencia/Descripción-->
+                    <field name="name" invisible="1"/>
+                </xpath>
+                <xpath expr="//field[@name='fiscal_position_id']" position="attributes"><!--Tipos de Contribuyentes-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--Detalle de factura-->
+                <xpath expr="//field[@name='invoice_line_ids']/tree" position="replace">
+                    <tree editable="bottom">
+                        <field name="sequence" widget="handle"/>
+                        <field name="product_id" context="{'partner_id': parent.partner_id}" domain="[('purchase_ok','=',True)]"/>
+                        <field name="name"/>
+                        <field name="company_id" invisible="1"/>
+                        <field name="quantity"/>
+                        <field name="account_id"
+                               domain="[('account_type', '=', 'movement')]"
+                        /><!--CM-->
+                        <field name="account_analytic_id"
+                               options="{'no_create': True}"
+                               domain="[('company_id', '=', parent.company_id)]"/>
+                        <field name="uom_id"
+                               options="{'no_create': True}"/>
+                        <field name="price_unit"/>
+                        <field name="discount"/>
+                        <field name="invoice_line_tax_ids"
+                               widget="many2many_tags"
+                               context="{'type':parent.type}"
+                               domain="[('type_tax_use','=','purchase'),('tax_type','=','iva'),('company_id', '=', parent.company_id)]"
+                               options="{'no_create': True}"/><!--CM-->
+                        <field name="price_subtotal" string="Subtotal"/>
+                        <field name="analytic_tag_ids"
+                               invisible="1"
+                               widget="many2many_tags"/><!--CM-->
+                    </tree>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

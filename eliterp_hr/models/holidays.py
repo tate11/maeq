@@ -1,0 +1,353 @@
+# -*- coding: utf-8 -*-
+# Copyright 2018 Elitumdevelop S.A, Ing. Mario Rangel
+# License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
+
+from datetime import datetime
+from odoo import api, fields, models
+from odoo.exceptions import ValidationError
+
+
+class HolidaysType(models.Model):
+    _inherit = 'hr.holidays.status'
+
+    @api.model
+    def create(self, vals):
+        """
+        TODO: Verificamos qué solo uno sea para vacaciones
+        """
+        if vals.get('is_vacations'):
+            if vals.get('is_vacations'):
+                status_vacations = self.env['hr.holidays.status'].search([
+                    ('is_vacations', '=', 'True')
+                ], limit=1)
+                if status_vacations:
+                    raise ValidationError("Soló un tipo de ausencia puede ser para vacaciones.")
+        status = super(HolidaysType, self).create(vals)
+        return status
+
+    description = fields.Char('Descripción')
+    is_vacations = fields.Boolean('Es vacaciones?', default=False, help="Campo qué sirve para mostrar líneas de "
+                                                                        "vacaciones en registros y calcular "
+                                                                        "las mismas")
+
+
+class EmployeeCategory(models.Model):
+    _name = 'eliterp.lines.employee.category'
+
+    _description = 'Linea de empleados para etiqueta'
+
+    employee_id = fields.Many2one('hr.employee', string="Empleado")
+    admission_date = fields.Date('Fecha de ingreso', related='employee_id.admission_date')
+    employee_category_id = fields.Many2one('hr.employee.category', string='Etiqueta de empleado')
+
+
+class EmployeeCategory(models.Model):
+    _inherit = 'hr.employee.category'
+
+    description = fields.Char('Descripción')
+    employee_ids = fields.One2many('eliterp.lines.employee.category', 'employee_category_id', string="Empleados")
+
+
+class HolidayLines(models.Model):
+    _name = 'eliterp.holiday.lines'
+
+    _description = 'Líneas de vacaciones'
+
+    # TODO: type = fields.Selection([('employee', 'Empleado'), ('category', 'Categoría')], string='Tipo')
+    employee = fields.Many2one('hr.employee', string='Empleado')
+    period = fields.Char('Período')
+    vacations_generated = fields.Integer('Generadas')
+    vacations_taken = fields.Integer('Gozadas')
+    vacations_available = fields.Integer('Por gozar')
+    holiday_id = fields.Many2one('hr.holidays', 'De')
+
+
+class Employee(models.Model):
+    _inherit = 'hr.employee'
+
+    @api.one
+    def _get_days_taken(self):
+        """
+        Calculamos los días tomados de vacaciones por empleado
+        """
+        for record in self:
+            holidays_type = self.env['hr.holidays.status'].search([('is_vacations', '=', 'True')])[0]
+            # Soló vacaciones
+            holidays = self.env['hr.holidays'].search([
+                ('employee_id', '=', record.id),
+                ('holiday_status_id', '=', holidays_type.id),
+                ('state', '=', 'validate')
+            ])
+            days_taken = 0
+            for line in holidays:
+                if line.holiday_type == 'employee':
+                    days_taken += line.number_of_days_temp
+                else:  # Vacaciones por etiqueta de empleado
+                    for line in line.category_id.line_employe_category:
+                        if line.employee_id == record.id:
+                            days_taken += line.number_of_days_temp
+            self.days_taken = days_taken
+
+    days_taken = fields.Integer('Días tomados', compute='_get_days_taken')
+
+
+class Holidays(models.Model):
+    _inherit = 'hr.holidays'
+
+    @api.model
+    def create(self, vals):
+        # TODO
+        res = super(Holidays, self).create(vals)
+        if res.holiday_type == 'employee':
+            res.write({'nombre': res.employee_id.name})
+        else:
+            res.write({'nombre': res.category_id.name})
+        return res
+
+    @api.one
+    def action_refuse(self):
+        """
+        MM: Negamos la ausencia
+        """
+        return self.write({'state': 'refuse'})
+
+    def _check_state_access_right(self, vals):
+        """
+        MM
+        :param vals:
+        :return: boolean
+        """
+        return True
+
+    @api.constrains('state', 'number_of_days_temp', 'holiday_status_id')
+    def _check_holidays(self):
+        """
+        MM
+        """
+        return True
+
+    @api.multi
+    def action_approve(self):
+        """
+        MM: Aprobamos al ausencia
+        """
+        return self.write({
+            'approval_user': self.env.user.id,
+            'state': 'validate1'
+        })
+
+    @api.one
+    def action_validate(self):
+        """
+        MM: Validamos la ausencia
+        """
+        return self.write({'state': 'validate'})
+
+    @api.onchange('holiday_status_id')
+    def _onchange_holiday_status_id(self):
+        """
+        Actualizamos la descripción de la ausencia
+        """
+        self.name = self.holiday_status_id.description
+        self.color_name = self.holiday_status_id.color_name
+
+    @api.one
+    def action_confirm(self):
+        """
+        MM: Solicitamos la aprobación
+        """
+        return self.write({
+            'state': 'confirm'
+        })
+
+    @api.constrains('number_of_days_temp')
+    def _check_number_of_days_temp(self):
+        """
+        Validamos qué vacaciones no sean mayores a las por gozar
+        """
+        if self.is_vacations:
+            total = 0
+            for line in self.lines_vacations:
+                total += line.vacations_available
+            if self.number_of_days_temp > total:
+                raise ValidationError("Duración de vacaciones a tomar mayores a las por gozar.")
+
+    @api.onchange('employee_id', 'holiday_status_id')
+    def _onchange_employee_id(self):
+        """
+        Generamos las vacaciones de empleado si el tipo de ausencia
+        es para vacaciones
+        """
+        if self.is_vacations:
+            employee = self.employee_id
+            if not employee.admission_date:
+                return
+            lines_vacations = self.lines_vacations.browse([])
+            data = []
+            days = 0
+            today = datetime.today().date()
+            admission_date = datetime.strptime(employee.admission_date, "%Y-%m-%d").date()
+            years = today.year - admission_date.year
+            if years == 0:
+                days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(admission_date,
+                                                                                                  datetime.min.time())).days) / float(
+                    24))
+                data = {'employee': employee.id,
+                        'period': str(admission_date.year) + "-" + str(today.year),
+                        'vacations_generated': days,
+                        'vacations_taken': 0,
+                        'vacations_available': 0, }
+                lines_vacations += lines_vacations.new(data)
+            if years >= 1:
+                if years == 1:
+                    if today < admission_date.replace(year=today.year):
+                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                            admission_date, datetime.min.time())).days) / float(24))
+                        data = {'employee': employee.id,
+                                'period': str(admission_date.year) + "-" + str(today.year),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+                    else:
+                        days = 15
+                        data = {'employee': employee.id,
+                                'period': str(admission_date.year) + "-" + str(today.year),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+
+                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                            admission_date.replace(year=today.year), datetime.min.time())).days) / float(24))
+                        data = {'employee': employee.id,
+                                'period': str(today.year) + "-" + str(today.year + 1),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+                if years > 1:
+                    for x in range(1, years):
+                        days = 15
+                        data = {'employee': employee.id,
+                                'period': str(admission_date.year) + "-" + str(admission_date.year + x),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+
+                    if today < admission_date.replace(year=today.year):
+                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                            admission_date.replace(year=today.year - 1), datetime.min.time())).days) / float(24))
+                        data = {'employee': employee.id,
+                                'period': str(admission_date.year + 1) + "-" + str(today.year),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+                    else:
+                        days = 15
+                        data = {'employee': employee.id,
+                                'period': str(admission_date.year + 1) + "-" + str(today.year),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                            admission_date.replace(year=today.year), datetime.min.time())).days) / float(24))
+                        data = {'employee': employee.id,
+                                'period': str(today.year) + "-" + str(today.year + 1),
+                                'vacations_generated': days,
+                                'vacations_taken': 0,
+                                'vacations_available': 0, }
+                        lines_vacations += lines_vacations.new(data)
+            self.lines_vacations = lines_vacations
+            vacations_taken = self.employee_id.days_taken  # Las vacaciones tomados por empleado
+            # Hacemos la disminución con los días de vacaciones tomados
+            for line in self.lines_vacations:
+                if vacations_taken != 0:
+                    if vacations_taken == line.vacations_generated:
+                        line.update({
+                            'vacations_taken': vacations_taken,
+                            'vacations_available': 0
+                        })
+                        vacations_taken = 0
+                        continue
+                    if vacations_taken - line.vacations_generated > 0:
+                        line.update({
+                            'vacations_taken': line.vacations_generated,
+                            'vacations_available': 0
+                        })
+                        vacations_taken = vacations_taken - line.vacations_generated
+                        continue
+                    if vacations_taken - line.vacations_generated < 0:
+                        line.update({
+                            'vacations_taken': vacations_taken,
+                            'vacations_available': abs(vacations_taken - line.vacations_generated)
+                        })
+                        vacations_taken = 0
+                        continue
+                if vacations_taken == 0:
+                    line.update({
+                        'vacations_taken': 0,
+                        'vacations_available': line.vacations_generated
+                    })
+            if vacations_taken != 0:  # TODO: Para que sirve
+                self.lines_vacations[-1].update(
+                    {'vacations_available': self.lines_vacations[-1].vacations_available - vacations_taken})
+        return
+
+    @api.multi
+    def print_vacations(self):
+        """
+        Imprimimos solicitud de vacaciones
+        """
+        self.ensure_one()
+        pass
+
+    # CM
+    state = fields.Selection([
+        ('draft', 'Borrador'),
+        ('cancel', 'Anulado'),
+        ('confirm', 'A aprobar'),
+        ('refuse', 'Negada'),
+        ('validate1', 'Aprobada'),
+        ('validate', 'Validada')
+    ], string='Status', readonly=True, track_visibility='onchange', copy=False, default='draft',
+        help="The status is set to 'To Submit', when a holiday request is created." +
+             "\nThe status is 'To Approve', when holiday request is confirmed by user." +
+             "\nThe status is 'Refused', when holiday request is refused by manager." +
+             "\nThe status is 'Approved', when holiday request is approved by manager.")
+
+    nombre = fields.Char('Nombre')
+    # TODO: Par qué sirve?
+    color_name = fields.Selection([
+        ('red', 'Red'),
+        ('blue', 'Blue'),
+        ('lightgreen', 'Light Green'),
+        ('lightblue', 'Light Blue'),
+        ('lightyellow', 'Light Yellow'),
+        ('magenta', 'Magenta'),
+        ('lightcyan', 'Light Cyan'),
+        ('black', 'Black'),
+        ('lightpink', 'Light Pink'),
+        ('brown', 'Brown'),
+        ('violet', 'Violet'),
+        ('lightcoral', 'Light Coral'),
+        ('lightsalmon', 'Light Salmon'),
+        ('lavender', 'Lavender'),
+        ('wheat', 'Wheat'),
+        ('ivory', 'Ivory')], default='lightblue')
+    # CM
+    type = fields.Selection([
+        ('remove', 'Leave Request'),
+        ('add', 'Allocation Request')
+    ], string='Request Type', required=True, readonly=True, index=True, default='remove',
+        states={'draft': [('readonly', False)], 'confirm': [('readonly', False)]},
+        help="Choose 'Leave Request' if someone wants to take an off-day. "
+             "\nChoose 'Allocation Request' if you want to increase the number of leaves available for someone")
+    is_vacations = fields.Boolean('Es vacaciones?', related='holiday_status_id.is_vacations', store=True)
+    lines_vacations = fields.One2many('eliterp.holiday.lines', 'holiday_id', string='Vacaciones', copy=False)
+    approval_user = fields.Many2one('res.users', 'Aprobado por')
+    adjunt = fields.Binary('Adjunto', attachment=True, copy=False)
+    adjunt_name = fields.Char('Nombre de adjunto', copy=False)

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Menús-->
+        <menuitem id="sale.sale_menu_root"
+                  name="Ventas"
+                  web_icon="eliterp_sales,static/description/icon.png"
+                  sequence="7"/>
+    </data>
+</odoo>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Acciones-->
+        <record id="eliterp_action_product_code" model="ir.actions.act_window">
+            <field name="name">Código de productos</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">eliterp.product.code</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <!--Menús-->
+        <menuitem name="Inventario"
+                  id="stock.menu_stock_root"
+                  groups="stock.group_stock_manager,stock.group_stock_user"
+                  web_icon="eliterp_inventory,static/description/icon.png"
+                  sequence="30"/>
+        <menuitem id="eliterp_menu_product_code"
+                  name="Código de productos"
+                  action="eliterp_action_product_code"
+                  parent="stock.menu_product_in_config_stock"
+                  sequence="3"/>
+    </data>
+</odoo>

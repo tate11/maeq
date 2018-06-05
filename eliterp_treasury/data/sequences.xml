@@ -1,0 +1,132 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Secuencias-->
+        <record model="ir.sequence" id="eliterp_sequence_withhold_sale">
+            <field name="name">Retención en venta</field>
+            <field name="code">eliterp.retention.sale</field>
+            <field name="prefix">RTV-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_withhold_purchase">
+            <field name="name">Retención en compra</field>
+            <field name="code">eliterp.withhold.purchase</field>
+            <field name="prefix">RTC-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record model="ir.sequence" id="eliterp_sequence_voucher_small_box">
+            <field name="name">Comprobante caja chica</field>
+            <field name="code">voucher.small.box</field>
+            <field name="prefix">CDC-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_replacement_small_box">
+            <field name="name">Reposición caja chica</field>
+            <field name="code">replacement.small.box</field>
+            <field name="prefix">CJA-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+
+        <record model="ir.sequence" id="eliterp_sequence_voucher_sale">
+            <field name="name">Comprobante de ingreso</field>
+            <field name="code">account.voucher.sale</field>
+            <field name="prefix">CDI-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_voucher_purchase">
+            <field name="name">Comprobante de egreso</field>
+            <field name="code">account.voucher.purchase</field>
+            <field name="prefix">COEG-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <!--Comprobantes de egreso (Efectivo y transferencia)-->
+        <record model="ir.sequence" id="eliterp_sequence_voucher_purchase_cash">
+            <field name="name">Egreso efectivo</field>
+            <field name="code">account.voucher.purchase.cash</field>
+            <field name="padding">7</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_voucher_purchase_transfer">
+            <field name="name">Transferencia efectivo</field>
+            <field name="code">account.voucher.purchase.transfer</field>
+            <field name="padding">7</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_travel_allowance_request">
+            <field name="name">Solicitud de viático</field>
+            <field name="code">travel.allowance.request</field>
+            <field name="prefix">VTC-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_voucher_viatic">
+            <field name="name">Comprobante de viático</field>
+            <field name="code">voucher.viatic</field>
+            <field name="prefix">CVT-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_liquidation_settlement">
+            <field name="name">Liquidación de viático</field>
+            <field name="code">liquidation.settlement</field>
+            <field name="prefix">LIQ-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <!--Diarios-->
+        <record model="account.journal" id="eliterp_journal_withhold_sale">
+            <field name="name">Retención en venta</field>
+            <field name="type">sale</field>
+            <field name="code">RTV</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_withhold_sale"/>
+        </record>
+        <record model="account.journal" id="eliterp_journal_withhold_purchase">
+            <field name="name">Retención en compra</field>
+            <field name="type">purchase</field>
+            <field name="code">RTC</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_withhold_purchase"/>
+        </record>
+
+        <record model="account.journal" id="eliterp_journal_voucher_small_box">
+            <field name="name">Comprobante caja chica</field>
+            <field name="type">general</field>
+            <field name="code">VDC</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_voucher_small_box"/>
+        </record>
+        <record model="account.journal" id="eliterp_journal_replacement_small_box">
+            <field name="name">Reposición caja chica</field>
+            <field name="type">general</field>
+            <field name="code">CJA</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_replacement_small_box"/>
+        </record>
+        <record model="account.journal" id="eliterp_journal__voucher_viatic">
+            <field name="name">Comprobante viático</field>
+            <field name="type">general</field>
+            <field name="code">CVT</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_voucher_viatic"/>
+        </record>
+
+        <record model="account.journal" id="eliterp_journal_voucher_sale">
+            <field name="name">Comprobante de ingreso</field>
+            <field name="type">sale</field>
+            <field name="code">CDI</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_voucher_sale"/>
+        </record>
+        <record model="account.journal" id="eliterp_journal_voucher_purchase">
+            <field name="name">Comprobante de egreso</field>
+            <field name="type">purchase</field>
+            <field name="code">COEG</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_voucher_purchase"/>
+        </record>
+        <record model="account.journal" id="eliterp_journal_liquidation_settlement">
+            <field name="name">Liquidación de viático</field>
+            <field name="type">general</field>
+            <field name="code">LIQ</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_liquidation_settlement"/>
+        </record>
+    </data>
+</odoo>

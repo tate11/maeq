@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Registro de asistencias-->
+        <record id="eliterp_view_tree_attendance" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_attendance</field>
+            <field name="model">eliterp.attendance</field>
+            <field name="arch" type="xml">
+                <tree
+                        decoration-info="state == 'draft'"
+                        decoration-success="state == 'vaidate'">
+                    <field name="responsable"/>
+                    <field name="date"/>
+                    <field name="week"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_attendance" model="ir.ui.view">
+            <field name="name">eliterp_view_form_attendance"</field>
+            <field name="model">eliterp.attendance</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" modifiers="{'readonly': true}"/>
+                        <button name="validate"
+                                states="draft"
+                                type="object"
+                                string="Validar"
+                                class="oe_highlight"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="responsable"/>
+                            <field name="date"/>
+                            <field name="week"/>
+                        </group>
+                        <group col="1">
+                            <field name="lines_employee" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="employee_id"/>
+                                    <field name="news"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

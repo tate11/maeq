@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vista del menú Cheques recibidos-->
+        <record id="eliterp_view_tree_checks_receipts" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_checks_receipts</field>
+            <field name="model">eliterp.checks</field>
+            <field name="arch" type="xml">
+                <tree create="false"
+                      decoration-info="state=='received'"
+                      decoration-success="state=='deposited'"
+                >
+                    <field name="name"/>
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="recipient" string="Girador"/>
+                    <field name="date" string="Fecha recepción"/>
+                    <field name="check_date"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_checks_receipts" model="ir.ui.view">
+            <field name="name">eliterp_view_form_checks_receipts</field>
+            <field name="model">eliterp.checks</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="received,deposited"
+                               modifiers="{'readonly': true}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="type" invisible="1"/>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="partner_id" string="Cliente"/>
+                            <field name="recipient" string="Girador"/>
+                            <field name="amount"/>
+                            <field name="amount_in_letters"/>
+                        </group>
+                        <group string="Datos del banco" col="4">
+                            <field name="bank_id"/>
+                            <field name="date" string="Fecha recepción"/>
+                            <field name="check_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Vista del menú Cheques emitidos-->
+        <record id="eliterp_view_tree_checks_issued" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_checks_issued</field>
+            <field name="model">eliterp.checks</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="partner_id" string="Proveedor"/>
+                    <field name="recipient" string="Beneficiario"/>
+                    <field name="date" string="Fecha emisión"/>
+                    <field name="check_date"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_checks_issued" model="ir.ui.view">
+            <field name="name">eliterp_view_form_checks_issued</field>
+            <field name="model">eliterp.checks</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false">
+                    <header>
+                        <!--TODO: Ver mejor forma de imprimir cheques-->
+                        <button name="print_check"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir cheque"/>
+                        <!--TODO
+                        <field name="state" widget="statusbar" statusbar_visible="issued,charged"
+                               modifiers="{'readonly': true}"/>
+                        -->
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="type" invisible="1"/>
+                                <field name="name" placeholder="e.g. 0000001"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="partner_id" string="Proveedor"/>
+                            <field name="recipient" string="Beneficiario"/>
+                            <field name="amount"/>
+                            <field name="amount_in_letters"/>
+                        </group>
+                        <group string="Datos del banco" col="6">
+                            <field name="bank_id" required="1"/>
+                            <field name="date" string="Fecha emisión"/>
+                            <field name="check_date"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

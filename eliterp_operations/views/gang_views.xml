@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Cuadrilla de trabajo-->
+        <record id="eliterp_view_tree_gang" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_gang</field>
+            <field name="model">eliterp.gang</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="lines_employees" widget="many2many_tags"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_gang" model="ir.ui.view">
+            <field name="name">eliterp_view_form_gang</field>
+            <field name="model">eliterp.gang</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group col="4">
+                            <field name="name"/>
+                            <field name="code"/>
+                        </group>
+                        <notebook>
+                            <page string="Empleados">
+                                <group string="Empleados en cuadrilla">
+                                    <field name="lines_employees" colspan="2" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="employee_id" options="{'no_create': True, 'no_open': True}"/>
+                                            <field name="supervisor"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vista del menú CMC-->
+        <record id="eliterp_view_tree_cmc" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_cmc</field>
+            <field name="model">eliterp.cmc</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state=='draft'"
+                      decoration-muted="state=='cancel'"
+                      decoration-success="state == 'validate'"
+                >
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="operator"/>
+                    <field name="project_id"/>
+                    <field name="initial_horometro"/>
+                    <field name="final_horometro"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_cmc" model="ir.ui.view">
+            <field name="name">eliterp.view.form.cmc</field>
+            <field name="model">eliterp.cmc</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="validate"
+                                class="oe_highlight"
+                                string="Validar"
+                                states="draft"
+                                type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="prefix_id" string="Prefijo CMC" class="oe_edit_only"/>
+                            <h1>
+                                <field name="prefix_id" options="{'no_create': True, 'no_open': True}"/>
+                            </h1>
+                            <h2>
+                                <field name="name" placeholder="p.e 001"/>
+                            </h2>
+                        </div>
+                        <group col="4" string="Información general">
+                            <field name="date"/>
+                            <field name="machine_id"/>
+                            <field name="operator" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="assistant" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="project_id"/>
+                            <field name="customer" readonly="1"/>
+                            <field name="ubication_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="gang_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="work_id"/>
+                            <field name="block"/>
+                        </group>
+                        <notebook>
+                            <page string="Máquina">
+                                <group col="4" string="Horómetro">
+                                    <field name="initial_horometro"/>
+                                    <field name="final_horometro"/>
+                                    <field name="reason" placeholder="Colocar razón de diferencia"
+                                           attrs="{'invisible':[('horometro_difference','!=', True)], 'required': [('horometro_difference','=', True)]}"/>
+                                    <field name="initial_horometro_old" invisible="1"/>
+                                    <field name="horometro_difference" invisible="1"/>
+                                </group>
+                            </page>
+                            <page string="Insumos">
+                                <group col="4" string="Insumos usados en trabajo">
+                                    <field name="supplies" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="product_id"
+                                                   options="{'no_open': True, 'no_create': True}"/>
+                                            <field name="product_quantity"/>
+                                            <field name="product_uom_id"
+                                                   options="{'no_open': True, 'no_create': True}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Piezas">
+                                <group col="4" string="Administración de piezas">
+                                    <field name="piece_ids" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="date"/>
+                                            <field name="technical_report" invisible="1"/>
+                                            <field name="movement_type"/>
+                                            <field name="detail"/>
+                                            <field name="reference"
+                                                   options="{'no_create': True, 'no_open': True}"
+                                                   domain="[('id', '!=', parent.machine_id)]"/>
+                                            <field name="horometro"/>
+                                            <field name="responsable"
+                                                   options="{'no_create': True, 'no_open': True}"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                            <page string="Operador/Empleado">
+                                <group string="Asistencias">
+                                    <group string="AM">
+                                        <field name="check_in_am"/>
+                                        <field name="check_out_am"/>
+                                    </group>
+                                    <group string="PM">
+                                        <field name="check_in_pm"/>
+                                        <field name="check_out_pm"/>
+                                    </group>
+                                </group>
+                                <group string="Horas laborables">
+                                    <group col="4">
+                                        <field name="worked_hours"/>
+                                        <field name="extra_hours" attrs="{'invisible': [['worked_hours', '&lt;', 8]]}"/>
+                                    </group>
+                                </group>
+                            </page>
+                        </notebook>
+                        <group string="Notas y comentarios">
+                            <field name="comment" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="eliterp_view_form_prefix_cmc_code" model="ir.ui.view">
+            <field name="name">eliterp_view_form_prefix_cmc_code</field>
+            <field name="model">eliterp.prefix.cmc.code</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="name"/>
+                            <field name="sequence_id" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+
+        <record id="eliterp_view_form_prefix_cmc" model="ir.ui.view">
+            <field name="name">eliterp_view_form_prefix_cmc</field>
+            <field name="model">eliterp.prefix.cmc</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('name','=', False)]}">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="code"/>
+                            <field name="responsable"/>
+                        </group>
+                        <!--
+                        <group string="CMC's">
+                            <field name="cmc_ids" nolabel="1">
+                                <tree create="false" delete="false">
+                                    <field name="name"/>
+                                    <field name="date"/>
+                                    <field name="machine_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                        -->
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

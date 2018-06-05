@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas - Mantenimiento de máquinas-->
+        <record id="eliterp_view_form_maintenance_machines" model="ir.ui.view">
+            <field name="name">eliterp_view_form_maintenance_machines</field>
+            <field name="model">eliterp.maintenance.machines</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="action_validate"
+                                class="oe_highlight"
+                                string="Validar"
+                                confirm="Desea validar el Mantenimiento preventivo?"
+                                states="draft"
+                                type="object"/>
+                        <field name="state" widget="statusbar"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title">
+                            <label for="name" string="Nombre" class="oe_edit_only"/>
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4" string="Información">
+                            <field name="date"/>
+                            <field name="type" widget="radio"
+                                   options="{'horizontal': true}"/>
+                            <field name="machine_id" options="{'no_create': True}"/>
+                            <field name="responsable" widget="radio"
+                                   options="{'horizontal': true}"/>
+                            <field name="employee_id" attrs="{'invisible':[('responsable', '==', 'external')]}"
+                                   options="{'no_create': True}"/>
+                            <field name="customer_id" attrs="{'invisible':[('responsable','==', 'internal')]}"
+                                   options="{'no_create': True}"/>
+                            <field name="horometro_real"/>
+                            <field name="next_maintenance_horometro"/>
+                            <field name="invoice_id"
+                                   attrs="{'invisible':[('responsable', '==', 'internal')]}"
+                                   domain="[('partner_id', '=', customer_id), ('state', 'in', ('open', 'paid'))]"/>
+                            <field name="file_name" invisible="1"/>
+                            <field widget="binary" name="file" filename="file_name"/>
+                        </group>
+                        <group string="Insumos" col="1" attrs="{'invisible':[('responsable', '==', 'external')]}">
+                            <field name="supplies" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id"/>
+                                    <field name="product_quantity"/>
+                                    <field name="product_uom_id" options="{'no_open':True,'no_create':True}"
+                                           groups="product.group_uom"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group string="Notas y comentarios">
+                            <field name="comment" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_maintenance_machines" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_maintenance_machines</field>
+            <field name="model">eliterp.maintenance.machines</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="type"/>
+                    <field name="date"/>
+                    <field name="machine_id"/>
+                    <field name="responsable"/>
+                    <field name="employee_id"/>
+                    <field name="customer_id"/>
+                    <field name="horometro_real"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

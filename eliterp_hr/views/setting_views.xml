@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Ajustes Empleados-->
+        <record id="eliterp_view_form_settings_employee" model="ir.ui.view">
+            <field name="name">eliterp_view_form_settings_employees</field>
+            <field name="model">res.config.settings</field>
+            <field name="inherit_id" ref="base.res_config_settings_view_form"/>
+            <field name="priority" eval="100"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('settings')]" position="inside">
+                    <div class="app_settings_block" data-string="RRHH" string="RRHH" data-key="rrhh"
+                         groups="hr.group_hr_manager">
+                        <h2>Configuración RRHH</h2>
+                        <div class="row mt16 o_settings_container">
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="default_wage"/>
+                                    <div class="row">
+                                        <div class="text-muted col-md-8">
+                                            Establecer el sueldo básico unificado para empleado.
+                                        </div>
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="default_wage" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xs-12 col-md-6 o_setting_box">
+                                <div class="o_setting_right_pane">
+                                    <label for="default_test_days"/>
+                                    <div class="row">
+                                        <div class="text-muted col-md-8">
+                                            Establecer los días para el período de prueba dentro de un contrato.
+                                        </div>
+                                    </div>
+                                    <div class="content-group">
+                                        <div class="mt16">
+                                            <field name="default_test_days" class="o_light_label"/>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

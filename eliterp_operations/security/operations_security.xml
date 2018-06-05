@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Aplicación-->
+        <record model="ir.module.category" id="eliterp_category_operations">
+            <field name="name">Operaciones</field>
+            <field name="description">Le ayuda a manejar as operaciones dentro .
+            </field>
+            <field name="sequence">72</field>
+        </record>
+        <!--Grupos-->
+        <record id="eliterp_group_operations_user" model="res.groups">
+            <field name="name">Usuario operaciones</field>
+            <field name="category_id" ref="eliterp_category_operations"/>
+        </record>
+        <record id="eliterp_group_operations_manager" model="res.groups">
+            <field name="name">Responsable operaciones</field>
+            <field name="category_id" ref="eliterp_category_operations"/>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+        </record>
+    </data>
+</odoo>

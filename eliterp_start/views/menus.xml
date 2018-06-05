@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Quitar menú Calendario-->
+        <record id="calendar.mail_menu_calendar" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <!--Quitar menú Contactos-->
+        <record id="contacts.menu_contacts" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <!--Quitar menú Campañas-->
+        <record id="utm.menu_link_tracker_root" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+    </data>
+</odoo>

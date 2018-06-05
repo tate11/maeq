@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <record id="eliterp_group_approve_advance" model="res.groups">
+            <field name="name">Aprobar anticipo de quincena</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="eliterp_management.eliterp_category_approvals"/>
+        </record>
+        <record id="eliterp_group_deny_advance" model="res.groups">
+            <field name="name">Negar anticipo de quincena</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="eliterp_management.eliterp_category_approvals"/>
+        </record>
+
+        <record id="eliterp_group_approve_payroll" model="res.groups">
+            <field name="name">Aprobar rol consolidado</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="eliterp_management.eliterp_category_approvals"/>
+        </record>
+        <record id="eliterp_group_deny_payroll" model="res.groups">
+            <field name="name">Negar rol consolidado</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="eliterp_management.eliterp_category_approvals"/>
+        </record>
+
+        <record id="eliterp_group_approve_holidays" model="res.groups">
+            <field name="name">Aprobar ausencias</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="eliterp_management.eliterp_category_approvals"/>
+        </record>
+        <record id="eliterp_group_deny_holidays" model="res.groups">
+            <field name="name">Negar ausencias</field>
+            <field name="users" eval="[(4, ref('base.user_root'))]"/>
+            <field name="category_id" ref="eliterp_management.eliterp_category_approvals"/>
+        </record>
+    </data>
+</odoo>

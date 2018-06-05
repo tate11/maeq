@@ -1,0 +1,6 @@
+id,code,name,have_authorization
+eliterp_type_document_1,01,FACTURA,0
+eliterp_type_document_2,02,NOTA O BOLETA DE VENTA,0
+eliterp_type_document_3,04,NOTA DE CRÉDITO,1
+eliterp_type_document_7,07,COMPROBANTE DE RETENCIÓN,1
+eliterp_type_document_18,18,DOCUMENTOS AUTORIZADOS UTILIZADOS EN VENTAS EXCEPTO N/C N/D,1

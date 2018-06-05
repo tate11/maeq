@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <record id="eliterp_view_form_employee_field_advance_payment" model="ir.ui.view">
+        <field name="name">eliterp_view_form_employee_field_advance_payment</field>
+        <field name="model">hr.employee</field>
+        <field name="inherit_id" ref="eliterp_hr.eliterp_view_form_employee"/>
+        <field name="arch" type="xml">
+            <xpath expr="//field[@name='benefits']" position="before"><!--Acumula beneficios-->
+                <field name="account_advance_payment" required="1" options="{'no_create':True}"/>
+            </xpath>
+        </field>
+    </record>
+    <!---Vistas del menú Anticipo de quincena-->
+    <record id="eliterp_view_form_reason_deny_advance_wizard" model="ir.ui.view">
+        <field name="name">eliterp_view_form_reason_deny_advance_wizard</field>
+        <field name="model">eliterp.reason.deny.advance</field>
+        <field name="arch" type="xml">
+            <form>
+                <group>
+                    <field name="description"/>
+                </group>
+                <footer>
+                    <button name="deny_advance" type="object" class="oe_highlight"
+                            string="Confirmar"/>
+                    <button string="Descartar" special="cancel"/>
+                </footer>
+            </form>
+        </field>
+    </record>
+    <record id="eliterp_view_tree_advance" model="ir.ui.view">
+        <field name="name">eliterp_view_tree_advance</field>
+        <field name="model">eliterp.advance.payment</field>
+        <field name="arch" type="xml">
+            <!--TODO-->
+            <tree decoration-info="state=='draft'"
+                  decoration-muted="state=='deny'"
+                  decoration-success="state == 'posted'"
+                  default_order='date desc'
+            >
+                <field name="name"/>
+                <field name="date"/>
+                <field name="period"/>
+                <field name="count_lines"/>
+                <field name="total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="eliterp_view_form_advance" model="ir.ui.view">
+        <field name="name">eliterp_view_form_advance</field>
+        <field name="model">eliterp.advance.payment</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state" widget="statusbar" statusbar_visible="draft,to_approve,posted"
+                           modifiers="{'readonly': true}"/>
+                    <button name="print_advance"
+                            string="Imprimir anticipo"
+                            class="oe_highlight"
+                            type="object"/>
+                    <button name="to_approve"
+                            states="draft"
+                            type="object"
+                            string="Solicitar aprobación"
+                            class="oe_highlight"/>
+                    <button name="approve"
+                            states="to_approve"
+                            type="object"
+                            groups="eliterp_hr.eliterp_group_approve_advance"
+                            string="Aprobar"
+                            class="oe_highlight"/>
+                    <button name="open_reason_deny_advance"
+                            type="object"
+                            states="to_approve"
+                            groups="eliterp_hr.eliterp_group_deny_advance"
+                            string="Negar"/>
+                    <button name="posted_advance"
+                            states="approve"
+                            type="object"
+                            string="Contabilizar"
+                            class="oe_highlight"/>
+                </header>
+                <sheet>
+                    <div class="oe_title" attrs="{'invisible': [('state','=', 'draft')]}">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group col="4">
+                        <field name="date"/>
+                        <field name="period"/>
+                        <field name="account_id" required="1"/>
+                        <field name="total" readonly="1"/>
+                        <field name="move_id" readonly="1" attrs="{'invisible':[('state', '!=', 'posted')]}"/>
+                        <field name="approval_user" readonly="1" attrs="{'invisible':[('state', '!=', 'posted')]}"/>
+                        <field name="journal_id" invisible="1"/>
+                    </group>
+                    <group string="Lista de empleados" col="1">
+                        <group attrs="{'invisible':[('state', '==', 'posted')]}">
+                            <button name="load_employees"
+                                    type="object"
+                                    string="Cargar empleados"
+                                    class="oe_highlight"/>
+                        </group>
+                        <field name="lines_advance" nolabel="1">
+                            <tree>
+                                <field name="employee_id"/>
+                                <field name="account_id"/>
+                                <field name="amount_advance"/>
+                            </tree>
+                        </field>
+                    </group>
+                    <group string="Negado por" attrs="{'invisible':[('state', '!=', 'deny')]}">
+                        <field style="color:darkred;" name="reason_deny" nolabel="1"/>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>
+

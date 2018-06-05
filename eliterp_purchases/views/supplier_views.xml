@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Proveedores-->
+        <record id="eliterp_view_form_supplier" model="ir.ui.view">
+            <field name="name">eliterp_view_form_supplier</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='property_supplier_payment_term_id']" position="replace"><!--Términos de Pago-->
+                    <field name="payment_conditions"/>
+                    <field name="property_supplier_payment_term_id"
+                           attrs="{'invisible':[('payment_conditions', '!=', 'credit')]}"/>
+                    <field name="way_to_pay"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_purchase_account_buttons" model="ir.ui.view">
+            <field name="name">eliterp_view_purchase_account_buttons</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="purchase.res_partner_view_purchase_account_buttons"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='supplier_invoice_count']" position="attributes"><!--Facturado a proveedor-->
+                   <attribute name="string">Facturado</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_purchase_account_buttons_pending_balance" model="ir.ui.view">
+            <field name="name">eliterp_view_purchase_account_buttons_pending_balance</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form" />
+            <field name="priority" eval="25"/>
+            <field name="groups_id" eval="[(4, ref('account.group_account_invoice'))]"/>
+            <field name="arch" type="xml">
+                <button name="toggle_active" position="before">
+                    <button class="oe_stat_button" name="pending_balance"
+                            attrs="{'invisible': [('supplier', '=', False)]}" icon="fa-pencil-square-o">
+                        <field string="Saldo" name="pending_balance" widget="statinfo"/>
+                    </button>
+                </button>
+            </field>
+        </record>
+    </data>
+</odoo>

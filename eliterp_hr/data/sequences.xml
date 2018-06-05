@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Secuencias-->
+        <record model="ir.sequence" id="eliterp_sequence_contract">
+            <field name="name">Contrato</field>
+            <field name="code">hr.contract</field>
+            <field name="prefix"></field>
+            <field name="padding">3</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_advance_payment">
+            <field name="name">Anticipo de quincena</field>
+            <field name="code">hr.advance.payment</field>
+            <field name="prefix">ADQ-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_payslip_run">
+            <field name="name">Rol consolidado</field>
+            <field name="code">hr.payslip.run</field>
+            <field name="prefix">ROL-</field>
+            <field name="padding">5</field>
+        </record>
+        <!--Diarios-->
+        <record model="account.journal" id="eliterp_journal_advance_payment">
+            <field name="name">Anticipo de quincena</field>
+            <field name="type">general</field>
+            <field name="code">ADQ</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_advance_payment"/>
+        </record>
+        <record model="account.journal" id="eliterp_journal_payslip_run">
+            <field name="name">Rol consolidado</field>
+            <field name="type">general</field>
+            <field name="code">ROL</field>
+            <field name="show_on_dashboard">False</field>
+            <field name="sequence_id" ref="eliterp_sequence_payslip_run"/>
+        </record>
+    </data>
+</odoo>

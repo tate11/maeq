@@ -1,0 +1,309 @@
+<?xml version="1.0" encoding="utf-8"?>
+<odoo>
+    <data noupdate="1">
+        <!--Tipos de contrato-->
+        <record id="eliterp_hr_contract_type_1" model="hr.contract.type">
+            <field name="name">INDEFENIDO CON PERÍODO DE PRUEBAS</field>
+            <field name="sequence">1</field>
+        </record>
+        <!--Categorías de reglas salariales-->
+        <record id="eliterp_income" model="hr.salary.rule.category">
+            <field name="name">INGRESOS</field>
+            <field name="code">ING</field>
+        </record>
+        <record id="eliterp_expenses" model="hr.salary.rule.category">
+            <field name="name">EGRESOS</field>
+            <field name="code">EGR</field>
+        </record>
+        <record id="eliterp_provision" model="hr.salary.rule.category">
+            <field name="name">PROVISIÓN</field>
+            <field name="code">PRO</field>
+        </record>
+        <!--Reglas salariales, INGRESOS-->
+        <record id="eliterp_hr_rule_1" model="hr.salary.rule">
+            <field name="name">SUELDO</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">SUE</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_5221"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = (float(employee.wage)*payslip.worked_days)/30.00</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_2" model="hr.salary.rule">
+            <field name="name">DÉCIMO CUARTO MENSUALIZADO</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">DC_MENSUAL</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_52213"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = round((float(386)/360)*payslip.worked_days,2)</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_3" model="hr.salary.rule">
+            <field name="name">HORAS EXTRAS EXTRAORDINARIAS</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">HEEX</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_5221"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_4" model="hr.salary.rule">
+            <field name="name">HORAS EXTRAS SUPLEMENTARIAS</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">HESU</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_5222"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_5" model="hr.salary.rule">
+            <field name="name">FONDOS DE RESERVA</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">FR_MENSUAL</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_52211"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">
+                if employee.benefits=='no':
+                if employee.working_time:
+                result = float((float(employee.wage)*8.33)/float(100))
+                else:
+                result = 0.00
+            </field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_6" model="hr.salary.rule">
+            <field name="name">DÉCIMO TERCERO MENSUALIZADO</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">DT_MENSUAL</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_52212"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = float(((float(employee.wage)*payslip.worked_days)/30.00))/12</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_7" model="hr.salary.rule">
+            <field name="name">OTROS INGRESOS</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">OIN</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_4215"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <!--Reglas salariales, EGRESOS-->
+        <record id="eliterp_hr_rule_8" model="hr.salary.rule">
+            <field name="name">ANTICIPO DE QUINCENA</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">ADQ</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_11254"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = float((((float(employee.wage)*payslip.worked_days)/30.00) *
+                40))/float(100)
+            </field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_9" model="hr.salary.rule">
+            <field name="name">IESS PERSONAL 9.45%</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">IESS_9.45%</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21516"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ((float(employee.wage)*payslip.worked_days)/30.00)*0.0945</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <!--TODO: Pendiente de revisar-->
+        <record id="eliterp_hr_rule_10" model="hr.salary.rule">
+            <field name="name">RETENCIÓN DEL IMPUESTO A LA RENTA</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">RET_IM</field>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_11" model="hr.salary.rule">
+            <field name="name">PRÉSTAMOS QUIROGRAFARIOS</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">PRES_QUIRO</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21518"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_12" model="hr.salary.rule">
+            <field name="name">PRÉSTAMOS HIPOTECARIOS</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">PRES_HIPO</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21519"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_13" model="hr.salary.rule">
+            <field name="name">MULTAS</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">MUL</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_4214"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_14" model="hr.salary.rule">
+            <field name="name">FALTAS Y ATRASOS</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">FALT_ATRA</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_4214"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_15" model="hr.salary.rule">
+            <field name="name">PLAN CELULAR</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">PLAN</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_2211"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_16" model="hr.salary.rule">
+            <field name="name">OTROS EGRESOS</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">OEG</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_4215"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_17" model="hr.salary.rule">
+            <field name="name">PRÉSTAMO ANTICIPO QUINCENA</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">PRES_ADQ</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_11254"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_18" model="hr.salary.rule">
+            <field name="name">IESS PERSONAL 17.60%</field>
+            <field name="category_id" ref="eliterp_expenses"/>
+            <field name="code">IESS_17.60%</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21516"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ((float(employee.wage)*payslip.worked_days)/30.00)*0.1760</field>
+            <field name="amount_select">fix</field>
+        </record>
+
+        <!--Reglas salariales, Provisión-->
+        <record id="eliterp_hr_rule_19" model="hr.salary.rule">
+            <field name="name">IESS PATRONAL 12.15%</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">IESS_12.15%</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21517"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ((float(employee.wage)*payslip.worked_days)/30.00)*0.1215</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_20" model="hr.salary.rule">
+            <field name="name">PROVISIÓN DÉCIMO TERCERO</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">PDT</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_2191"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ((float(employee.wage)*payslip.worked_days)/30.00)/12</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_26" model="hr.salary.rule">
+            <field name="name">PROVISIÓN DÉCIMO CUARTO</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">PDC</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_2192"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = ((float(employee.wage)*payslip.worked_days)/30.00)/12</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <!--
+        <record id="eliterp_hr_rule_21" model="hr.salary.rule">
+            <field name="name">VACACIONES</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">VACACIONES</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_2193"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>-->
+        <record id="eliterp_hr_rule_22" model="hr.salary.rule">
+            <field name="name">FONDOS DE RESERVA RETENIDOS</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">PFR</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21521"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = float((float(employee.wage)*8.33)/float(100))</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_23" model="hr.salary.rule">
+            <field name="name">NÓMINA A PAGAR</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">NPP</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_2161"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <record id="eliterp_hr_rule_24" model="hr.salary.rule">
+            <field name="name">PATRONAL (GASTOS)</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">PGA</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_5229"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record>
+        <!--
+        <record id="eliterp_hr_rule_25" model="hr.salary.rule">
+            <field name="name">VACACIONES PROVISIÓN</field>
+            <field name="category_id" ref="eliterp_provision"/>
+            <field name="code">VACACIONES</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_5227"/>
+            <field name="condition_select">none</field>
+            <field name="amount_select">fix</field>
+        </record> -->
+        <!--Estructuras salariales, ABM-->
+        <record id="eliterp_hr_structure_1" model="hr.payroll.structure">
+            <field name="code">ABM</field>
+            <field name="name">ADMINISTRATIVA BENEFICIOS MENSUALIZADOS</field>
+            <field eval="[(6, 0, [ref('eliterp_hr_rule_1'),
+            ref('eliterp_hr_rule_2'),ref('eliterp_hr_rule_5'),
+			ref('eliterp_hr_rule_3'),ref('eliterp_hr_rule_4'),
+			ref('eliterp_hr_rule_6'),ref('eliterp_hr_rule_7'),
+			ref('eliterp_hr_rule_8'),ref('eliterp_hr_rule_17'),
+			ref('eliterp_hr_rule_16'),ref('eliterp_hr_rule_15'),
+			ref('eliterp_hr_rule_14'),ref('eliterp_hr_rule_9'),
+			ref('eliterp_hr_rule_11'),ref('eliterp_hr_rule_13'),ref('eliterp_hr_rule_12')])]" name="rule_ids"/>
+        </record>
+        <!--ABA-->
+        <record id="eliterp_hr_structure_2" model="hr.payroll.structure">
+            <field name="code">ABA</field>
+            <field name="name">ADMINISTRATIVA BENEFICIOS ACUMULADOS</field>
+            <field eval="[(6, 0, [ref('eliterp_hr_rule_1'),
+			ref('eliterp_hr_rule_3'),
+			ref('eliterp_hr_rule_4'),
+			ref('eliterp_hr_rule_7'),
+			ref('eliterp_hr_rule_8'),
+			ref('eliterp_hr_rule_17'),
+			ref('eliterp_hr_rule_16'),
+			ref('eliterp_hr_rule_15'),
+			ref('eliterp_hr_rule_14'),
+			ref('eliterp_hr_rule_9'),
+			ref('eliterp_hr_rule_11'),
+			ref('eliterp_hr_rule_13'),
+			ref('eliterp_hr_rule_12'),
+			ref('eliterp_hr_rule_20'),
+			ref('eliterp_hr_rule_26')])]" name="rule_ids"/>
+        </record>
+        <!--RPL_SBS-->
+        <record id="eliterp_hr_structure_3" model="hr.payroll.structure">
+            <field name="code">RPL_SBS</field>
+            <field name="name">REPRESENTANTE LEGAL - GERENTE (SIN BENEFICIOS SOCIALES)</field>
+            <field eval="[(6, 0, [ref('eliterp_hr_rule_1'),
+			ref('eliterp_hr_rule_3'),
+			ref('eliterp_hr_rule_4'),
+			ref('eliterp_hr_rule_7'),
+			ref('eliterp_hr_rule_8'),
+			ref('eliterp_hr_rule_17'),
+			ref('eliterp_hr_rule_16'),
+			ref('eliterp_hr_rule_15'),
+			ref('eliterp_hr_rule_14'),
+			ref('eliterp_hr_rule_11'),
+			ref('eliterp_hr_rule_13'),
+			ref('eliterp_hr_rule_12'),
+			ref('eliterp_hr_rule_18')])]" name="rule_ids"/>
+        </record>
+        <!--TODO: Tipos de ausencias-->
+
+    </data>
+</odoo>

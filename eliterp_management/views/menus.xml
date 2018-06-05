@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--TODO: Quitar menú Tablero-->
+        <record id="base.menu_board_root" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <!--Quitar menú Debates-->
+        <record id="mail.mail_channel_menu_root_chat" model="ir.ui.menu">
+            <field name="active" eval="False"/>
+        </record>
+        <!--Quitar menú Mi tablero
+        <delete model="ir.ui.menu" id="board.menu_board_my_dash"/>
+        -->
+    </data>
+</odoo>

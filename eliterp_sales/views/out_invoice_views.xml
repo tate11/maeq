@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Facturas de cliente-->
+        <record id="eliterp_view_form_account_invoice_customer" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_invoice_customer</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <data>
+                    <xpath expr="//button[@name='invoice_print']" position="replace"><!--Imprimir factura-->
+                        <!--TODO: Para cuando empresa genere documento del SRI
+                        <button name="add_note_credit"
+                                type="object"
+                                attrs="{'invisible': [('type', '=', 'out_refund')]}"
+                                class="oe_highlight"
+                                string="Añadir nota de crédito"/>
+                        -->
+                        <button name="print_invoice"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir factura"/>
+                        <button name="open_reason_cancel_invoice"
+                                type="object"
+                                states="draft,open"
+                                string="Cancelar"/>
+                    </xpath>
+                    <button name="%(account.action_account_invoice_payment)d"
+                            position="attributes"><!--Registrar pago-->
+                        <attribute name="invisible">1</attribute>
+                    </button>
+                    <button name="%(account.action_account_invoice_refund)d"
+                            position="attributes"><!--Emitir rectificativa-->
+                        <attribute name="invisible">1</attribute>
+                    </button>
+                    <xpath expr="//button[@name='action_invoice_draft']" position="attributes"><!--Cambiar a borrador-->
+                        <attribute name="attrs"></attribute>
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <xpath expr="//field[@name='payment_term_id']" position="after"><!--Plazos de pago-->
+                        <label for="have_discount"/>
+                        <div class="o_row">
+                            <field name="have_discount"/>
+                            <field name="discount_rate"
+                                   attrs="{'invisible':[('have_discount', '=', False)]}"/>
+                            (%)
+                            <button name="apply_discount"
+                                    type="object"
+                                    attrs="{'invisible':[('have_discount', '=', False)]}"
+                                    class="oe_highlight"
+                                    string="Aplicar"/>
+                        </div>
+                    </xpath>
+                    <xpath expr="//field[@name='user_id']" position="attributes"><!--Comercial-->
+                        <attribute name="invisible">1</attribute>
+                    </xpath>
+                    <field name="fiscal_position_id" position="attributes"><!--Tipos de Contribuyentes-->
+                        <attribute name="invisible">1</attribute>
+                    </field>
+                    <xpath expr="//page[@name='other_info']//field[@name='name']"
+                           position="replace"><!--Referencia/Descripción-->
+                        <field name="name" invisible="1"/>
+                    </xpath>
+                    <xpath expr="//field[@name='amount_untaxed']" position="before"><!--Subtotal-->
+                        <field name="total_discount" widget="monetary"
+                               attrs="{'invisible':[('have_discount', '=', False)]}"/>
+                    </xpath>
+                    <!--Detalle de factura-->
+                    <xpath expr="//field[@name='invoice_line_ids']/tree" position="replace">
+                        <tree editable="bottom">
+                            <field name="sequence" widget="handle"/>
+                            <field name="product_id" domain="[('sale_ok','=',True)]"/>
+                            <field name="origin" invisible="1"/>
+                            <field name="is_rounding_line" invisible="1"/>
+                            <field name="name"/>
+                            <field name="company_id" invisible="1"/>
+                            <field name="account_id"
+                                   invisible="1"
+                                   groups="account.group_account_user"
+                                   domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]"/><!--Modificado-->
+                            <field name="account_analytic_id"
+                                   invisible="1" groups="analytic.group_analytic_accounting"
+                                   domain="[('company_id', '=', parent.company_id)]"/><!--Modificado-->
+                            <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting"
+                                   widget="many2many_tags" options="{'color_field': 'color'}"/>
+                            <field name="quantity"/>
+                            <field name="uom_id" groups="product.group_uom" invisible="1"/><!--Modificado-->
+                            <field name="price_unit"/>
+                            <field name="discount" groups="base.group_no_one"/>
+                            <field name="invoice_line_tax_ids" widget="many2many_tags"
+                                   options="{'no_create': True}" context="{'type':parent.type}"
+                                   domain="[('type_tax_use','=','sale'), ('tax_type','=','iva'), ('company_id', '=', parent.company_id)]"/><!--Modificado-->
+                            <field name="price_subtotal" string="Subtotal"/>
+                            <field name="currency_id" invisible="1"/>
+                        </tree>
+                    </xpath>
+                </data>
+            </field>
+        </record>
+    </data>
+</odoo>

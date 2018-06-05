@@ -1,0 +1,14 @@
+id,code,name
+eliterp_tax_support_1,01,Crédito Tributario para declaración de IVA (Servicios y bienes distintos de Inventarios y activos fijos)
+eliterp_tax_support_2,02,Costo o Gasto para declaración de Imp. A la Renta (Servicios y bienes distintos de inventarios y activos fijos)
+eliterp_tax_support_3,03,Activo Fijo – Crédito Tributario para declaración de IVA
+eliterp_tax_support_4,04,Activo Fijo – Costo o Gasto para declaración de Imp. A la Renta
+eliterp_tax_support_5,05,Liquidación de gastos de viaje, hospedaje y alimentación (A nonbre de empleados y no de la empresa)
+eliterp_tax_support_6,06,Inventario – Crédito Tributario para declaración del IVA
+eliterp_tax_support_7,07,Inventario – Costo o Gasto para declaración de Imp. A la Renta
+eliterp_tax_support_8,08,Valor pagado para solicitar Reembolso de Gastos (Intermediario)
+eliterp_tax_support_9,09,Reembolso por Siniestros
+eliterp_tax_support_10,10,Distribución de Dividendos, Beneficios o Utilidades
+eliterp_tax_support_11,11,Convenios de débito o reacudación para IFI's
+eliterp_tax_support_12,12,Impuestos y retenciones presuntivos
+eliterp_tax_support_13,13,Valores reconocidos por entidades del sector público a favor de sujetos pasivos

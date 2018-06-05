@@ -1,0 +1,352 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Búsquedas-->
+        <record id="eliterp_view_search_advance" model="ir.ui.view">
+            <field name="name">eliterp_view_search_advance</field>
+            <field name="model">eliterp.advance.payment</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="state"/>
+                    <filter string="Contabilizado" name="posted" domain="[('state', '=', 'posted')]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Estado" name='group_by_state' domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="eliterp_view_search_contract" model="ir.ui.view">
+            <field name="name">eliterp_view_search_contract</field>
+            <field name="model">hr.contract</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="state_customize"/>
+                    <filter string="Finalizado" name="finalized" domain="[('state_customize', '=', 'finalized')]"/>
+                    <group expand="1" string="Group By">
+                        <filter string="Cargo" domain="[]" context="{'group_by': 'job_id'}"/>
+                        <filter string="Estado" name='group_by_state_customize' domain="[]"
+                                context="{'group_by': 'state_customize'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--Acciones-->
+        <record id="eliterp_action_attendance_record" model="ir.actions.act_window">
+            <field name="name">Registro de asistencias</field>
+            <field name="res_model">eliterp.attendance</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Clic para crear nuevo registro de asistencias.
+                </p>
+            </field>
+        </record>
+        <record id="eliterp_action_hr_settings" model="ir.actions.act_window">
+            <field name="name">Ajustes</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="res_model">res.config.settings</field>
+            <field name="view_mode">form</field>
+            <field name="target">inline</field>
+            <field name="context">{'module' : 'eliterp_hr'}</field>
+        </record>
+
+        <record id="eliterp_action_advance" model="ir.actions.act_window">
+            <field name="name">Anticipo de quincena</field>
+            <field name="res_model">eliterp.advance.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="domain">[]</field>
+            <field name="context">{"search_default_group_by_state": 1}</field>
+            <field name="search_view_id" ref="eliterp_view_search_advance"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Clic para crear nuevo anticipo de quincena.
+                </p>
+            </field>
+        </record>
+        <record id="eliterp_action_payslip_run" model="ir.actions.act_window">
+            <field name="name">Rol consolidado</field>
+            <field name="res_model">hr.payslip.run</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="eliterp_view_tree_payslip_run"/>
+            <field name="search_view_id" ref="hr_payroll.hr_payslip_run_filter"/>
+        </record>
+        <record id="eliterp_action_absences" model="ir.actions.act_window">
+            <field name="name">Registro de ausencias</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_type">form</field>
+            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="context">{
+                'default_type': 'remove',
+                'needaction_menu_ref':
+                [
+                'hr_holidays.menu_open_company_allocation',
+                ]
+                }
+            </field>
+            <field name="domain">[('type','=','remove')]</field>
+            <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
+            <field name="help" type="html">
+                <p class="oe_view_nocontent_create">
+                    Click to create a new leave request.
+                </p>
+                <p>
+                    Once you have recorded your leave request, it will be sent
+                    to a manager for validation. Be sure to set the right leave
+                    type (recuperation, legal holidays, sickness) and the exact
+                    number of open days related to your leave.
+                </p>
+            </field>
+        </record>
+        <record id="eliterp_action_hr_type_history" model="ir.actions.act_window">
+            <field name="name">Tipo de historial</field>
+            <field name="res_model">eliterp.type.history</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="eliterp_action_employee_category" model="ir.actions.act_window">
+            <field name="name">Etiquetas de empleados</field>
+            <field name="res_model">hr.employee.category</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+
+        <record id="eliterp_action_employee_report" model="ir.actions.act_window">
+            <field name="name">Reporte de empleados</field>
+            <field name="res_model">eliterp.employee.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_hr.eliterp_view_form_employee_report_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <record id="eliterp_action_attendance_report" model="ir.actions.act_window">
+            <field name="name">Reporte de asistencias</field>
+            <field name="res_model">eliterp.attendance.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_hr.eliterp_view_form_attendance_report_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <record id="eliterp_action_report_absences" model="ir.actions.act_window">
+            <field name="name">Reporte de ausencias</field>
+            <field name="res_model">eliterp.report.absences</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_hr.eliterp_view_form_report_absences_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <record id="eliterp_action_holiday_report" model="ir.actions.act_window">
+            <field name="name">Reporte de vacaciones del personal</field>
+            <field name="res_model">eliterp.holiday.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_hr.eliterp_view_form_holiday_report_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <!--Acciones/Vistas-->
+        <record id="eliterp_action_view_tree_absences" model="ir.actions.act_window.view">
+            <field name="sequence" eval="1"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr_holidays.view_holiday"/>
+            <field name="act_window_id" ref="eliterp_action_absences"/>
+        </record>
+        <record id="eliterp_action_view_form_absences" model="ir.actions.act_window.view">
+            <field name="sequence" eval="2"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="act_window_id" ref="eliterp_action_absences"/>
+        </record>
+        <record id="eliterp_action_view_calendar_absences" model="ir.actions.act_window.view">
+            <field name="sequence" eval="3"/>
+            <field name="view_mode">calendar</field>
+            <field name="view_id" ref="hr_holidays.view_holiday_new_calendar"/>
+            <field name="act_window_id" ref="eliterp_action_absences"/>
+        </record>
+        <!--Menús-->
+        <menuitem id="eliterp_menu_hr"
+                  name="RRHH"
+                  web_icon="eliterp_hr,static/description/icon.png"
+                  groups="hr.group_hr_user,hr.group_hr_manager"
+                  sequence="70"/>
+
+        <menuitem id="eliterp_menu_hr_employees"
+                  name="Empleados"
+                  parent="eliterp_menu_hr"
+                  sequence="1"/>
+        <menuitem id="eliterp_menu_hr_employees_contract"
+                  name="Contratos"
+                  parent="eliterp_menu_hr_employees"
+                  action='hr_contract.action_hr_contract'
+                  sequence="1"/>
+        <menuitem id="eliterp_menu_hr_employees_departments"
+                  name="Departamentos"
+                  parent="eliterp_menu_hr_employees"
+                  action='hr.open_module_tree_department'
+                  sequence="2"/>
+        <menuitem id="eliterp_menu_hr_employees_register"
+                  name="Empleados"
+                  parent="eliterp_menu_hr_employees"
+                  action='hr.open_view_employee_list_my'
+                  sequence="3"/>
+
+        <menuitem id="eliterp_menu_hr_employees_news"
+                  name="Novedades de empleados"
+                  parent="eliterp_menu_hr"
+                  sequence='2'/>
+        <menuitem id="eliterp_menu_hr_attendances"
+                  name="Asistencias"
+                  parent="eliterp_menu_hr_employees_news"
+                  sequence='1'/>
+        <menuitem id="eliterp_menu_hr_attendance"
+                  name="Asistencias"
+                  parent="eliterp_menu_hr_attendances"
+                  action='hr_attendance.hr_attendance_action'
+                  sequence='1'/>
+        <menuitem id="eliterp_menu_hr_attendance_record"
+                  name="Registro de asistencias"
+                  parent="eliterp_menu_hr_attendances"
+                  action='eliterp_action_attendance_record'
+                  sequence='2'/>
+
+        <menuitem id="eliterp_menu_hr_absences"
+                  name="Ausencias"
+                  parent="eliterp_menu_hr_employees_news"
+                  sequence='2'/>
+        <menuitem id="eliterp_menu_hr_absences_register"
+                  name="Registro de ausencias"
+                  parent="eliterp_menu_hr_absences"
+                  action="eliterp_action_absences"
+                  sequence="1"/>
+        <menuitem id="eliterp_menu_hr_absences_dashboard"
+                  name="Tablero"
+                  parent="eliterp_menu_hr_absences"
+                  action="hr_holidays.action_hr_holidays_dashboard"
+                  sequence="2"/>
+
+        <menuitem id="eliterp_menu_hr_paysheet"
+                  name="Nómina"
+                  parent="eliterp_menu_hr"
+                  sequence='3'/>
+        <menuitem id="eliterp_menu_hr_advance"
+                  name="Anticipo de quincena"
+                  parent="eliterp_menu_hr_paysheet"
+                  action="eliterp_action_advance"
+                  sequence='1'/>
+        <menuitem id="eliterp_menu_hr_role"
+                  name="Rol individual"
+                  parent="eliterp_menu_hr_paysheet"
+                  action="hr_payroll.action_view_hr_payslip_form"
+                  sequence='2'/>
+        <menuitem id="eliterp_menu_hr_consolidated_role"
+                  name="Rol consolidado"
+                  parent="eliterp_menu_hr_paysheet"
+                  action="eliterp_action_payslip_run"
+                  sequence='3'/>
+        <!--Reportes de HR-->
+        <menuitem id="eliterp_menu_hr_reports"
+                  name="Reportes"
+                  parent="eliterp_menu_hr"
+                  groups="hr.group_hr_manager"
+                  sequence='4'/>
+        <menuitem id="eliterp_menu_hr_employee_report"
+                  name="Reporte de empleados"
+                  action="eliterp_action_employee_report"
+                  parent="eliterp_menu_hr_reports"
+                  sequence="1"/>
+
+        <menuitem id="eliterp_menu_hr_assistance_news"
+                  name="Asistencias y novedades"
+                  parent="eliterp_menu_hr_reports"
+                  sequence='2'/>
+        <!--TODO: No se sabe el nuevo formato-->
+        <menuitem id="eliterp_menu_hr_attendance_report"
+                  name="Reporte de asistencias"
+                  action="eliterp_action_attendance_report"
+                  parent="eliterp_menu_hr_assistance_news"
+                  sequence='1'/>
+        <menuitem id="eliterp_menu_hr_report_absences"
+                  name="Reporte de ausencias"
+                  action="eliterp_action_report_absences"
+                  parent="eliterp_menu_hr_assistance_news"
+                  sequence='2'/>
+        <menuitem id="eliterp_menu_hr_holiday_report"
+                  name="Reporte de vacaciones del personal"
+                  action="eliterp_action_holiday_report"
+                  parent="eliterp_menu_hr_assistance_news"
+                  sequence='3'/>
+
+
+        <menuitem id="eliterp_menu_hr_config"
+                  name="Configuración"
+                  parent="eliterp_menu_hr"
+                  groups="hr.group_hr_manager"
+                  sequence='5'/>
+        <menuitem id="eliterp_menu_hr_config_settings"
+                  name="Ajustes"
+                  action="eliterp_action_hr_settings"
+                  groups="base.group_erp_manager"
+                  parent="eliterp_menu_hr_config"
+                  sequence='1'/>
+
+        <menuitem id="eliterp_menu_hr_config_contract"
+                  name="Contrato"
+                  parent="eliterp_menu_hr_config"
+                  sequence='2'/>
+        <menuitem id="eliterp_menu_hr_config_type_contract"
+                  name="Tipo de contrato"
+                  parent="eliterp_menu_hr_config_contract"
+                  action='hr_contract.action_hr_contract_type'
+                  sequence='1'/>
+
+        <menuitem id="eliterp_menu_hr_config_employee"
+                  name="Empleado"
+                  parent="eliterp_menu_hr_config"
+                  sequence='3'/>
+        <menuitem id="eliterp_menu_hr_config_employee_type_history"
+                  name="Tipo de historial"
+                  parent="eliterp_menu_hr_config_employee"
+                  action="eliterp_action_hr_type_history"
+                  sequence='1'/>
+
+        <menuitem id="eliterp_menu_hr_config_payroll"
+                  name="Nómina"
+                  parent="eliterp_menu_hr_config"
+                  sequence='4'/>
+        <menuitem id="eliterp_menu_hr_config_salary_rules_category"
+                  name="Categoría de reglas salariales"
+                  parent="eliterp_menu_hr_config_payroll"
+                  action="hr_payroll.action_hr_salary_rule_category"
+                  sequence='1'/>
+        <menuitem id="eliterp_menu_hr_config_payroll_structure"
+                  name="Estructuras salariales"
+                  parent="eliterp_menu_hr_config_payroll"
+                  action="hr_payroll.action_view_hr_payroll_structure_list_form"
+                  sequence='2'/>
+        <menuitem id="eliterp_menu_hr_config_salary_rules"
+                  name="Reglas salariales"
+                  parent="eliterp_menu_hr_config_payroll"
+                  action="hr_payroll.action_salary_rule_form"
+                  sequence="3"/>
+
+        <menuitem id="eliterp_menu_hr_config_absences"
+                  name="Novedades de personal"
+                  parent="eliterp_menu_hr_config"
+                  sequence="5"/>
+        <menuitem id="eliterp_menu_hr_config_employees_category"
+                  name="Etiquetas de empleados"
+                  parent="eliterp_menu_hr_config_absences"
+                  action="eliterp_action_employee_category"
+                  sequence="1"/>
+        <menuitem id="eliterp_menu_hr_config_type_absences"
+                  name="Tipos de ausencia"
+                  parent="eliterp_menu_hr_config_absences"
+                  action="hr_holidays.open_view_holiday_status"
+                  sequence="2"/>
+
+    </data>
+</odoo>

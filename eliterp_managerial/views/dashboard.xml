@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Búsquedas-->
+        <record id="eliterp_view_search_lines_process_panel" model="ir.ui.view">
+            <field name="name">eliterp_view_search_lines_process_panel</field>
+            <field name="model">eliterp.control.panel.line</field>
+            <field name="arch" type="xml">
+                <search string="Buscar en...">
+                    <group expand="0" string="Agrupar por">
+                        <filter string="Departamento" name="departament_panel" domain="[]"
+                                context="{'group_by': 'departament_panel'}"/>
+                        <filter string="Institución" name="name_panel" domain="[]"
+                                context="{'group_by': 'name_panel'}"/>
+                        <filter string="Frecuencia" name="type_panel" domain="[]" context="{'group_by': 'type_panel'}"/>
+                        <filter string="Fecha" domain="[]" context="{'group_by': 'date'}"/>
+                        <filter string="Estado" domain="[]" context="{'group_by': 'state'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <!--Acciones-->
+        <record id="eliterp_action_absences_managerial" model="ir.actions.act_window">
+            <field name="name">Ausencias</field>
+            <field name="res_model">hr.holidays</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="view_id" ref="hr_holidays.edit_holiday_new"/>
+            <field name="context">{
+                'default_type': 'remove',
+                'needaction_menu_ref':
+                [
+                'hr_holidays.menu_open_company_allocation',
+                ]
+                }
+            </field>
+            <field name="domain">[('type','=','remove'), ('state','=','confirm')]</field>
+            <field name="search_view_id" ref="hr_holidays.view_hr_holidays_filter"/>
+        </record>
+        <record id="eliterp_action_advances_managerial" model="ir.actions.act_window">
+            <field name="name">Anticipos de quincena</field>
+            <field name="res_model">eliterp.advance.payment</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('state', '=', 'to_approve')]</field>
+            <field name="view_id" ref="eliterp_hr.eliterp_view_tree_advance"/>
+        </record>
+        <record id="eliterp_action_supplier_invoices_managerial" model="ir.actions.act_window">
+            <field name="name">Facturas de proveedor</field>
+            <field name="res_model">account.invoice</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,kanban,form,calendar,pivot,graph</field>
+            <field eval="False" name="view_id"/>
+            <field name="domain">[
+                ('type','=','in_invoice'),('approval_status', '!=', 'approved'), ('state', 'not in',
+                ('paid', 'cancel'))]
+            </field>
+            <field name="context">{'default_type': 'in_invoice', 'type': 'in_invoice', 'journal_type': 'purchase'}
+            </field>
+            <field name="search_view_id" ref="account.view_account_invoice_filter"/>
+        </record>
+        <record id="eliterp_action_payslip_run_managerial" model="ir.actions.act_window">
+            <field name="name">Roles de empleados</field>
+            <field name="res_model">hr.payslip.run</field>
+            <field name="view_type">form</field>
+            <field name="domain">[('state', '=', 'to_approve')]</field>
+            <field name="view_id" ref="eliterp_hr.eliterp_view_tree_payslip_run"/>
+            <field name="search_view_id" ref="hr_payroll.hr_payslip_run_filter"/>
+        </record>
+
+        <record id="eliterp_action_lines_process_panel" model="ir.actions.act_window">
+            <field name="name">Panel de control</field>
+            <field name="res_model">eliterp.control.panel.line</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field>
+            <field name="search_view_id" ref="eliterp_view_search_lines_process_panel"/>
+            <field name="context">
+                {
+                'search_default_departament_panel':1,
+                'search_default_name_panel':1,
+                'search_default_type_panel':1
+                }
+            </field>
+        </record>
+
+        <record id="eliterp_action_report_control_panel" model="ir.actions.act_window">
+            <field name="name">Reporte control de obligaciones</field>
+            <field name="res_model">eliterp.report.control.panel.wizard</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_managerial.eliterp_view_form_report_control_panel_wizard"/>
+            <field name="target">new</field>
+        </record>
+        <!--Acciones/Vistas-->
+        <record id="eliterp_action_view_absences_managerial" model="ir.actions.act_window.view">
+            <field name="sequence" eval="0"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="hr_holidays.view_holiday"/>
+            <field name="act_window_id" ref="eliterp_action_absences_managerial"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="eliterp_action_view_lines_process_panel">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="eliterp_managerial.eliterp_view_tree_lines_process_panel"/>
+            <field name="act_window_id" ref="eliterp_action_lines_process_panel"/>
+        </record>
+        <!--Menús-->
+        <menuitem id="eliterp_menu_managerial"
+                  name="Gerencial"
+                  groups="eliterp_managerial.eliterp_group_managerial_manager"
+                  web_icon="eliterp_managerial,static/description/icon.png"
+                  sequence="20"/>
+
+        <menuitem id="eliterp_menu_managerial_administration"
+                  name="Administración"
+                  parent="eliterp_menu_managerial"
+                  sequence="1"/>
+
+        <menuitem id="eliterp_menu_managerial_administration_approvals"
+                  name="Aprobaciones"
+                  parent="eliterp_menu_managerial_administration"
+                  sequence="1"/>
+
+        <menuitem id="eliterp_menu_managerial_administration_approvals_absences"
+                  name="Ausencias"
+                  parent="eliterp_menu_managerial_administration_approvals"
+                  action="eliterp_action_absences_managerial"
+                  sequence="1"/>
+        <menuitem id="eliterp_menu_managerial_administration_approvals_advances"
+                  name="Anticipos de quincena"
+                  parent="eliterp_menu_managerial_administration_approvals"
+                  action="eliterp_action_advances_managerial"
+                  sequence="2"/>
+        <menuitem id="eliterp_menu_managerial_administration_approvals_invoices"
+                  name="Facturas de proveedor"
+                  parent="eliterp_menu_managerial_administration_approvals"
+                  action="eliterp_action_supplier_invoices_managerial"
+                  sequence="3"/>
+        <menuitem id="eliterp_menu_managerial_administration_approvals_payslip_run"
+                  name="Roles de empleados"
+                  parent="eliterp_menu_managerial_administration_approvals"
+                  action="eliterp_action_payslip_run_managerial"
+                  sequence="4"/>
+
+        <menuitem id="eliterp_menu_managerial_control"
+                  name="Control de obligaciones"
+                  parent="eliterp_menu_managerial"
+                  sequence="2"/>
+        <menuitem id="eliterp_menu_managerial_lines_process_panel"
+                  name="Panel de control"
+                  parent="eliterp_menu_managerial_control"
+                  action="eliterp_action_lines_process_panel"
+                  sequence="1"/>
+
+        <menuitem id="eliterp_menu_managerial_reports"
+                  name="Reportes"
+                  parent="eliterp_menu_managerial"
+                  sequence="3"/>
+        <menuitem id="eliterp_menu_managerial_reports_control_panel"
+                  name="Reporte control de obligaciones"
+                  parent="eliterp_menu_managerial_reports"
+                  action="eliterp_action_report_control_panel"
+                  sequence="1"/>
+        <!--
+            Menú en módulo Inicio
+        -->
+        <record id="eliterp_action_control_panel_start" model="ir.actions.act_window">
+            <field name="name">Control de obligaciones</field>
+            <field name="res_model">eliterp.control.panel</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+        </record>
+        <record id="eliterp_action_view_control_panel_start" model="ir.actions.act_window.view">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="eliterp_managerial.eliterp_view_tree_lines_control_panel"/>
+            <field name="act_window_id" ref="eliterp_managerial.eliterp_action_control_panel_start"/>
+        </record>
+        <menuitem id="eliterp_menu_start_control_panel"
+                  name="Control de obligaciones"
+                  action="eliterp_managerial.eliterp_action_control_panel_start"
+                  parent="eliterp_start.eliterp_menu_start"
+                  sequence="10"/>
+    </data>
+</odoo>

@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Asientos contables-->
+        <record id="eliterp_view_form_reason_move_cancel_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_reason_move_cancel_wizard</field>
+            <field name="model">eliterp.reason.move.cancel</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <group>
+                            <field name="description"/>
+                        </group>
+                        <footer>
+                            <button name="cancel_move"
+                                    type="object"
+                                    class="oe_highlight"
+                                    string="Confirmar"/>
+                            <button string="Descartar" special="cancel"/>
+                        </footer>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_account_move" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_tree"/>
+            <field name="arch" type="xml">
+                <tree position="replace">
+                    <tree decoration-info="state=='draft'"
+                          decoration-muted="state=='cancel'"
+                          decoration-success="state == 'posted'"
+                          default_order='date desc'
+                    >
+                        <field name="date"/>
+                        <field name="name" string="No. Documento"/>
+                        <field name="partner_id"/>
+                        <field name="ref"/>
+                        <field name="journal_id"/>
+                        <field name="amount" string="Monto" sum="Total"/>
+                        <field name="state"/>
+                        <field name="currency_id" invisible="1"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_move" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_move</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='%(account.action_view_account_move_reversal)d']" position="after">
+                    <button name="print_move"
+                            type="object"
+                            class="oe_highlight"
+                            string="Imprimir"/>
+                    <button name="open_reason_move_cancel"
+                            states="posted"
+                            string="Cancelar"
+                            type="object"/>
+                </xpath>
+                <xpath expr="//button[@name='%(account.action_view_account_move_reversal)d']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_account" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_account</field>
+            <field name="model">account.account</field>
+            <field name="inherit_id" ref="account.view_account_form"/>
+            <field name="arch" type="xml">
+                <field name="user_type_id" position="after">
+                    <field name="account_type"/>
+                </field>
+            </field>
+        </record>
+        <!--Vista del menú Bancos-->
+        <record id="eliterp_view_tree_bank" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_bank</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_tree"/>
+            <field name="arch" type="xml">
+                <tree position="replace">
+                    <tree>
+                        <field name="name"/>
+                        <field name="country"/>
+                        <field name="state_id"/>
+                        <field name="account_number"/>
+                        <field name="phone"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_search_bank" model="ir.ui.view">
+            <field name="name">eliterp_view_search_bank</field>
+            <field name="model">res.bank</field>
+            <field name="arch" type="xml">
+                <search>
+                    <group expand="1" string="Group By...">
+                        <filter name="type_use" string="Tipo de uso" domain="[]" context="{'group_by': 'type_use'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
+        <record id="eliterp_view_form_bank" model="ir.ui.view">
+            <field name="name">eliterp_view_form_bank</field>
+            <field name="model">res.bank</field>
+            <field name="inherit_id" ref="base.view_res_bank_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form>
+                        <sheet>
+                            <group col="4">
+                                <field name="name"/>
+                                <field name="type_use"
+                                       widget="radio"
+                                       class="oe_edit_only"
+                                       options="{'horizontal': true}"/>
+                                <field name="sequence_id" invisible="1"/>
+                            </group>
+                            <group>
+                                <group string="Contabilidad"
+                                       attrs="{'invisible':[('type_use', '!=', 'payments')]}">
+                                    <field name="account_id"/>
+                                    <field name="account_number" attrs="{'required':[('type_use', '==', 'payments')]}"/>
+                                    <field name="padding"/>
+                                    <field name="start" attrs="{'required':[('type_use', '==', 'payments')]}"/>
+                                    <field name="end" attrs="{'required':[('type_use', '==', 'payments')]}"/>
+                                    <field name="number_next" attrs="{'invisible': [('sequence_id', '=', False)]}"/>
+                                </group>
+                                <group string="Dirección">
+                                    <label for="street" string="Dirección"/>
+                                    <div class="o_address_format">
+                                        <field name="street" class="o_address_street" placeholder="Calle..."/>
+                                        <field name="street2" class="o_address_street" placeholder="Calle 2..."/>
+                                        <div class="o_row">
+                                            <field name="country" placeholder="País"
+                                                   options="{'no_create': True, 'no_open': True}"/>
+                                            <field name="state_id" placeholder="Provincia"
+                                                   domain="[('country_id', '=', country)]"
+                                                   options="{'no_create': True, 'no_open': True}"/>
+                                        </div>
+                                    </div>
+                                </group>
+                                <group string="Información adicional">
+                                    <field name="phone"/>
+                                    <field name="email" widget="email"/>
+                                    <field name="active"/>
+                                </group>
+                            </group>
+                        </sheet>
+                    </form>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

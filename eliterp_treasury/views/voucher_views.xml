@@ -1,0 +1,312 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="eliterp_view_form_voucher_cancel_reason_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_voucher_cancel_reason_wizard</field>
+            <field name="model">eliterp.voucher.cancel.reason</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <footer>
+                        <button name="cancel_voucher"
+                                type="object"
+                                class="oe_highlight"
+                                string="Confirmar"/>
+                        <button string="Descartar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--Vistas del menú Cobros-->
+        <record id="eliterp_view_tree_voucher_sale" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_voucher_sale</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state=='draft'"
+                      decoration-success="state=='posted'"
+                      default_order='date desc'>
+                    <field name="name" string="No. Documento"/>
+                    <field name="partner_id" string="Cliente"/>
+                    <field name="date" string="Fecha emisión"/>
+                    <field name="concept"/>
+                    <field name="total_payments" sum="Total"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_voucher_sale" model="ir.ui.view">
+            <field name="name">eliterp_view_form_voucher_sale</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="account_voucher.view_sale_receipt_form"/>
+            <field name="arch" type="xml">
+                <button name="proforma_voucher" position="replace">
+                    <button name="validate_voucher" type="object" string="Validar" states="draft" class="oe_highlight"/>
+                </button>
+                <xpath expr="//button[@name='cancel_voucher']" position="replace">
+                    <button name="open_voucher_cancel_reason"
+                            type="object"
+                            class="oe_highlight"
+                            states="posted"
+                            groups="eliterp_treasury.eliterp_group_treasury_manager"
+                            string="Cancelar"/>
+                </xpath>
+                <xpath expr="//button[@name='cancel_voucher']" position="replace"/>
+                <xpath expr="//button[@name='action_cancel_draft']" position="replace"/>
+                <xpath expr="//button[@name='open_voucher_cancel_reason']" position="before">
+                    <button name="print_voucher"
+                            type="object"
+                            class="oe_highlight"
+                            string="Imprimir comprobante"/>
+                </xpath>
+                <xpath expr="//label[@for='number']" position="replace"/><!--Recibo de ventas-->
+                <xpath expr="//field[@name='name']" position="replace"/>
+                <xpath expr="//field[@name='number']" position="replace">
+                    <div class="oe_title" attrs="{'invisible': [('state','=', 'draft')]}">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                </xpath>
+                <field name="partner_id" position="attributes"><!--Cliente-->
+                    <attribute name="required">1</attribute>
+                </field>
+                <field name="date_due" position="attributes"><!--Fecha de Vencimiento-->
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="pay_now" position="attributes"><!--Pago-->
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="journal_id" position="attributes"><!--Diario-->
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="account_id" position="attributes"><!--Cuenta-->
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="partner_id" position="after"><!--Cliente-->
+                    <field name="concept" string="Concepto"/>
+                </field>
+                <field name="account_date" position="attributes"><!--Fecha contable-->
+                    <attribute name="invisible">1</attribute>
+                </field>
+                <field name="date" position="attributes"><!--Fecha de factura-->
+                    <attribute name="string">Fecha emisión</attribute>
+                </field>
+                <field name="date" position="after">
+                    <field name="balance_account" attrs="{'invisible':[('show_account', '==', False)]}"/>
+                    <field name="show_account" invisible="1"/>
+                </field>
+                <xpath expr="//notebook/page" position="before">
+                    <page string="Detalle">
+                        <group string="Líneas de facturas de cliente">
+                            <button name="load_data"
+                                    attrs="{'invisible':[('state', '==', 'posted')]}"
+                                    type="object"
+                                    string="Cargar facturas"
+                                    class="oe_highlight"/>
+                        </group>
+                        <field name="lines_invoice_sales" required="1"
+                               attrs="{'readonly':[('state', '==', 'posted')]}">
+                            <tree editable="bottom" create="false">
+                                <field name="invoice_id"/>
+                                <field name="date_due_invoice"/>
+                                <field name="amount_invoice" sum="Total"/>
+                                <field name="amount_total" sum="Total"/>
+                                <field name="amount_payable" string="Monto a cobrar" sum="Total"/>
+                                <field name="journal_id" invisible="1"/>
+                            </tree>
+                        </field>
+                        <group string="Líneas de recaudación">
+                            <button name="load_amount"
+                                    attrs="{'invisible':[('state', '==', 'posted')]}"
+                                    type="object"
+                                    string="Cargar montos"
+                                    class="oe_highlight"/>
+                        </group>
+                        <field name="lines_payment" attrs="{'readonly':[('state', '==', 'posted')]}">
+                            <tree editable="bottom">
+                                <field name="type_payment"
+                                       required="1"/>
+                                <field name="check_type"
+                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="date_issue"
+                                       attrs="{'readonly': [('check_type', '==', 'current')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="date_due"
+                                       attrs="{'readonly': [('check_type', '==', 'current')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="bank_id"
+                                       domain="[('type_use', '=', 'charges')]"
+                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="account_number"
+                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="check_number"
+                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="drawer" attrs="{'readonly': [('type_payment', '==', 'cash')]}"/>
+                                <field name="account_id" attrs="{'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="amount" sum="Total"/>
+                                <field name="move_id" string="Asiento contable" readonly="1"/>
+                            </tree>
+                        </field>
+                    </page>
+                </xpath>
+                <xpath expr="//notebook/page[2]" position="attributes"><!--TAB: Información de Ventas-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//notebook/page[last()]" position="attributes"><!--TAB: Apuntes contables-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+        <!--Vistas de menú Pagos-->
+        <record id="eliterp_view_tree_voucher_purchase" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_voucher_purchase</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state=='draft'"
+                      decoration-success="state=='posted'"
+                      default_order='date desc'>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <field name="bank_id"/>
+                    <field name="beneficiary"/>
+                    <field name="amount_cancel" sum="Total"/>
+                    <field name="concept"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_voucher_purchase" model="ir.ui.view">
+            <field name="name">eliterp_view_form_voucher_purchase</field>
+            <field name="model">account.voucher</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"
+                               modifiers="{'readonly': true}"/>
+                        <button name="validate_voucher" string="Validar" states="draft" class="oe_highlight"
+                                type="object"/>
+                        <button name="print_voucher"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir comprobante"/>
+                        <button name="open_voucher_cancel_reason" string="Cancelar" states="posted"
+                                type="object"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('state','=', 'draft')]}">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="type_egress" attrs="{'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="receipt_for" attrs="{'readonly':[('state','not in', ('draft'))]}"/>
+
+                            <field name="partner_id"
+                                   string="Proveedor"
+                                   domain="[('supplier', '=', True)]"
+                                   attrs="{'invisible':[('receipt_for', '!=', 'supplier')], 'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="custodian_id"
+                                   attrs="{'invisible':[('receipt_for','!=','small_box')], 'required':[('receipt_for','=','small_box')]}"/>
+                            <field name="viaticum_id"
+                                   attrs="{'invisible':[('receipt_for','!=','viaticum')], 'required':[('receipt_for','=','viaticum')]}"/>
+                            <field name="beneficiary" attrs="{'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="bank_id"
+                                   attrs="{'invisible':[('type_egress', '=', 'cash')], 'required':[('type_egress', '!=', 'cash')], 'readonly':[('state','not in', ('draft'))]}"
+                                   domain="[('type_use', '=', 'payments')]"/>
+                            <field name="check_number"
+                                   attrs="{'invisible':[('type_egress', '!=', 'bank')], 'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="date" string="Fecha emisión"/>
+                            <field name="check_date"
+                                   attrs="{'invisible':[('type_egress', '=', 'cash')], 'required':[('type_egress', '!=', 'cash')], 'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="concept" attrs="{'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="amount_cancel" attrs="{'readonly':[('state','not in', ('draft'))]}"/>
+                            <field name="account_id" required="1"
+                                   attrs="{'invisible':[('type_egress', '!=', 'cash')], 'readonly':[('state','not in', ('draft'))]}"/>
+                        </group>
+                        <group>
+                            <notebook>
+                                <page string="Detalle" attrs="{'invisible':[('receipt_for', '==', 'viaticum')]}">
+                                    <group string="Líneas de facturas de proveedor" col="1"
+                                           attrs="{'invisible':[('receipt_for', '!=', 'supplier')], 'readonly':[('state','not in', ('draft'))]}">
+                                        <group>
+                                            <button name="load_data"
+                                                    attrs="{'invisible':[('state', '==', 'posted')]}"
+                                                    type="object"
+                                                    string="Cargar facturas y notas de crédito"
+                                                    class="oe_highlight"/>
+                                        </group>
+                                        <field name="lines_invoice_purchases" nolabel="1" required="1"
+                                               attrs="{'readonly':[('state','not in', ('draft'))]}">
+                                            <tree editable="bottom">
+                                                <field name="name"/>
+                                                <field name="date_due_invoice"/>
+                                                <field name="amount_invoice" sum="Total"/>
+                                                <field name="amount_total" sum="Total"/>
+                                                <field name="amount_programmed" sum="Total"/>
+                                                <field name="amount_payable" string="Monto a pagar" sum="Total"/>
+                                                <field name="journal_id" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                        <group string="Notas de crédito">
+                                            <button name="apply_notes"
+                                                    attrs="{'invisible':[('state', '==', 'posted')]}"
+                                                    type="object"
+                                                    string="Aplicar notas de crédito"
+                                                    class="oe_highlight"/>
+                                        </group>
+                                        <field name="lines_note_credit" nolabel="1" required="1"
+                                               attrs="{'readonly':[('state','not in', ('draft'))]}">
+                                            <tree editable="bottom">
+                                                <field name="name" string="No. Nota de crédito"/>
+                                                <field name="date_due_invoice"/>
+                                                <field name="amount_note" sum="Total"/>
+                                                <field name="invoices_affect" options="{'no_create': True}"
+                                                       domain="[('voucher_id', '=', voucher_id)]"/>
+                                                <field name="journal_id" invisible="1"/>
+                                                <field name="voucher_id" invisible="1"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                    <group string="Líneas de cuenta" col="1">
+                                        <group col="6">
+                                            <button name="load_amount"
+                                                    attrs="{'invisible':['|', ('state', '==', 'posted'), ('receipt_for','!=', 'supplier')]}"
+                                                    type="object"
+                                                    string="Cargar montos"
+                                                    class="oe_highlight"/>
+                                            <button name="apply_amount"
+                                                    attrs="{'invisible':['|', ('state', '==', 'posted'), ('receipt_for','not in', ('supplier', 'small_box'))]}"
+                                                    type="object"
+                                                    string="Aplicar montos"
+                                                    class="oe_highlight"/>
+                                            <button name="load_small_box"
+                                                    attrs="{'invisible':['|',('state','==','posted'),('receipt_for','!=', 'small_box')]}"
+                                                    type="object"
+                                                    string="Cargar montos"
+                                                    class="oe_highlight"/>
+                                        </group>
+                                        <field name="lines_account" nolabel="1"
+                                               attrs="{'readonly':[('state','not in', ('draft'))]}">
+                                            <tree editable="bottom">
+                                                <field name="account_id"/>
+                                                <field name="amount"/>
+                                            </tree>
+                                        </field>
+                                    </group>
+                                </page>
+                                <page string="Asientos contables">
+                                    <group>
+                                        <field name="move_id" string="Asiento contable" readonly="1"/>
+                                    </group>
+                                </page>
+                            </notebook>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>
+
+

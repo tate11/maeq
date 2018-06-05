@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <record id="eliterp_view_form_reason_cancel_payment_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_reason_cancel_payment_wizard</field>
+            <field name="model">eliterp.reason.cancel.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group>
+                        <field name="description"/>
+                    </group>
+                    <footer>
+                        <button name="cancel_payment"
+                                type="object"
+                                class="oe_highlight"
+                                string="Confirmar"/>
+                        <button string="Descartar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--Vistas del menú Depósitos-->
+        <record id="eliterp_view_tree_account_payment_deposits" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_account_payment_deposits</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state=='draft'"
+                      decoration-muted="state=='cancel'"
+                      decoration-success="state == 'posted'"
+                      default_order='payment_date desc'
+                >
+                    <field name="name" string="No. Documento"/>
+                    <field name="bank_cash"/>
+                    <field name="payment_date" string="Fecha depósito"/>
+                    <field name="amount"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_payment_deposits" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_payment_deposits</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="confirm_deposit" class="oe_highlight"
+                                states="draft"
+                                string="Validar"
+                                type="object" modifiers="{'invisible': [['state', 'not in', ['draft']]]}"/>
+                        <button name="print_payment"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir depósito"/>
+                        <button name="open_reason_cancel_payment"
+                                states="posted" string="Cancelar" type="object"
+                                modifiers="{'invisible': [['state', 'not in', ['posted']]]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"
+                               modifiers="{'readonly': true}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="deposit_type" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                            <field name="payment_date" string="Fecha de depósito"
+                                   attrs="{'readonly':[('state', '==','posted')]}"/>
+                            <field name="bank_cash"
+                                   options="{'no_create': True}"
+                                   attrs="{'readonly':[('state', '==', 'posted')]}"
+                                   domain="[('type_use', '=', 'payments')]"/>
+                            <field name="concept" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                            <field name="amount" readonly="1"/>
+                            <field name="journal_id" invisible="1"/>
+                            <field name="payment_method_id" invisible="1"/>
+                            <field name="payment_type" invisible="1"/>
+                            <field name="payment_type_customize" invisible="1"/>
+                        </group>
+                        <group col="1" string="Líneas de cheques recaudados"
+                               attrs="{'invisible':[('deposit_type', '!=', 'check')]}">
+                            <group col="6">
+                                <button name="load_checks"
+                                        attrs="{'invisible':[('state','==','posted')]}"
+                                        type="object"
+                                        string="Cargar cheques"
+                                        class="oe_highlight"/>
+                                <button name="load_amount"
+                                        attrs="{'invisible':[('state', '==', 'posted')]}"
+                                        type="object"
+                                        string="Cargar monto"
+                                        class="oe_highlight"/>
+                            </group>
+                            <field name="lines_deposits_checks" nolabel="1"
+                                   attrs="{'readonly':[('state','==','posted')]}">
+                                <tree editable="bottom" create="false" edit="false">
+                                    <field name="check_number"/>
+                                    <field name="date_due"/>
+                                    <field name="amount"/>
+                                    <field name="bank_id"/>
+                                    <field name="account_id"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group col="1" string="Líneas de efectivo"
+                               attrs="{'invisible':[('deposit_type', '!=', 'cash')]}">
+                            <group>
+                                <button name="load_amount"
+                                        attrs="{'invisible':[('state', '==', 'posted')]}"
+                                        type="object"
+                                        string="Cargar monto"
+                                        class="oe_highlight"/>
+                            </group>
+                            <field name="lines_deposits_cash" nolabel="1"
+                                   attrs="{'readonly':[('state', '==', 'posted')]}">
+                                <tree editable="bottom">
+                                    <field name="account_id"/>
+                                    <field name="reference"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </group>
+                        <group col="1" string="Líneas de cheques externos"
+                               attrs="{'invisible':[('deposit_type', '!=', 'external_check')]}">
+                            <group>
+                                <button name="load_amount"
+                                        attrs="{'invisible':[('state', '==', 'posted')]}"
+                                        type="object"
+                                        string="Cargar monto"
+                                        class="oe_highlight"/>
+                            </group>
+                            <field name="lines_deposits_checks_external" nolabel="1"
+                                   attrs="{'readonly':[('state', '==', 'posted')]}">
+                                <tree editable="bottom">
+                                    <field name="bank_id"
+                                           options="{'no_create':True}"
+                                           domain="[('type_use', '=', 'charges')]"/>
+                                    <field name="check_account"/>
+                                    <field name="check_number"/>
+                                    <field name="drawer"/>
+                                    <field name="account_id"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <!--Vistas del menú Transferencia-->
+        <record id="eliterp_view_tree_account_payment_transfer" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_account_payment_transfer</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <tree decoration-info="state=='draft'"
+                      decoration-muted="state=='cancel'"
+                      decoration-success="state == 'posted'"
+                      default_order='payment_date desc'
+                >
+                    <field name="name" string="No. Documento"/>
+                    <field name="payment_date" string="Fecha de transferencia"/>
+                    <field name="account_debit_id"/>
+                    <field name="account_credit_id"/>
+                    <field name="amount_transfer"/>
+                    <field name="state"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_payment_transfer" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_payment_transfer</field>
+            <field name="model">account.payment</field>
+            <field name="arch" type="xml">
+                <form>
+                    <header>
+                        <button name="confirm_transfer"
+                                class="oe_highlight" states="draft" string="Validar"
+                                type="object" modifiers="{'invisible': [['state', 'not in', ['draft']]]}"/>
+                        <button name="print_payment"
+                                type="object"
+                                class="oe_highlight"
+                                string="Imprimir transferencia"/>
+                        <button name="open_reason_cancel_payment" states="posted" string="Cancelar" type="object"
+                                modifiers="{'invisible': [['state', 'not in', ['posted']]]}"/>
+                        <field name="state" widget="statusbar" statusbar_visible="draft,posted"
+                               modifiers="{'readonly': true}"/>
+                    </header>
+                    <sheet>
+                        <div class="oe_title" attrs="{'invisible': [('state', '=', 'draft')]}">
+                            <h1>
+                                <field name="name" readonly="1"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="payment_date" attrs="{'readonly':[('state', '==', 'posted')]}"
+                                   string="Fecha de transferencia"/>
+                            <field name="concept" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                            <field name="account_debit_id" attrs="{'readonly':[('state', '==', 'posted')]}"
+                                   options="{'no_create': True}"/>
+                            <field name="account_credit_id" attrs="{'readonly':[('state','==','posted')]}"
+                                   options="{'no_create': True}"/>
+                            <field name="amount_transfer" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                            <field name="journal_id" invisible="1"/>
+                            <field name="payment_method_id" invisible="1"/>
+                            <field name="payment_type" invisible="1"/>
+                            <field name="payment_type_customize" invisible="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+    </data>
+</odoo>

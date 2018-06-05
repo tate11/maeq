@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data noupdate="1">
+        <record model="ir.sequence" id="eliterp_sequence_preventive_maintenance">
+            <field name="name">Mantenimiento preventivo</field>
+            <field name="code">preventive.maintenance</field>
+            <field name="prefix">MMP-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+    </data>
+</odoo>

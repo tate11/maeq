@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Clientes-->
+        <record id="eliterp_view_form_customer" model="ir.ui.view">
+            <field name="name">eliterp_view_form_customer</field>
+            <field name="model">res.partner</field>
+            <field name="inherit_id" ref="base.view_partner_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//group" position="after">
+                    <group attrs="{'invisible':[('customer', '=', False)]}">
+                        <group string="Información comercial" name="commercial_information">
+                            <field name='type_seller'
+                                   class="oe_edit_only"
+                                   widget="radio"
+                                   options="{'horizontal': true}"/>
+                            <field name="consultant_id"
+                                   options="{'no_create':True}"
+                                   attrs="{'invisible':[('type_seller', '=', 'freelance')]}"/>
+                            <!--TODO: crm
+                            <field name="team_id"
+                                       options="{'no_create': True}"
+                                       can_create="true"
+                                       can_write="true"
+                                       attrs="{'invisible':[('type_seller', '=', 'freelance')]}"/>
+                            -->
+                            <field name="freelance_id"
+                                   attrs="{'invisible':[('type_seller', '=', 'consultant')]}"
+                                   domain="[('if_freelance', '=', True)]"
+                                   context="{
+                                           'if_freelance_sale': True,
+                                           'default_customer': False,
+                                           'default_supplier': True,
+                                           }"/>
+                        </group>
+                        <group string="Clasificación de clientes" name="customer_classification">
+                            <field name="client_type"/>
+                            <field name="client_segmentation"/>
+                        </group>
+                    </group>
+                </xpath>
+                <xpath expr="//field[@name='property_payment_term_id']" position="after"><!--Plazo de pago de cliente-->
+                    <field name="credit_limit"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

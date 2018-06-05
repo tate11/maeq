@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<openerp>
+    <data>
+        <record id="eliterp_view_form_product_code" model="ir.ui.view">
+            <field name="name">eliterp_view_form_product_code</field>
+            <field name="model">eliterp.product.code</field>
+            <field name="arch" type="xml">
+                <form create="false" edit="false" duplicate="false">
+                    <sheet>
+                        <group>
+                            <field name="name" readonly="1"/>
+                            <field name="sequence_id" readonly="1"/>
+                        </group>
+                        <group string="Línea de productos">
+                            <field name="products_ids" nolabel="1"/>
+                        </group>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_tree_product_code" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_product_code</field>
+            <field name="model">eliterp.product.code</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="name"/>
+                    <field name="count_products"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_product_template" model="ir.ui.view">
+            <field name="name">eliterp_view_form_product_template</field>
+            <field name='model'>product.template</field>
+            <field name='inherit_id' ref='product.product_template_only_form_view'/>
+            <field name='arch' type='xml'>
+                <field name="default_code" position="replace"/>
+                <field name="categ_id" position="replace"/>
+                <field name="barcode" position="replace"><!--Código de barras-->
+                    <field name="categ_id" string="Categoría"
+                           on_change="1"
+                           can_create="true"
+                           can_write="true"
+                           modifiers="{'required': true}"/>
+                    <field name="line_product_id" context="{'default_level_upper': categ_id}"
+                           domain="[('level_upper', '=', categ_id)]"/>
+                    <field name="sub_line_product_id" context="{'default_level_upper': line_product_id}"
+                           domain="[('level_upper', '=', line_product_id)]"/>
+                    <field name="default_code"
+                           attrs="{'invisible': [('product_variant_count', '&gt;', 1)]}"
+                           placeholder="Autogenerado"
+                           modifiers="{'invisible': [['product_variant_count', '&gt;', 1]]}"/>
+                    <field name="barcode" invisible="1"/>
+                </field>
+                <xpath expr="//field[@name='uom_po_id']" position="after">
+                    <field name="measure" placeholder="p.e Funda, botella, etc."/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</openerp>

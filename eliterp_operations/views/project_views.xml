@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Proyectos-->
+        <record id="eliterp_view_tree_project" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_project</field>
+            <field name="model">eliterp.project</field>
+            <field name="arch" type="xml">
+                <tree>
+                    <field name="name"/>
+                    <field name="code"/>
+                    <field name="reference"/>
+                    <field name="customer"/>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_project</field>
+            <field name="model">eliterp.project</field>
+            <field name="arch" type="xml">
+                <form>
+                    <sheet>
+                        <div class="oe_title">
+                            <h1>
+                                <field name="name" placeholder="p.e Puente de cuenca"/>
+                            </h1>
+                        </div>
+                        <group col="4">
+                            <field name="code"/>
+                            <field name="reference"/>
+                            <field name="customer"/>
+                            <field name="account_analytic_id" options="{'no_create': True, 'no_open': True}"/>
+                        </group>
+                        <notebook>
+                            <page string="Ubicaciones">
+                                <group string="Ubicaciones dentro de proyecto">
+                                    <field name="lines_location" colspan="2" nolabel="1">
+                                        <tree editable="bottom">
+                                            <field name="name"/>
+                                        </tree>
+                                    </field>
+                                </group>
+                            </page>
+                        </notebook>
+                    </sheet>
+                </form>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_invoice_supplier_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_invoice_supplier_project</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='concept']" position="before"><!--Concepto-->
+                    <field name="project_id" options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_form_employee_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_employee_project</field>
+            <field name="model">hr.employee</field>
+            <field name="inherit_id" ref="hr.view_employee_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='benefits']" position="after"><!--Acumula beneficios?-->
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <field name="project_id"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_form_purchase_order_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_purchase_order_project</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_order']" position="after"><!--Fecha del Pedido-->
+                    <field name="account_analytic_id"
+                           attrs="{'invisible': [('state', '!=', 'purchase')]}"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <field name="project_id"
+                           attrs="{'invisible': [('state', '!=', 'purchase')]}"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>

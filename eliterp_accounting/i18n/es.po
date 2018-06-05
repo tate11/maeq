@@ -1,0 +1,25 @@
+# Translation of Odoo Server.
+# This file contains the translation of the following modules:
+# * eliterp_accounting
+#
+# Translators:
+# Elitumgroup <sistemas@elitumgroup.com>, 2018
+
+msgid ""
+msgstr ""
+"Project-Id-Version: Odoo 111.0\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2018-05-18 14:56+0000\n"
+"PO-Revision-Date: 2016-05-18 20:38+0000\n"
+"Last-Translator: Elitumgroup <sistemas@elitumgroup.com>\n"
+"Language-Team: Spanish (http://www.transifex.com/odoo/odoo-11/language/es/)\n"
+"Language: es\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: \n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+
+#. module: account
+#: selection:account.invoice,state:1
+msgid "Open"
+msgstr "Por pagar"

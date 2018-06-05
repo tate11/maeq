@@ -1,0 +1,9 @@
+id,code,name
+eliterp_way_pay_1,01,Sin utilización del sistema financiero
+eliterp_way_pay_2,15,Compensación de deudas
+eliterp_way_pay_3,16,Tarjeta de débito
+eliterp_way_pay_4,17,Dinero electrónico
+eliterp_way_pay_5,18,Tarjeta prepago
+eliterp_way_pay_6,19,Tarjeta de crédito
+eliterp_way_pay_7,20,Otros con utilización del sistema financiero
+eliterp_way_pay_8,21,Endoso de títulos
