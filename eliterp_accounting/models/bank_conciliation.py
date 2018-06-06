@@ -5,6 +5,7 @@
 from odoo import api, fields, models, _
 from datetime import date
 from odoo.exceptions import UserError
+from operator import itemgetter
 
 TODAY = date.today()
 
@@ -160,7 +161,32 @@ class BankConciliation(models.Model):
         Imprimimos conciliación bancaria
         """
         self.ensure_one()
-        pass
+        return self.env.ref('eliterp_accounting.eliterp_action_eliterp_bank_conciliation').report_action(self)
+
+    @api.model
+    def _get_summary(self):
+        """
+        Función para obtener registros y sumatorias por diarios en
+        conciliación bancaria
+        :return:
+        """
+        data = []
+        for line in self.lines_banks_move:
+            aggregate = any(d['journal'] == line.journal for d in data)
+            if not aggregate:
+                data.append({
+                    'journal': line.journal,
+                    'name': line.journal.name,
+                    'amount': line.amount,
+                    'quantity': 1
+                })
+            else:
+                index = map(itemgetter('journal'), data).index(line.journal)
+                data[index].update({
+                    'amount': data[index]['amount'] + line.amount,
+                    'quantity': data[index]['quantity'] + 1
+                })
+        return data
 
     @api.multi
     def posted_conciliation(self):
