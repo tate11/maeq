@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!--Ventana emergente reporte de Panel de control-->
+        <!--Ventana emergente Reporte control de obligaciones-->
         <record id="eliterp_view_form_report_control_panel_wizard" model="ir.ui.view">
             <field name="name">eliterp_view_form_report_control_panel_wizard</field>
-            <field name="model">eliterp.report.control.panel.wizard</field>
+            <field name="model">eliterp.control.panel.report</field>
             <field name="arch" type="xml">
                 <form>
                     <group col="4">
@@ -28,6 +28,5 @@
                 </form>
             </field>
         </record>
-
     </data>
 </odoo>

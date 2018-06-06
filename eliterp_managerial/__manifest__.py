@@ -18,7 +18,7 @@
         'eliterp_hr',
         'account',
         'eliterp_start',
-        'report_xlsx'
+        # TODO: 'report_xlsx'
     ],
     'data': [
         'security/managerial_security.xml',

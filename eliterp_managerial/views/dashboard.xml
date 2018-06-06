@@ -84,7 +84,7 @@
 
         <record id="eliterp_action_report_control_panel" model="ir.actions.act_window">
             <field name="name">Reporte control de obligaciones</field>
-            <field name="res_model">eliterp.report.control.panel.wizard</field>
+            <field name="res_model">eliterp.control.panel.report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
