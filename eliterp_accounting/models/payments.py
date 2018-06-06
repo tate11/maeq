@@ -86,7 +86,12 @@ class AccountPayment(models.Model):
         Imprimir depósito/transferencia
         """
         self.ensure_one()
-        pass
+        if self.payment_type_customize == 'deposit':  # Deposito
+            return self.env.ref('eliterp_accounting.eliterp_action_report_account_payment').report_action(self)
+        else: # Transferencia
+            return self.env.ref('eliterp_accounting.eliterp_action_report_account_payment_tr').report_action(self)
+
+
 
     @api.multi
     def open_reason_cancel_payment(self):

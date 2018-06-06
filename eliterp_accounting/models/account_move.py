@@ -28,6 +28,14 @@ class ReasonMoveCancel(models.TransientModel):
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
+    @api.multi
+    def print_move(self):
+        """
+        Imprimimos
+        """
+        self.ensure_one()
+        return self.env.ref('eliterp_accounting.eliterp_action_report_account_move').report_action(self)
+
     @api.model
     def create(self, vals):
         if 'date' in vals:  # TODO

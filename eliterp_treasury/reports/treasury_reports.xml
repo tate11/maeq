@@ -46,7 +46,7 @@
                                         </td>
                                         <td>
                                             <span t-if="line.type_payment == 'bank'"
-                                                  t-esc="%s - %s % (line.bank_id.name, line.check-number)"/>
+                                                  t-esc="'%s - %s' % (line.bank_id.name, line.check-number)"/>
                                             <span t-if="line.type_payment == 'cash'">/</span>
                                             <span t-if="line.type_payment == 'transfer'"
                                                   t-esc="'%s' % line.bank_id.name"/>

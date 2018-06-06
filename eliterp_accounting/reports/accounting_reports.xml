@@ -1,6 +1,545 @@
 <?xml version="1.0" encoding="utf-8"?>
 <odoo>
     <data>
+        <!--Asientos contables-->
+        <template id="eliterp_report_account_move">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">TESO-002-COEG-V1</t>
+                    <t t-set="report_title">COMPROBANTE DE DIARIO</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="clearfix text-center">
+                                <h3>Diario:&amp;nbsp;
+                                    <strong>
+                                        <span t-field="doc.journal_id"/>
+                                    </strong>
+                                </h3>
+                            </div>
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4" t-if="doc.date">
+                                    <strong>Fecha pago:</strong>
+                                    <p t-field="doc.date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Referencia:</strong>
+                                    <p t-field="doc.ref"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Monto:</strong>
+                                    <p t-esc='"%.2f" % sum(line.debit for line in doc.line_ids)'/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Código cuenta</th>
+                                        <th class="text-center">Nombre cuenta o Concepto</th>
+                                        <th class="text-right">Debe</th>
+                                        <th class="text-right">Haber</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.line_ids" t-as="line">
+                                        <td>
+                                            <span t-field="line.account_id.code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.account_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_account_move"
+                model="account.move"
+                string="Asiento contable"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_accounting.eliterp_report_account_move"
+                file="eliterp_accounting.eliterp_report_account_move"
+                print_report_name="'Asiento contable - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Conciliaciones bancarias-->
+        <template id="eliterp_bank_conciliation">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">CONT-006-CBC-V1</t>
+                    <t t-set="report_title">CONCILIACIÓN BANCARIA</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Fecha Documento:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                            </div>
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Banco:</strong>
+                                    <p t-field="doc.bank_id"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Saldo Banco:</strong>
+                                    <p t-field="doc.amount_account"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Saldo Contable:</strong>
+                                    <p t-field="doc.total"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">FECHA</th>
+                                        <th class="text-center">TIPO DOCUMENTO</th>
+                                        <th class="text-center">REFERENCIA</th>
+                                        <th class="text-center">CONCEPTO</th>
+                                        <th class="text-right">Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.lines_banks_move" t-as="line">
+                                        <tr t-if="line.check==True">
+                                            <td>
+                                                <span t-field="line.date"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.journal.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.reference"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.concept"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.amount"/>
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td class="text-right" colspan="4">
+                                            <span>TOTAL</span>
+                                        </td>
+                                        <td class="text-right col-xs-1">
+                                            <span t-esc='"%.2f" % doc.amount_account'/>
+                                        </td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                            <h4 class="text-center">RESUMEN CONCILACIÓN</h4>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <th class="text-center col-xs-1">
+                                        <strong>Saldo Anterior</strong>
+                                    </th>
+                                    <t t-foreach="doc._get_summary()" t-as="line">
+                                        <th class="text-center col-xs-1" colspan="2">
+                                            <strong>
+                                                <span t-esc="line['name']"/>
+                                            </strong>
+                                        </th>
+                                    </t>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center" style="border: 1px solid black">
+                                            <p t-field="doc.beginning_balance"/>
+                                        </td>
+                                        <t t-foreach="doc._get_summary()" t-as="line">
+                                            <td class="text-center" style="border: 1px solid black">
+                                                <span t-esc="line['quantity']"/>
+                                            </td>
+                                            <td class="text-center" style="border: 1px solid black">
+                                                <span t-esc='"$%.2f" %line["amount"]'/>
+                                            </td>
+                                        </t>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            <h4 class="text-center">VALORES GIRADOS NO CONSIDERADOS EN ESTA CONCILACIÓN</h4>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">FECHA</th>
+                                        <th class="text-center">TIPO DOCUMENTO</th>
+                                        <th class="text-center">REFERENCIA</th>
+                                        <th class="text-center">CONCEPTO</th>
+                                        <th class="text-right">Monto</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.lines_banks_move" t-as="line">
+                                        <tr t-if="line.check==false">
+                                            <td>
+                                                <span t-field="line.date"/>
+                                            </td>
+                                            <td>
+                                                <span t-field="line.journal.name"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.reference"/>
+                                            </td>
+                                            <td class="text-center">
+                                                <span t-field="line.concept"/>
+                                            </td>
+                                            <td class="text-right">
+                                                <span t-field="line.amount"/>
+                                            </td>
+                                        </tr>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_eliterp_bank_conciliation"
+                model="eliterp.bank.conciliation"
+                string="Conciliaciones bancarias"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_accounting.eliterp_bank_conciliation"
+                file="eliterp_accounting.eliterp_bank_conciliation"
+                print_report_name="'Conciliaciones bancarias - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_portrait"
+        />
+        <!--Depósitos-->
+        <template id="eliterp_report_account_payment">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">CONT-001-DPB-V1</t>
+                    <t t-set="report_title">COMPROBANTE DE DEPOSITO</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-3">
+                                    <strong>Fecha documento:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Fecha deposito:</strong>
+                                    <p t-field="doc.payment_date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Tipo:</strong>
+                                    <p t-field="doc.deposit_type"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>Monto:</strong>
+                                    <p t-field="doc.amount"/>
+                                </div>
+                            </div>
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <strong>Banco:</strong>
+                                    <p t-field="doc.bank_cash"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Concepto:</strong>
+                                    <p t-field="doc.concept"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Código cuenta</th>
+                                        <th class="text-center">Nombre cuenta o Concepto</th>
+                                        <th class="text-right">Debe</th>
+                                        <th class="text-right">Haber</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.lines_deposits_checks" t-as="line">
+                                        <td>
+                                            <span t-field="line.account_id.code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.account_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_account_payment"
+                model="account.payment"
+                string="Depósito"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_accounting.eliterp_report_account_payment"
+                file="eliterp_accounting.eliterp_report_account_payment"
+                print_report_name="'Deposito - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Notas de crédito-->
+        <template id="eliterp_report_credit_notes">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">CONT-002-NCB-V1</t>
+                    <t t-set="report_title">COMPROBANTE NOTA DE CREDITO BANCARIA</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Fecha documento:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha depósito:</strong>
+                                    <p t-field="doc.date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Monto:</strong>
+                                    <p t-field="doc.amount"/>
+                                </div>
+                            </div>
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <strong>Banco:</strong>
+                                    <p t-field="doc.bank_id"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Concepto:</strong>
+                                    <p t-field="doc.concept"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Código cuenta</th>
+                                        <th class="text-center">Nombre cuenta o Concepto</th>
+                                        <th class="text-right">Debe</th>
+                                        <th class="text-right">Haber</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.move_id.line_ids" t-as="line">
+                                        <td>
+                                            <span t-field="line.account_id.code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.account_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_credit_note"
+                model="eliterp.credit.debit.notes"
+                string="Nota de crédito bancaria"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_accounting.eliterp_report_credit_notes"
+                file="eliterp_accounting.eliterp_report_credit_notes"
+                print_report_name="'Nota de crédito bancaria - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Notas de debito-->
+        <template id="eliterp_report_debit_notes">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">CONT-002-NCB-V1</t>
+                    <t t-set="report_title">COMPROBANTE NOTA DE DÉBITO BANCARIA</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Fecha documento:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha deposito:</strong>
+                                    <p t-field="doc.date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Monto:</strong>
+                                    <p t-field="doc.amount"/>
+                                </div>
+                            </div>
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <strong>Banco:</strong>
+                                    <p t-field="doc.bank_id"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Concepto:</strong>
+                                    <p t-field="doc.concept"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Código cuenta</th>
+                                        <th class="text-center">Nombre cuenta o Concepto</th>
+                                        <th class="text-right">Debe</th>
+                                        <th class="text-right">Haber</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.move_id.line_ids" t-as="line">
+                                        <td>
+                                            <span t-field="line.account_id.code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.account_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_debit_notes"
+                model="eliterp.credit.debit.notes"
+                string="Nota de débito"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_accounting.eliterp_report_debit_notes"
+                file="eliterp_accounting.eliterp_report_debit_notes"
+                print_report_name="'Nota de débito - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Transferencias-->
+        <template id="eliterp_report_account_payment_tr">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">CONT-004-TFB-V1</t>
+                    <t t-set="report_title">COMPROBANTE DE TRANSFERENCIA BANCARIA</t>
+                    <t t-set="flag">0</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-4">
+                                    <strong>Fecha documento:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha transferencia:</strong>
+                                    <p t-field="doc.payment_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Monto:</strong>
+                                    <p t-field="doc.amount_transfer"/>
+                                </div>
+                            </div>
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-6">
+                                    <strong>Banco:</strong>
+                                    <p t-field="doc.account_debit_id"/>
+                                </div>
+                                <div class="col-xs-6">
+                                    <strong>Concepto:</strong>
+                                    <p t-field="doc.concept"/>
+                                </div>
+                            </div>
+
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">Código cuenta</th>
+                                        <th class="text-center">Nombre cuenta o Concepto</th>
+                                        <th class="text-right">Debe</th>
+                                        <th class="text-right">Haber</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.move_id.line_ids" t-as="line">
+                                        <td>
+                                            <span t-field="line.account_id.code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.account_id.name"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.debit"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.credit"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_account_payment_tr"
+                model="account.payment"
+                string="Transferencias"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_accounting.eliterp_report_account_payment_tr"
+                file="eliterp_accounting.eliterp_report_account_payment_tr"
+                print_report_name="'Transferencias - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
         <!--Factura de proveedor-->
         <template id="eliterp_report_invoice_supplier">
             <t t-call="web.html_container">
@@ -20,26 +559,6 @@
                 report_type="qweb-pdf"
                 name="eliterp_accounting.eliterp_report_invoice_supplier"
                 file="eliterp_accounting.eliterp_report_invoice_supplier"
-        />
-        <!--Notas de crédito-->
-        <template id="report_credit_notes">
-            <t t-call="web.html_container">
-                <t t-foreach="docs" t-as="doc">
-                    <t t-call="eliterp_management.eliterp_register_layout_report">
-                        <div class="page">
-
-                        </div>
-                    </t>
-                </t>
-            </t>
-        </template>
-        <report
-                id="eliterp_action_report_credit_note"
-                model="eliterp.credit.debit.notes"
-                string="Nota de crédito bancaria"
-                report_type="qweb-pdf"
-                name="eliterp_accounting.eliterp_report_credit_note"
-                file="eliterp_accounting.eliterp_report_credit_note"
         />
     </data>
 </odoo>

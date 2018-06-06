@@ -85,7 +85,7 @@ class CreditDebitNotes(models.Model):
         if self.type == 'credit':  # Crédito
             return self.env.ref('eliterp_accounting.eliterp_action_report_credit_note').report_action(self)
         if self.type == 'debit':  # Débito
-            return self.env.ref('eliterp_accounting.eliterp_action_report_debit_note').report_action(self)
+            return self.env.ref('eliterp_accounting.eliterp_action_report_debit_notes').report_action(self)
 
     @api.one
     def confirm_note(self):
