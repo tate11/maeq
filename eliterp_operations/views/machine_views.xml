@@ -119,11 +119,13 @@
                             <h1>
                                 <field name="machines_brand_id"/>
                             </h1>
+                            <label for="machines_model_id" string="Modelo" class="oe_edit_only"/>
                             <h1>
                                 <field name="machines_model_id"
                                        domain="[('machines_brand_id', '=', machines_brand_id)]"/>
 
                             </h1>
+                            <label for="name" string="Código" class="oe_edit_only"/>
                             <h1>
                                 <field name="name" placeholder="p.e CAT001"/>
                             </h1>

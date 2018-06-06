@@ -6,6 +6,6 @@
                   name="Compras"
                   groups="purchase.group_purchase_manager,purchase.group_purchase_user"
                   web_icon="eliterp_purchases,static/description/icon.png"
-                  sequence="25"/>
+                  sequence="3"/>
     </data>
 </odoo>

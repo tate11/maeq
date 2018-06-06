@@ -261,7 +261,7 @@
                   name="Contabilidad"
                   groups="account.group_account_user,account.group_account_manager,account.group_account_invoice"
                   web_icon="eliterp_accounting,static/description/icon.png"
-                  sequence="6"/>
+                  sequence="7"/>
 
         <menuitem id="eliterp_menu_moves"
                   name="Movimientos"

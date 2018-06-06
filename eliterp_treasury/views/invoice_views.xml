@@ -17,7 +17,7 @@
                     <button name="add_credit_note"
                             string="Añadir nota de crédito"
                             type="object"
-                            attrs="{'invisible': ['|', ('type', '=', 'in_refund'), ('state', '!=', 'paid')]}"
+                            attrs="{'invisible': ['|', ('type', '=', 'in_refund'), ('state', '!=', 'open')]}"
                             class="oe_highlight"/>
                     <button name="add_programmed_payment"
                             type='object'

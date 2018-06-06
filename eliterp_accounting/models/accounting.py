@@ -4,7 +4,7 @@
 
 from odoo.exceptions import UserError
 from odoo import api, fields, models, _
-from datetime import date
+from datetime import date, datetime
 
 YEARS = [
     (2015, '2015'),
@@ -26,11 +26,20 @@ class LinesAccountPeriod(models.Model):
 
     _description = 'Líneas de Período contable'
 
+    @api.depends('closing_date')
+    @api.one
+    def _get_status(self):
+        """
+        Validamos si período está activo
+        """
+        self.active = datetime.strptime(self.closing_date, '%Y-%m-%d').date() > datetime.today().date()
+
     name = fields.Char('Nombre')
     month = fields.Char('Mes')
     code = fields.Integer('Código')
     start_date = fields.Date('Fecha inicio')
     closing_date = fields.Date('Fecha cierre')
+    active = fields.Boolean('Activo?', compute='_get_status')
     period_id = fields.Many2one('eliterp.account.period', 'Año contable')
 
 
@@ -38,7 +47,7 @@ class AccountPeriod(models.Model):
     _name = 'eliterp.account.period'
     _description = 'Período contable'
 
-    @api.one
+    @api.multi
     def load_months(self):
         """
         Generamos Líneas de período contable
@@ -46,7 +55,7 @@ class AccountPeriod(models.Model):
         """
         global_functions = self.env['eliterp.global.functions']
         if len(self.lines_period) >= 12:
-            raise UserError(_("No puede asignar más meses al Año Contable."))
+            raise UserError(_("No puede asignar más meses al año Contable."))
         list = []
         for x in range(1, 13):
             list.append([0, 0, {

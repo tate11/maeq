@@ -33,6 +33,23 @@ class LinesPayment(models.Model):
 
     _description = 'Líneas de cobro'
 
+    @api.constrains('amount')
+    def _check_amount(self):
+        """
+        Validamos monto
+        """
+        if self.amount <= 0:
+            raise ValidationError("Monto no puede ser menor o igual a 0.")
+
+    @api.one
+    @api.constrains('date_issue')
+    def _check_date(self):
+        """
+        Verificamos la fechas
+        """
+        if self.date_due < self.date_issue:
+            raise ValidationError('La fecha de vencimiento no puede ser menor a la de emisión.')
+
     @api.onchange('drawer')
     def _onchange_drawer(self):
         self.is_beneficiary = True
@@ -50,8 +67,8 @@ class LinesPayment(models.Model):
     amount = fields.Float('Monto')
     voucher_id = fields.Many2one('account.voucher', 'Cobro')
     check_type = fields.Selection([('current', 'Corriente'), ('to_date', 'A la fecha')], string='Tipo de cheque')
-    date_issue = fields.Date('Fecha de emisión')
-    date_due = fields.Date('Fecha vencimiento')
+    date_issue = fields.Date('Fecha de emisión', default=fields.Date.context_today)
+    date_due = fields.Date('Fecha vencimiento', default=fields.Date.context_today)
     is_beneficiary = fields.Boolean('Es beneficiario?', default=False)
     move_id = fields.Many2one('account.move', string='Asiento contable')
 
@@ -136,7 +153,6 @@ class AccountVoucher(models.Model):
             return self.env.ref('eliterp_treasury.eliterp_action_report_account_voucher_purchase').report_action(self)
         else:
             return self.env.ref('eliterp_treasury.eliterp_action_report_account_voucher_sale').report_action(self)
-
 
     @api.multi
     def open_voucher_cancel_reason(self):
@@ -558,6 +574,7 @@ class AccountVoucher(models.Model):
                 raise UserError(_("Necesita seleccionar al Proveedor."))
         else:
             if self.voucher_type == 'sale':
+                self.lines_invoice_sales.unlink()  # Limpiamos líneas anteriores
                 invoices_list = self.env['account.invoice'].search([
                     ('partner_id', '=', self.partner_id.id), ('state', '=', 'open')
                 ])
@@ -586,6 +603,9 @@ class AccountVoucher(models.Model):
             list_notes = []
             list_account = []
             if self.voucher_type == 'purchase':
+                self.lines_invoice_purchases.unlink()  # Limpiamos líneas anteriores
+                self.lines_account.unlink()
+                self.lines_note_credit.unlink()
                 if notes_list:
                     list_notes = []
                     for note in notes_list:
@@ -607,7 +627,9 @@ class AccountVoucher(models.Model):
 
     @api.onchange('partner_id', 'pay_now')
     def _onchange_partner_id(self):
-        # TODO
+        """
+        MM: TODO: Para que sirve esto?
+        """
         if self.pay_now == 'pay_now':
             liq_journal = self.env['account.journal'].search([('type', 'in', ('bank', 'cash'))], limit=1)
             self.account_id = liq_journal.default_debit_account_id \

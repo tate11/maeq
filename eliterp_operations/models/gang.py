@@ -18,7 +18,6 @@ class LinesEmployee(models.Model):
         return result
 
     employee_id = fields.Many2one('hr.employee', string='Empleado')
-    supervisor = fields.Boolean('Encargado?', default=False)
     gang_id = fields.Many2one('hr.employee', string='Empleado')
 
 

@@ -59,7 +59,7 @@
                                 type="object"
                                 class="oe_highlight"
                                 string="Imprimir conciliación"/>
-                        <!--
+                        <!--TODO: Si algún día deciden anular conciliación
                         <button name="discard_conciliation"
                                 type="object"
                                 states="posted"

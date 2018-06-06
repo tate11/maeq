@@ -39,6 +39,7 @@
                             <h1>
                                 <field name="prefix_id" options="{'no_create': True, 'no_open': True}"/>
                             </h1>
+                            <label for="name" string="No. Secuencial" class="oe_edit_only"/>
                             <h2>
                                 <field name="name" placeholder="p.e 001"/>
                             </h2>

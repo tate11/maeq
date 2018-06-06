@@ -15,16 +15,6 @@
                 </xpath>
             </field>
         </record>
-        <record id="eliterp_view_purchase_account_buttons" model="ir.ui.view">
-            <field name="name">eliterp_view_purchase_account_buttons</field>
-            <field name="model">res.partner</field>
-            <field name="inherit_id" ref="purchase.res_partner_view_purchase_account_buttons"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='supplier_invoice_count']" position="attributes"><!--Facturado a proveedor-->
-                   <attribute name="string">Facturado</attribute>
-                </xpath>
-            </field>
-        </record>
         <record id="eliterp_view_purchase_account_buttons_pending_balance" model="ir.ui.view">
             <field name="name">eliterp_view_purchase_account_buttons_pending_balance</field>
             <field name="model">res.partner</field>

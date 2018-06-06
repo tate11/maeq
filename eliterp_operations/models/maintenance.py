@@ -21,7 +21,7 @@ class MaintenanceMachines(models.Model):
     name = fields.Char('Nombre', default='Nuevo')
     date = fields.Date('Fecha', default=fields.Date.context_today, required=True)
     machine_id = fields.Many2one('eliterp.machine', string='Máquina', domain=[('state', '!=', 'in maintenance')], required=True)
-    responsable = fields.Selection([('internal', 'Interno'), ('external', 'Externo')], string='Tipo', default='internal')
+    responsable = fields.Selection([('internal', 'Interno'), ('external', 'Externo')], string='Tipo gestor', default='internal')
     type = fields.Selection([('preventive', 'Preventivo'), ('corrective', 'Correctivo')], string='Tipo de mantenimiento')
     employee_id = fields.Many2one('hr.employee', string='Responsable')
     customer_id = fields.Many2one('res.partner', string='Responsable', domain=[('supplier', '=', True)])

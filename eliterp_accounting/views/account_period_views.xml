@@ -26,11 +26,11 @@
                         </group>
                         <group string="Líneas de Período contable" col="1">
                             <field name="lines_period" nolabel="1">
-                                <tree decoration-muted="'closing_date', '&lt;', context_today().strftime('%Y-%m-%d')"
-                                      create="false">
+                                <tree decoration-muted="active == False" create="false">
                                     <field name="month"/>
                                     <field name="start_date"/>
                                     <field name="closing_date"/>
+                                    <field name="active"/>
                                     <field name="code" invisible="1"/>
                                 </tree>
                             </field>

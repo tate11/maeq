@@ -129,20 +129,21 @@
                                 <field name="type_payment"
                                        required="1"/>
                                 <field name="check_type"
-                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                       attrs="{'readonly': [('type_payment', '!=', 'bank')], 'required': [('type_payment', '==', 'bank')]}"/>
                                 <field name="date_issue"
-                                       attrs="{'readonly': [('check_type', '==', 'current')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                       required="1"/>
                                 <field name="date_due"
-                                       attrs="{'readonly': [('check_type', '==', 'current')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                       required="1"/>
                                 <field name="bank_id"
                                        domain="[('type_use', '=', 'charges')]"
-                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '!=', 'cash')]}"/>
                                 <field name="account_number"
-                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                       attrs="{'readonly': [('type_payment', '!=', 'bank')], 'required': [('type_payment', '==', 'bank')]}"/>
                                 <field name="check_number"
-                                       attrs="{'readonly': [('type_payment', '==', 'cash')], 'required': [('type_payment', '==', 'bank')]}"/>
-                                <field name="drawer" attrs="{'readonly': [('type_payment', '==', 'cash')]}"/>
-                                <field name="account_id" attrs="{'required': [('type_payment', '==', 'bank')]}"/>
+                                       attrs="{'readonly': [('type_payment', '!=', 'bank')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="drawer"
+                                       attrs="{'readonly': [('type_payment', '!=', 'bank')], 'required': [('type_payment', '==', 'bank')]}"/>
+                                <field name="account_id" required="1"/>
                                 <field name="amount" sum="Total"/>
                                 <field name="move_id" string="Asiento contable" readonly="1"/>
                             </tree>

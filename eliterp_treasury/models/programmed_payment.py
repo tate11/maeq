@@ -121,6 +121,8 @@ class AccountVoucher(models.Model):
         values['account_id'] = invoice.partner_id.property_account_payable_id.id
         if bank:
             values['bank_id'] = bank.id
+        else:
+            values['type_egress'] = 'cash'
         values['amount_cancel'] = invoice.amount_programmed
         values['concept'] = 'PAGO DE FACTURA %s' % invoice.number
         # Líneas de cuentas

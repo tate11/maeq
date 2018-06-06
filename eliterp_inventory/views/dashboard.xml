@@ -14,7 +14,7 @@
                   id="stock.menu_stock_root"
                   groups="stock.group_stock_manager,stock.group_stock_user"
                   web_icon="eliterp_inventory,static/description/icon.png"
-                  sequence="30"/>
+                  sequence="4"/>
         <menuitem id="eliterp_menu_product_code"
                   name="Código de productos"
                   action="eliterp_action_product_code"

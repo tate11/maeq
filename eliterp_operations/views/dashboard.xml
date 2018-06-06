@@ -148,7 +148,7 @@
                   id="eliterp_menu_operations"
                   groups="eliterp_operations.eliterp_group_operations_user,eliterp_operations.eliterp_group_operations_manager"
                   web_icon="eliterp_operations,static/description/icon.png"
-                  sequence="300"/>
+                  sequence="5"/>
         <menuitem id="eliterp_menu_operations_summary"
                   name="Operaciones"
                   parent="eliterp_menu_operations"

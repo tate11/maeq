@@ -15,6 +15,7 @@
     ],
     'data': [
         'views/product_views.xml',
+        'views/stock_picking_views.xml',
         'views/dashboard.xml'
     ],
     'init_xml': [],

@@ -92,7 +92,7 @@
             <field name="code">1.1.2.1</field>
             <field name="reconcile" eval="True"/>
             <field name="account_type">view</field>
-            <field ref="eliterp_account_type_other" name="user_type_id"/>
+            <field ref="account.data_account_type_receivable" name="user_type_id"/><!--A cobrar-->
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
         <record model="account.account.template" id="eliterp_account_11211">
@@ -1449,7 +1449,7 @@
             <field name="code">2.2.1.1</field>
             <field name="reconcile" eval="True"/>
             <field name="account_type">movement</field>
-            <field ref="eliterp_account_type_other" name="user_type_id"/>
+            <field ref="account.data_account_type_payable" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
         <record model="account.account.template" id="eliterp_account_2212">
