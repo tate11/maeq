@@ -4,4 +4,5 @@
 
 from . import product
 from . import warehouse
+from . import stock_picking
 

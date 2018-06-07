@@ -14,9 +14,10 @@
         'stock'
     ],
     'data': [
+        'reports/inventory_reports.xml',
         'views/product_views.xml',
         'views/stock_picking_views.xml',
-        'views/dashboard.xml'
+        'views/dashboard.xml',
     ],
     'init_xml': [],
     'update_xml': [],

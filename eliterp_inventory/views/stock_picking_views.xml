@@ -17,6 +17,17 @@
             <field name='model'>stock.picking</field>
             <field name='inherit_id' ref='stock.view_picking_form'/>
             <field name='arch' type='xml'>
+                <button name="%(stock.action_report_delivery)d" position="replace">
+                    <button name="print_picking"
+                            string="Imprimir"
+                            type="object"
+                            groups="stock.group_stock_manager,stock.group_stock_user"
+                            class="oe_highlight">
+                    </button>
+                </button>
+                <xpath expr="//button[@name='do_print_picking']" position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="string">Proveedor/Cliente</attribute>
                 </xpath>
