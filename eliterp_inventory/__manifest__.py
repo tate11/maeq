@@ -11,6 +11,7 @@
     'license': "LGPL-3",
     'version': "1.0",
     'depends': [
+        'eliterp_management',
         'stock'
     ],
     'data': [
