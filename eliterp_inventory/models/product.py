@@ -72,36 +72,40 @@ class ProductTemplate(models.Model):
     @api.model
     def create(self, vals):
         category = self.env['product.category'].browse(vals['categ_id']).name
-        line = self.env['eliterp.line.product'].browse(vals['line_product_id']).name
-        subline = self.env['eliterp.sub.line.product'].browse(vals['sub_line_product_id']).name
-        name_code = (category[:3]).upper() + "-" + (line[:3]).upper() + "-" + (subline[:3]).upper()
-        product_code = self.env['eliterp.product.code'].search([('name', '=', name_code)])
-        if len(product_code._ids) != 0:  # Si existe código se actualiza siguiente número
-            sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + "." + (subline[:3]).upper()
-            object_sequence = self.env['ir.sequence']
-            sequence = object_sequence.next_by_code(sequence_code)
-            vals.update({
-                'default_code': sequence,
-                'product_code_id': product_code.id
-            })
-        else:
-            sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + "." + (subline[:3]).upper()
-            new_sequence = self.env['ir.sequence'].create({
-                'name': "Código de producto " + name_code,
-                'code': sequence_code,
-                'prefix': name_code,
-                'padding': 5
-            })
-            new_code = self.env['eliterp.product.code'].create({
-                'name': name_code,
-                'sequence_id': new_sequence.id
-            })
-            object_sequence = self.env['ir.sequence']
-            sequence = object_sequence.next_by_code(sequence_code)
-            vals.update({
-                'default_code': sequence,
-                'product_code_id': new_code.id
-            })
+        line, subline = False, False
+        if vals.get('line_product_id'):
+            line = self.env['eliterp.line.product'].browse(vals['line_product_id']).name
+        if vals.get('sub_line_product_id'):
+            subline = self.env['eliterp.sub.line.product'].browse(vals['sub_line_product_id']).name
+        if line and subline:  # Si existe las dos se crea, esto por motivos de data DEMO
+            name_code = (category[:3]).upper() + "-" + (line[:3]).upper() + "-" + (subline[:3]).upper()
+            product_code = self.env['eliterp.product.code'].search([('name', '=', name_code)])
+            if len(product_code._ids) != 0:  # Si existe código se actualiza siguiente número
+                sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + "." + (subline[:3]).upper()
+                object_sequence = self.env['ir.sequence']
+                sequence = object_sequence.next_by_code(sequence_code)
+                vals.update({
+                    'default_code': sequence,
+                    'product_code_id': product_code.id
+                })
+            else:
+                sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + "." + (subline[:3]).upper()
+                new_sequence = self.env['ir.sequence'].create({
+                    'name': "Código de producto " + name_code,
+                    'code': sequence_code,
+                    'prefix': name_code,
+                    'padding': 5
+                })
+                new_code = self.env['eliterp.product.code'].create({
+                    'name': name_code,
+                    'sequence_id': new_sequence.id
+                })
+                object_sequence = self.env['ir.sequence']
+                sequence = object_sequence.next_by_code(sequence_code)
+                vals.update({
+                    'default_code': sequence,
+                    'product_code_id': new_code.id
+                })
         return super(ProductTemplate, self).create(vals)
 
     line_product_id = fields.Many2one('eliterp.line.product', 'Línea', required=True)
