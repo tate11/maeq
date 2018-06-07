@@ -38,8 +38,7 @@
                                 </group>
                                 <group name="options" string="Opciones">
                                     <field name="color_name"/>
-                                    <field name="is_vacations" attrs="{'invisible': [('show','=', True)]}"/>
-                                    <field name="show" invisible="1"/>
+                                    <field name="is_vacations"/>
                                     <field name="company_id" groups="base.group_multi_company"/>
                                 </group>
                             </group>
