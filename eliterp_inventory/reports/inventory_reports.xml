@@ -1,0 +1,213 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Operaciones de existencias (Transferencia)-->
+        <template id="eliterp_report_stock_picking_trans">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">INV-001-INT-V1</t>
+                    <t t-set="report_title">TRANSFERENCIA ENTRE BODEGAS</t>
+                    <t t-set="flag">2</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-3">
+                                    <strong>FECHA DOCUMENTO:</strong>
+                                    <p t-field="doc.scheduled_date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>BODEGA ORIGEN:</strong>
+                                    <p t-field="doc.location_id"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>BODEGA DESTINO:</strong>
+                                    <p t-field="doc.location_dest_id"/>
+                                </div>
+                                <div class="col-xs-3" t-if="doc.origin">
+                                    <strong>ORIGEN:</strong>
+                                    <p t-field="doc.origin"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center col-xs-2">Código</th>
+                                        <th class="text-center col-xs-6">Producto</th>
+                                        <th class="text-center col-xs-2">Cantidad</th>
+                                        <th class="text-center col-xs-2">U. Medida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.move_lines" t-as="line">
+                                        <td>
+                                            <span t-field="line.product_id.default_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.quantity_done"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_uom"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_stock_picking_trans"
+                model="stock.picking"
+                string="Transferencia"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_inventory.eliterp_report_stock_picking_trans"
+                file="eliterp_inventory.eliterp_report_stock_picking_trans"
+                print_report_name="'Transferencia - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_portrait"
+        />
+        <!--Operaciones de existencias (EGRESO)-->
+        <template id="eliterp_report_stock_picking_egre">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">INV-002-EGR-V1</t>
+                    <t t-set="report_title">EGRESO BODEGA</t>
+                    <t t-set="flag">2</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-3">
+                                    <strong>FECHA DOCUMENTO:</strong>
+                                    <p t-field="doc.scheduled_date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>BODEGA ORIGEN:</strong>
+                                    <p t-field="doc.location_id"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>BODEGA DESTINO:</strong>
+                                    <p t-field="doc.location_dest_id"/>
+                                </div>
+                                <div class="col-xs-3" t-if="doc.origin">
+                                    <strong>ORIGEN:</strong>
+                                    <p t-field="doc.origin"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center col-xs-2">Código</th>
+                                        <th class="text-center col-xs-6">Producto</th>
+                                        <th class="text-center col-xs-2">Cantidad</th>
+                                        <th class="text-center col-xs-2">U. Medida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.move_lines" t-as="line">
+                                        <td>
+                                            <span t-field="line.product_id.default_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.quantity_done"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_uom"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_stock_picking_egre"
+                model="stock.picking"
+                string="Egreso"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_inventory.eliterp_report_stock_picking_egre"
+                file="eliterp_inventory.eliterp_report_stock_picking_egre"
+                print_report_name="'Egreso - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_portrait"
+        />
+        <!--Operaciones de existencias (INGRESO)-->
+        <template id="eliterp_report_stock_picking_ingr">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">INV-003-ING-V1</t>
+                    <t t-set="report_title">INGRESO BODEGA</t>
+                    <t t-set="flag">2</t>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row mt32 mb32">
+                                <div class="col-xs-3">
+                                    <strong>FECHA DOCUMENTO:</strong>
+                                    <p t-field="doc.scheduled_date"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>BODEGA ORIGEN:</strong>
+                                    <p t-field="doc.location_id"/>
+                                </div>
+                                <div class="col-xs-3">
+                                    <strong>BODEGA DESTINO:</strong>
+                                    <p t-field="doc.location_dest_id"/>
+                                </div>
+                                <div class="col-xs-3" t-if="doc.origin">
+                                    <strong>ORIGEN:</strong>
+                                    <p t-field="doc.origin"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center col-xs-2">Código</th>
+                                        <th class="text-center col-xs-6">Producto</th>
+                                        <th class="text-center col-xs-2">Cantidad</th>
+                                        <th class="text-center col-xs-2">U. Medida</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr t-foreach="doc.move_lines" t-as="line">
+                                        <td>
+                                            <span t-field="line.product_id.default_code"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_id"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.quantity_done"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.product_uom"/>
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_stock_picking_ingr"
+                model="stock.picking"
+                string="Ingreso"
+                report_type="qweb-pdf"
+                menu="False"
+                name="eliterp_inventory.eliterp_report_stock_picking_ingr"
+                file="eliterp_inventory.eliterp_report_stock_picking_ingr"
+                print_report_name="'Ingreso - %s' % (object.name or '/')"
+                paperformat="eliterp_management.eliterp_paperformat_a4_portrait"
+        />
+    </data>
+</odoo>
