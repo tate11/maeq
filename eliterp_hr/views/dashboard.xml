@@ -32,13 +32,13 @@
         </record>
         <!--Acciones-->
         <record id="eliterp_action_attendance_record" model="ir.actions.act_window">
-            <field name="name">Registro de asistencias</field>
+            <field name="name">Registro diario de asistencias</field>
             <field name="res_model">eliterp.attendance</field>
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Clic para crear nuevo registro de asistencias.
+                    Clic para crear nuevo registro diario de asistencias.
                 </p>
             </field>
         </record>
@@ -182,18 +182,12 @@
                   name="Contratos"
                   parent="eliterp_menu_hr_employees"
                   action='hr_contract.action_hr_contract'
-                  sequence="1"/>
-        <menuitem id="eliterp_menu_hr_employees_departments"
-                  name="Departamentos"
-                  parent="eliterp_menu_hr_employees"
-                  action='hr.open_module_tree_department'
                   sequence="2"/>
         <menuitem id="eliterp_menu_hr_employees_register"
-                  name="Empleados"
+                  name="Registro"
                   parent="eliterp_menu_hr_employees"
                   action='hr.open_view_employee_list_my'
-                  sequence="3"/>
-
+                  sequence="1"/>
         <menuitem id="eliterp_menu_hr_employees_news"
                   name="Novedades de empleados"
                   parent="eliterp_menu_hr"
@@ -208,7 +202,7 @@
                   action='hr_attendance.hr_attendance_action'
                   sequence='1'/>
         <menuitem id="eliterp_menu_hr_attendance_record"
-                  name="Registro de asistencias"
+                  name="Registro diario de asistencias"
                   parent="eliterp_menu_hr_attendances"
                   action='eliterp_action_attendance_record'
                   sequence='2'/>
@@ -253,17 +247,20 @@
                   parent="eliterp_menu_hr"
                   groups="hr.group_hr_manager"
                   sequence='4'/>
+        <menuitem id="eliterp_menu_hr_departments"
+                  name="Informe por departamentos"
+                  parent="eliterp_menu_hr_reports"
+                  action='hr.open_module_tree_department'
+                  sequence="1"/>
         <menuitem id="eliterp_menu_hr_employee_report"
                   name="Reporte de empleados"
                   action="eliterp_action_employee_report"
                   parent="eliterp_menu_hr_reports"
-                  sequence="1"/>
-
+                  sequence="2"/>
         <menuitem id="eliterp_menu_hr_assistance_news"
                   name="Asistencias y novedades"
                   parent="eliterp_menu_hr_reports"
-                  sequence='2'/>
-        <!--TODO: No se sabe el nuevo formato-->
+                  sequence='3'/>
         <menuitem id="eliterp_menu_hr_attendance_report"
                   name="Reporte de asistencias"
                   action="eliterp_action_attendance_report"

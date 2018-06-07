@@ -38,7 +38,8 @@
                                 </group>
                                 <group name="options" string="Opciones">
                                     <field name="color_name"/>
-                                    <field name="is_vacations"/>
+                                    <field name="is_vacations" attrs="{'invisible': [('show','=', True)]}"/>
+                                    <field name="show" invisible="1"/>
                                     <field name="company_id" groups="base.group_multi_company"/>
                                 </group>
                             </group>
@@ -197,7 +198,7 @@
                                            attrs="{'readonly':[('state', '=','validate')]}"
                                            nolabel="1" readonly="0">
                                         <tree decoration-success="vacations_generated==vacations_taken"
-                                                create="false" edit="false">
+                                              create="false" edit="false">
                                             <field name="employee" invisible="1"/>
                                             <field name="period"/>
                                             <field name="vacations_generated"/>

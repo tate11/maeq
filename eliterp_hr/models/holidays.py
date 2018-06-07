@@ -2,28 +2,13 @@
 # Copyright 2018 Elitumdevelop S.A, Ing. Mario Rangel
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from datetime import datetime
+from datetime import datetime, timedelta
 from odoo import api, fields, models
 from odoo.exceptions import ValidationError
 
 
 class HolidaysType(models.Model):
     _inherit = 'hr.holidays.status'
-
-    @api.model
-    def create(self, vals):
-        """
-        TODO: Verificamos qué solo uno sea para vacaciones
-        """
-        if vals.get('is_vacations'):
-            if vals.get('is_vacations'):
-                status_vacations = self.env['hr.holidays.status'].search([
-                    ('is_vacations', '=', 'True')
-                ], limit=1)
-                if status_vacations:
-                    raise ValidationError("Soló un tipo de ausencia puede ser para vacaciones.")
-        status = super(HolidaysType, self).create(vals)
-        return status
 
     description = fields.Char('Descripción')
     is_vacations = fields.Boolean('Es vacaciones?', default=False, help="Campo qué sirve para mostrar líneas de "
@@ -93,6 +78,15 @@ class Employee(models.Model):
 
 class Holidays(models.Model):
     _inherit = 'hr.holidays'
+
+    def _get_number_of_days(self, date_from, date_to, employee_id):
+        """
+        MM: Cambiamos para qué genere días por fechas, y no por horas
+        """
+        days = 0
+        start_date = (fields.Datetime.from_string(date_from) - timedelta(hours=5)).date()
+        end_date = (fields.Datetime.from_string(date_to) - timedelta(hours=5)).date()
+        return int((end_date - start_date).days) + 1
 
     @api.model
     def create(self, vals):

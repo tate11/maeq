@@ -48,6 +48,7 @@
                         type="object"/>
                 <button name="duplicate"
                         string="Duplicar rol"
+                        confirm="Desea continuar con  la duplicación del rol?"
                         states="closed"
                         groups="hr.group_hr_manager"
                         type="object"/>
