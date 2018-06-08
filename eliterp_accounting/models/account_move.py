@@ -38,7 +38,7 @@ class AccountMove(models.Model):
 
     @api.model
     def create(self, vals):
-        if 'date' in vals:  # TODO
+        if 'date' in vals:
             self.env['eliterp.global.functions'].valid_period(vals['date'])  # Validar Período contable sea correcto
         res = super(AccountMove, self).create(vals)
         return res
@@ -51,7 +51,7 @@ class AccountMove(models.Model):
         """
         for line in self.line_ids:
             if line.full_reconcile_id:
-                raise UserError("Hay Asientos conciliados, consulte con el Departamento contable.")
+                raise UserError("Hay asientos conciliados, consulte con el Departamento Contable.")
         return {
             'name': "Explique la razón",
             'view_mode': 'form',

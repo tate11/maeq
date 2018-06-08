@@ -63,7 +63,7 @@ class AccountSmallBoxLine(models.Model):
         Validamos qué las líneas sea mayor a 0
         """
         if self.amount <= 0:
-            raise ValidationError(_("Debe eliminar las líneas de cuentas con monto igual a 0."))
+            raise ValidationError("Debe eliminar las líneas de cuentas con monto igual a 0.")
 
     account_id = fields.Many2one('account.account', string="Cuenta Contable",
                                  domain=[('account_type', '=', 'movement')], required=True)
@@ -176,7 +176,7 @@ class VoucherSmallBox(models.Model):
         :return: object
         """
         if not self.env['eliterp.replacement.small.box'].search([('custodian_id', '=', vals['custodian_id'])]):
-            raise ValidationError(_("Debe aperturar caja chica del custodio."))
+            raise ValidationError("Debe aperturar caja chica del custodio.")
         res = super(VoucherSmallBox, self).create(vals)
         return res
 

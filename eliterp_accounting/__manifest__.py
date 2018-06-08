@@ -26,7 +26,6 @@
         'data/taxs.xml',
         'data/account_chart_template.yml',
         'data/sequences.xml',
-        'security/accounting_security.xml',
         'security/ir.model.access.csv',
         'data/eliterp.tax.support.csv',
         'data/eliterp.way.pay.csv',

@@ -103,7 +103,7 @@ class AccountAccount(models.Model):
 class AccountCommonReport(models.TransientModel):
     _inherit = "account.common.report"
 
-    # TODO: Campo modificado
+    # CM
     target_move = fields.Selection([('posted', 'All Posted Entries'),
                                     ('all', 'All Entries'),
                                     ], string='Target Moves', required=True, default='all')
@@ -114,7 +114,7 @@ class WebPlanner(models.Model):
 
     def _prepare_planner_account_data(self):
         """
-        TODO: Método modificado
+        MM
         :return: dict
         """
         values = {

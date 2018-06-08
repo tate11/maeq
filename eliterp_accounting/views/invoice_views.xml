@@ -72,6 +72,7 @@
                     <field name="authorization" invisible="1"/>
                     <field name="reference" string="No. Factura" invisible="1"/>
                     <field name="invoice_number" attrs="{'invisible':[('sri_authorization_id', '=', False)]}"/>
+                    <field name="period"/>
                 </xpath>
                 <xpath expr="//field[@name='amount_untaxed']" position="before"><!--Base imponible-->
                     <field name="base_zero_iva" widget="monetary"/>

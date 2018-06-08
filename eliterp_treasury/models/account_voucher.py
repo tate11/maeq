@@ -7,7 +7,6 @@ from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
 
 
-# TODO: Para que sirve
 class BalanceVoucherPayment(models.Model):
     _name = 'eliterp.balance.voucher.payment'
     _description = 'Saldo en cobro'
@@ -116,7 +115,7 @@ class LinesAccount(models.Model):
     voucher_id = fields.Many2one('account.voucher', string='Comprobante')
 
 
-class VoucherCancelReason(models.Model):
+class VoucherCancelReason(models.TransientModel):
     _name = 'eliterp.voucher.cancel.reason'
 
     _description = 'Razón para cancelar recibo'
@@ -278,14 +277,14 @@ class AccountVoucher(models.Model):
                 account = self.account_id
             for line in self.lines_invoice_purchases:
                 if line.amount_payable == 0.00:
-                    raise ValidationError(_("Debe eliminar las líneas def acturas con monto a pagar igual a 0"))
+                    raise ValidationError("Debe eliminar las líneas def acturas con monto a pagar igual a 0")
             if self.receipt_for == 'supplier':  # Soló para proveedores se realiza está validación
                 if round((sum(line.amount_payable for line in self.lines_invoice_purchases)), 2) != round(((
                         self.lines_account.filtered(
                             lambda
                                     x: x.account_id == account))).amount,
                                                                                                           2):
-                    raise ValidationError(_("Revise los montos de las líneas de cuenta"))
+                    raise ValidationError("Revise los montos de las líneas de cuenta.")
             new_name, move_name, check = self._get_names(self.type_egress, self.bank_id)
             if self.type_egress == 'bank':  # Soló con cheques generamos el consecutivo
                 self.env['eliterp.checks'].create({
@@ -513,9 +512,9 @@ class AccountVoucher(models.Model):
         # Cargar montos de comprobante de ingreso
         if self.voucher_type == 'sale':
             if not self.lines_invoice_sales:
-                raise UserError(_("Necesita cargar líneas de factura"))
+                raise UserError("Necesita cargar líneas de factura")
             if not self.lines_payment:
-                raise UserError(_("No tiene ninguna líneas de tipo de pago"))
+                raise UserError("No tiene ninguna líneas de tipo de pago")
             else:
                 total = 0.00
                 for payment in self.lines_payment:
@@ -569,9 +568,9 @@ class AccountVoucher(models.Model):
         """
         if not self.partner_id:
             if self.voucher_type == 'sale':
-                raise UserError(_("Necesita seleccionar al Cliente."))
+                raise UserError("Necesita seleccionar al Cliente.")
             else:
-                raise UserError(_("Necesita seleccionar al Proveedor."))
+                raise UserError("Necesita seleccionar al Proveedor.")
         else:
             if self.voucher_type == 'sale':
                 self.lines_invoice_sales.unlink()  # Limpiamos líneas anteriores

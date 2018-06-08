@@ -10,7 +10,7 @@
                     <t t-set="flag">0</t><!--Sin RECIBÍ CONFORME en footer-->
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4" t-if="doc.date">
                                     <strong>Fecha emisión:</strong>
                                     <p t-field="doc.date"/>
@@ -24,7 +24,7 @@
                                     <p t-esc='"%.2f" % sum(line.amount for line in doc.lines_payment)'/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-12">
                                     <strong>Concepto:</strong>
                                     <p t-field="doc.concept"/>
@@ -85,7 +85,7 @@
                     <t t-set="flag">1</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-3" t-if="doc.date">
                                     <strong>Fecha emisión:</strong>
                                     <p t-field="doc.date"/>
@@ -104,7 +104,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-3" t-if="doc.amount_cancel">
                                     <strong>Monto:</strong>
                                     <p t-esc='"%.2f" %doc.amount_cancel'/>
@@ -174,7 +174,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Fecha documento:</strong>
                                     <p t-field="doc.date"/>
@@ -188,7 +188,7 @@
                                     <p t-esc='"%.2f" %doc.amount_allocated'/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Período:</strong>
                                     <t t-set="period" t-value="doc._get_period(doc.lines_voucher)"/>
@@ -296,7 +296,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-2">
                                     <strong>Fecha documento:</strong>
                                     <p t-field="doc.date"/>
@@ -354,7 +354,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-3" t-if="doc.application_date">
                                     <strong>Fecha de solicitud:</strong>
                                     <p t-field="doc.application_date"/>
@@ -373,7 +373,7 @@
                                 </div>
                             </div>
 
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-3" t-if="doc.destination">
                                     <strong>Destino:</strong>
                                     <p t-field="doc.destination"/>
@@ -447,7 +447,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Fecha de documento:</strong>
                                     <p t-field="doc.application_date"/>

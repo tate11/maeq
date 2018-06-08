@@ -4,7 +4,7 @@
         <!--Aplicación-->
         <record model="ir.module.category" id="eliterp_category_operations">
             <field name="name">Operaciones</field>
-            <field name="description">Le ayuda a manejar as operaciones dentro .
+            <field name="description">Le ayuda a manejar as operaciones dentro de MAEQ.
             </field>
             <field name="sequence">72</field>
         </record>

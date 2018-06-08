@@ -76,7 +76,7 @@ class AccountPayment(models.Model):
     @api.onchange('amount', 'currency_id')
     def _onchange_amount(self):
         """
-        MM: TODO, me sale error en moneda
+        MM: Lo cambiamos porqué sale error en moneda
         """
         return
 
@@ -86,7 +86,7 @@ class AccountPayment(models.Model):
         Imprimir depósito/transferencia
         """
         self.ensure_one()
-        if self.payment_type_customize == 'deposit':  # Deposito
+        if self.payment_type_customize == 'deposit':  # Depósito
             return self.env.ref('eliterp_accounting.eliterp_action_report_account_payment').report_action(self)
         else: # Transferencia
             return self.env.ref('eliterp_accounting.eliterp_action_report_account_payment_tr').report_action(self)
@@ -118,7 +118,7 @@ class AccountPayment(models.Model):
         self.env['eliterp.global.functions'].valid_period(
             vals['payment_date'])  # Validamos período contable sea el correcto
         res = super(AccountPayment, self).create(vals)
-        res.name = ""
+        res.name = "/"
         return res
 
     @api.one
@@ -294,7 +294,7 @@ class AccountPayment(models.Model):
                                  'date_due': check.check_date}])
         return self.update({'lines_deposits_checks': lines})
 
-    # Campo modificado
+    # CM
     state = fields.Selection([
         ('draft', 'Draft'),
         ('posted', 'Contabilizado'),
@@ -310,7 +310,7 @@ class AccountPayment(models.Model):
         ('payment', 'Pago'),
         ('transfer', 'Transferencia')
     ])
-    # Campo modificado
+    # CM
     journal_id = fields.Many2one('account.journal', 'Diario',
                                  required=True, readonly=True, states={'draft': [('readonly', False)]},
                                  default=_default_journal, domain=None)

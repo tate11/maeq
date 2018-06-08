@@ -36,7 +36,7 @@ class ResPartner(models.Model):
     pending_balance = fields.Float(compute='_purchase_invoice_count', string='Saldo')
     payment_conditions = fields.Selection([('cash', 'Contado'), ('credit', 'Crédito')], string='Condición de pago')
     way_to_pay = fields.Selection([('transfer', 'Transferencia'), ('check', 'Cheque'), ('cash', 'Efectivo')],
-                                  string='Forma de pago')  # TODO: Para que sirve?
+                                  string='Forma de pago')
     property_account_payable_id = fields.Many2one('account.account',
                                                   string='Cuenta a pagar',
                                                   domain=[('account_type', '=', 'movement')])

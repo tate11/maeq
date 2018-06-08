@@ -326,7 +326,7 @@ class Withhold(models.Model):
                 authorisation = self.env.user.company_id._get_authorisation(
                     'retention_in_invoice')  # TODO revisar si es la mejor opción
                 if not authorisation:
-                    raise UserError(_("No hay Autorización del SRI para Retención en compra."))
+                    raise UserError("No hay Autorización del SRI para Retención en compra.")
                 else:
                     values.update({'withhold_number': authorisation[0].sequence_id.next_by_id()})
             if 'is_sequential' in values:  # Consecutivo con código de procesos internos
@@ -378,8 +378,8 @@ class Withhold(models.Model):
         Evitamos duplicar el registro, no se puede por motivos qué se liga la Factura a la misma
         :param default:
         """
-        raise UserError(_("No se puede duplicar una retención, tiene qué crearla con"
-                          " relación a la Factura."))
+        raise UserError("No se puede duplicar una retención, tiene qué crearla con"
+                          " relación a la Factura.")
 
     @api.multi
     def unlink(self):
@@ -389,7 +389,7 @@ class Withhold(models.Model):
         """
         for withhold in self:
             if withhold.state == 'confirm':
-                raise UserError(_("No se puede eliminar una retención en estado confirmada."))
+                raise UserError("No se puede eliminar una retención en estado confirmada.")
             else:
                 # TODO: Falta eliminar las líneas de impuestos de la retención
                 withhold.invoice_id.have_withhold = False
