@@ -19,15 +19,15 @@ class GlobalFunctions(models.TransientModel):
         date = datetime.strptime(date, "%Y-%m-%d")
         year_accounting = self.env['eliterp.account.period'].search([('year_accounting', '=', date.year)])
         if not year_accounting:
-            raise UserError(_("No hay ningún Período contable creado en el sistema."))
+            raise UserError("No hay ningún Período contable creado en el sistema.")
         period_id = year_accounting.lines_period.filtered(lambda x: x.code == date.month)
         if not period_id:
-            raise UserError(_("No hay ninguna Línea de Período contable creada."))
+            raise UserError("No hay ninguna Línea de Período contable creada.")
         current_date = fields.Date.today()
         if datetime.strptime(current_date, "%Y-%m-%d") < datetime.strptime(period_id.start_date, "%Y-%m-%d"):
-            raise UserError(_("Error", "La fecha del documento está fuera del rango del Período contable."))
+            raise UserError("La fecha del documento está fuera del rango del Período contable.")
         if datetime.strptime(current_date, "%Y-%m-%d") > datetime.strptime(period_id.closing_date, "%Y-%m-%d"):
-            raise UserError(_("El Período contable está cerrado, comuníquese con el Departamento de Contabilidad."))
+            raise UserError("El Período contable está cerrado, comuníquese con el Departamento de Contabilidad.")
 
     @staticmethod
     def _get_month_name(month):

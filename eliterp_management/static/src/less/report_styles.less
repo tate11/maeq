@@ -1,10 +1,10 @@
 .o_boxed_footer, .o_boxed_header, .o_report_layout_boxed {
     font-family: 'Lato';
-    color: @gray;
     font-size: 12px;
 }
 .o_boxed_header {
-    color: black;
+    text-transform: uppercase;
+    color: @gray;
     border-bottom: 1px solid #F78F1E;
     img {
         max-height: 100px;
@@ -12,13 +12,13 @@
     h4 {
         color: @o-we-color-text-normal;
         font-weight: 700;
-        text-transform: uppercase;
     }
 }
-/*TODO: Revisar*/
-.eliterp_information {
-    border-top: 3px solid #F78F1E;
+/*División en footer*/
+hr.divider {
+
 }
+
 .o_boxed_footer {
     border-top: none; /*Lo hacemos para eliminar el borde del footer*/
     .eliterp_list {
@@ -32,8 +32,10 @@
         max-height: 50px;
         align: top;
     }
+    color: @gray;
 }
 .o_report_layout_boxed {
+    text-transform: uppercase;
     // This is not a general rule since the id is not used in all the reports,
     // we should make a general structure for report body to use it everywhere
     #informations {
@@ -41,15 +43,18 @@
         padding-top: 10px;
         margin: 0;
     }
-    > h2 {
-        text-transform: uppercase;
+    .table_small_letter { /*Para rol individual*/
+        font-size: 8px;
+        border: 0px;
+        tr{ height:1px; }
+        tr:last-child { height:auto; }
+        td { vertical-align:top; }
     }
     table {
         border: 1px solid @gray;
         thead {
             tr th {
                 border-bottom: 3px solid @gray !important;
-                text-transform: uppercase;
             }
         }
         tbody {
