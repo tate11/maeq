@@ -16,23 +16,6 @@ class AccountInvoice(models.Model):
                 self.payment_term_id = False
                 self.date_due = self.date_invoice
 
-    @api.onchange('payment_term_id', 'date_invoice')
-    def _onchange_payment_term_date_invoice(self):
-        """
-        Método modificado
-        :return: self
-        """
-        if not self.payment_term_id:
-            return
-        if self.payment_conditions == 'credit' or self._context['type'] == 'out_invoice':
-            pterm = self.payment_term_id
-            pterm_list = pterm.with_context(currency_id=self.company_id.currency_id.id).compute(value=1,
-                                                                                                date_ref=self.date_invoice)[
-                0]
-            self.date_due = max(line[0] for line in pterm_list)
-        elif self.date_due and (self.date_invoice > self.date_due):
-            self.date_due = self.date_invoice
-
     @api.onchange('partner_id')
     def _onchange_partner_id(self):
         """
