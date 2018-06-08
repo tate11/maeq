@@ -11,10 +11,12 @@
     'license': "LGPL-3",
     'version': "1.0",
     'depends': [
+        'base',
         'eliterp_management',
         'stock'
     ],
     'data': [
+        'security/ir.model.access.csv',
         'reports/inventory_reports.xml',
         'views/product_views.xml',
         'views/stock_picking_views.xml',

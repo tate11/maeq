@@ -71,7 +71,8 @@ class ProductTemplate(models.Model):
 
     @api.model
     def create(self, vals):
-        category = self.env['product.category'].browse(vals['categ_id']).name
+        if vals.get('categ_id'):
+            category = self.env['product.category'].browse(vals['categ_id']).name
         line, subline = False, False
         if vals.get('line_product_id'):
             line = self.env['eliterp.line.product'].browse(vals['line_product_id']).name
