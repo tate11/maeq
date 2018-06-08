@@ -8,51 +8,14 @@
             <field name="arch" type="xml">
                 <form string="Documentos">
                     <sheet>
-                        <group string="Ingreso">
-                            <field name="lines_documents_1" nolabel="1">
+                        <group string="Documentos de empleado">
+                            <field name="lines_documents" nolabel="1">
                                 <tree editable="bottom" create="false">
                                     <field name="document_name"/>
-                                    <field name="document"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group string="Formación académica">
-                            <field name="lines_documents_2" nolabel="1">
-                                <tree editable="bottom" create="false">
-                                    <field name="document_name"/>
-                                    <field name="document"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group string="Documentos personales">
-                            <field name="lines_documents_3" nolabel="1">
-                                <tree editable="bottom" create="false">
-                                    <field name="document_name"/>
-                                    <field name="document"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group string="Cargar farmiliares">
-                            <field name="lines_documents_4" nolabel="1">
-                                <tree editable="bottom" create="false">
-                                    <field name="document_name"/>
-                                    <field name="document"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group string="Otros">
-                            <field name="lines_documents_5" nolabel="1">
-                                <tree editable="bottom" create="false">
-                                    <field name="document_name"/>
-                                    <field name="document"/>
-                                </tree>
-                            </field>
-                        </group>
-                        <group string="Salida">
-                            <field name="lines_documents_6" nolabel="1">
-                                <tree editable="bottom" create="false">
-                                    <field name="document_name"/>
-                                    <field name="document"/>
+                                    <field name="adjunt"
+                                           filename="adjunt_name"
+                                           widget="binary"/>
+                                    <field name="adjunt_name" invisible="1"/>
                                 </tree>
                             </field>
                         </group>
@@ -169,7 +132,8 @@
                                 <field name="struct_id"/>
                                 <field name="benefits"/>
                                 <field name="working_time" invisible="1"/>
-                                <field name="address_home_id" invisible="1"/><!--Dirección Privada, no funciona instalación-->
+                                <field name="address_home_id"
+                                       invisible="1"/><!--Dirección Privada, no funciona instalación-->
                             </group>
                             <group name="active_group" invisible="1"><!--hr_timesheet (Parte de horas no funciona)-->
 

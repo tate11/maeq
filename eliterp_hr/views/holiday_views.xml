@@ -115,7 +115,7 @@
                         <field name="color_name" invisible="1"/>
                         <field name="is_vacations" invisible="1"/>
                         <header>
-                            <button string="Imprimir vacaciones" name="print_vacations"
+                            <button string="Imprimir solicitud" name="print_request"
                                     attrs="{'invisible':[('state', '!=', 'validate1'), ('is_vacations', '=', False)]}"
                                     type="object"
                                     class="oe_highlight"/>
