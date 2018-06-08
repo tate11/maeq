@@ -18,6 +18,7 @@ class SectoralCode(models.Model):
         ('name_unique', 'unique(name)', 'EL Código de cargo ya existe en registros.'),
     ]
 
+
 class TypeHistory(models.Model):
     _name = 'eliterp.type.history'
 
@@ -53,7 +54,8 @@ class LinesEmployeeDocuments(models.Model):
     _description = 'Líneas de documentos de empleado'
 
     document_name = fields.Char('Nombre de documento')
-    document = fields.Binary('Documento')
+    adjunt = fields.Binary('Documento')
+    adjunt_name = fields.Char('Nombre')
     documents_id = fields.Many2one('eliterp.employee.documents', string='Documentos')
 
 
@@ -62,91 +64,37 @@ class EmployeeDocuments(models.Model):
 
     _description = 'Documentos de empleado'
 
-    def _get_lines_documents(self, type):
+    @api.model
+    def _get_lines_documents(self):
         """
         Obtenemos las líneas de documentos
         :param type:
-        :return: list
+        :return: object
         """
         list_documents = []
-        if type == 1:
-            list_documents = [
-                'Acuerdo de Confidencialidad',
-                'Aviso de Entrada IESS',
-                'Contrato de Trabajo',
-                'Hoja de Vida',
-            ]
-        if type == 2:
-            list_documents = [
-                'Copia de certificados de cursos, seminarios, talleres',
-                'Copia de título o acta de grado',
-                'Copia de título o prefesional registrado en Senescyt',
-            ]
-        if type == 3:
-            list_documents = [
-                'Copia a color Cédula de identidad',
-                'Copia a color Certificado de Votación',
-                'Fotografía tamaño carnet a color',
-            ]
-        if type == 4:
-            list_documents = [
-                'Copia acta de matrimonio ò declaración juramentada unión libre',
-                'Copia de cédula de cargas familiares',
-            ]
-        if type == 5:
-            list_documents = [
-                'Certificado de salud del MSP',
-                'Certificado de trabajo con números de contacto',
-                'Copia de planilla de servicios básicos',
-                'Referencias personales con números de contacto',
-            ]
-
-        if type == 6:
-            list_documents = [
-                'Aviso de Salida IESS',
-                'Acta de Finiquito',
-            ]
-
-        list_lines = []
-        # TODO: Se vuelven a grabar todos
-        for line in list_documents:
-            list_lines.append([0, 0, {'document_name': line, }])
-        return list_lines
-
-    @api.model
-    def _get_lines_1(self):
-        # Ingreso
-        res = self._get_lines_documents(1)
-        return res
-
-    def _get_lines_2(self):
-        # Formación académica
-        res = self._get_lines_documents(2)
-        return res
-
-    @api.model
-    def _get_lines_3(self):
-        # Documentos personales
-        res = self._get_lines_documents(3)
-        return res
-
-    @api.model
-    def _get_lines_4(self):
-        # Cargas familiares
-        res = self._get_lines_documents(4)
-        return res
-
-    @api.model
-    def _get_lines_5(self):
-        # Otros
-        res = self._get_lines_documents(5)
-        return res
-
-    @api.model
-    def _get_lines_6(self):
-        # Salida
-        res = self._get_lines_documents(6)
-        return res
+        list_names = [
+            'Acuerdo de Confidencialidad',
+            'Aviso de Entrada IESS',
+            'Contrato de Trabajo',
+            'Hoja de Vida',
+            'Copia de certificados de cursos, seminarios, talleres',
+            'Copia de título o acta de grado',
+            'Copia de título o prefesional registrado en Senescyt',
+            'Copia a color Cédula de identidad',
+            'Copia a color Certificado de Votación',
+            'Fotografía tamaño carnet a color',
+            'Copia acta de matrimonio ó declaración juramentada unión libre',
+            'Copia de cédula de cargas familiares',
+            'Certificado de salud del MSP',
+            'Certificado de trabajo con números de contacto',
+            'Copia de planilla de servicios básicos',
+            'Referencias personales con números de contacto',
+            'Aviso de Salida IESS',
+            'Acta de Finiquito',
+        ]
+        for line in list_names:
+            list_documents.append([0, 0, {'document_name': line, }])
+        return list_documents
 
     @api.model
     def create(self, values):
@@ -156,21 +104,9 @@ class EmployeeDocuments(models.Model):
         return super(EmployeeDocuments, self).create(values)
 
     name = fields.Char('Nombre')
-    lines_documents_1 = fields.One2many('eliterp.lines.employee.documents', 'documents_id',
-                                        'Ingreso', default=_get_lines_1)
-    lines_documents_2 = fields.One2many('eliterp.lines.employee.documents',
-                                        'documents_id',
-                                        string='Formación académica', default=_get_lines_2)
-    lines_documents_3 = fields.One2many('eliterp.lines.employee.documents',
-                                        'documents_id',
-                                        'Documentos personales', default=_get_lines_3)
-    lines_documents_4 = fields.One2many('eliterp.lines.employee.documents', 'documents_id',
-                                        'Cargas familiares', default=_get_lines_4)
-    lines_documents_5 = fields.One2many('eliterp.lines.employee.documents', 'documents_id', 'Otros',
-                                        default=_get_lines_5)
-    lines_documents_6 = fields.One2many('eliterp.lines.employee.documents', 'documents_id', 'Salida',
-                                        default=_get_lines_6)
     employee_id = fields.Many2one('hr.employee', 'Empleado')
+    lines_documents = fields.One2many('eliterp.lines.employee.documents', 'documents_id',
+                                      'Líneas de documento', default=_get_lines_documents)
 
 
 class EmployeesChildren(models.Model):
@@ -198,6 +134,18 @@ class EmployeesChildren(models.Model):
 
 class Employee(models.Model):
     _inherit = 'hr.employee'
+
+    @api.model_cr_context
+    def _init_column(self, column_name):
+        """
+        Actualizamos columna wage en empleados creados por defecto (Test)
+        :param column_name:
+        :return:
+        """
+        query = """UPDATE hr_employee SET wage=386
+                    WHERE wage is NULL
+                        """
+        self.env.cr.execute(query)
 
     @api.onchange('names', 'surnames')
     def _onchange_names(self):

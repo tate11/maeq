@@ -14,7 +14,7 @@ class Employee(models.Model):
     @api.model
     def _default_account(self):
         """
-        TODO: Cuenta por defecto de nómina en empleado
+        Cuenta por defecto de nómina en empleado
         """
         account = self.env['account.account'].search([('name', '=', 'NÓMINA POR PAGAR')], limit=1)
         return account[0].id if account else False
@@ -95,7 +95,6 @@ class Payslip(models.Model):
     @api.model
     def create(self, vals):
         res = super(Payslip, self).create(vals)
-        # TODO
         month = self.env['eliterp.global.functions']._get_month_name(datetime.strptime(res.date_from, "%Y-%m-%d").month)
         res.write({'number': "%s [%s]" % (month, str(datetime.strptime(res.date_from, "%Y-%m-%d").year))})
         return res
@@ -154,7 +153,7 @@ class Payslip(models.Model):
     @api.onchange('employee_id', 'date_from')
     def onchange_employee(self):
         """
-        MM: TODO: Cálculo de rol individual
+        MM: Cálculo de ingresos, egresos y provisiones
         """
         if (not self.employee_id) or (not self.date_from) or (not self.date_to):
             return

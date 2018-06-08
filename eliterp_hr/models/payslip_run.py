@@ -100,6 +100,7 @@ class PayslipRun(models.Model):
         """
         for rol in self.lines_payslip_run:  # Roles individuales, los aprobamos uno a uno
             rol.role_id.write({
+                'approval_user': self._uid,
                 'state': 'done',
             })
         # Rol consolidado
@@ -478,5 +479,3 @@ class PayslipRun(models.Model):
     count_employees = fields.Integer('No. Empleados', compute='_get_count_employees')
     approval_user = fields.Many2one('res.users', 'Aprobado por', copy=False)
     comment = fields.Text('Notas y comentarios', readonly=True, states={'draft': [('readonly', False)]})
-
-

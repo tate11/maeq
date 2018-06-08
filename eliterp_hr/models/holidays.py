@@ -16,7 +16,7 @@ class HolidaysType(models.Model):
                                                                         "las mismas")
 
 
-class EmployeeCategory(models.Model):
+class LinesEmployeeCategory(models.Model):
     _name = 'eliterp.lines.employee.category'
 
     _description = 'Linea de empleados para etiqueta'
@@ -38,7 +38,6 @@ class HolidayLines(models.Model):
 
     _description = 'Líneas de vacaciones'
 
-    # TODO: type = fields.Selection([('employee', 'Empleado'), ('category', 'Categoría')], string='Tipo')
     employee = fields.Many2one('hr.employee', string='Empleado')
     period = fields.Char('Período')
     vacations_generated = fields.Integer('Generadas')
@@ -87,16 +86,6 @@ class Holidays(models.Model):
         start_date = (fields.Datetime.from_string(date_from) - timedelta(hours=5)).date()
         end_date = (fields.Datetime.from_string(date_to) - timedelta(hours=5)).date()
         return int((end_date - start_date).days) + 1
-
-    @api.model
-    def create(self, vals):
-        # TODO
-        res = super(Holidays, self).create(vals)
-        if res.holiday_type == 'employee':
-            res.write({'nombre': res.employee_id.name})
-        else:
-            res.write({'nombre': res.category_id.name})
-        return res
 
     @api.one
     def action_refuse(self):
@@ -291,13 +280,39 @@ class Holidays(models.Model):
                     {'vacations_available': self.lines_vacations[-1].vacations_available - vacations_taken})
         return
 
+    @api.model
+    def _get_vacations(self):
+        """
+        Obtenemos las vacaciones menos los días de la solicitud
+        """
+        data = []
+        days = int(self.number_of_days_temp)
+        for line in self.lines_vacations:
+            if line.vacations_available <= days:
+                data.append({
+                    'period': line.period,
+                    'vacations_available': line.vacations_available,
+                    'requested': line.vacations_available,
+                    'residue': 0
+                })
+                days = days - line.vacations_available
+            else:
+                data.append({
+                    'period': line.period,
+                    'vacations_available': line.vacations_available,
+                    'requested': days,
+                    'residue': int(line.vacations_available - days)
+                })
+                days = 0
+        return data
+
     @api.multi
-    def print_vacations(self):
+    def print_request(self):
         """
         Imprimimos solicitud de vacaciones
         """
         self.ensure_one()
-        pass
+        return self.env.ref('eliterp_hr.eliterp_action_report_vacations').report_action(self)
 
     # CM
     state = fields.Selection([
@@ -313,8 +328,6 @@ class Holidays(models.Model):
              "\nThe status is 'Refused', when holiday request is refused by manager." +
              "\nThe status is 'Approved', when holiday request is approved by manager.")
 
-    nombre = fields.Char('Nombre')
-    # TODO: Par qué sirve?
     color_name = fields.Selection([
         ('red', 'Red'),
         ('blue', 'Blue'),

@@ -21,16 +21,17 @@ class Attendance(models.Model):
         employees = self.env['hr.employee'].search([])
         lines = []
         for employee in employees:
-            calendar = employee.contract_id.resource_calendar_id
-            working_day = calendar.attendance_ids.filtered(lambda x: x.dayofweek == day)
-            lines.append([0, 0, {
-                'employee_id': employee.id,
-                'state': 'no news',
-                'check_in_am': working_day[0]['hour_from'],
-                'check_out_am': working_day[0]['hour_to'],
-                'check_in_pm': working_day[1]['hour_from'],
-                'check_out_pm': working_day[1]['hour_to']
-            }])
+            if employee.contract_id:  # Soló los que tienen contrato se realiza
+                calendar = employee.contract_id.resource_calendar_id
+                working_day = calendar.attendance_ids.filtered(lambda x: x.dayofweek == day)
+                lines.append([0, 0, {
+                    'employee_id': employee.id,
+                    'state': 'no news',
+                    'check_in_am': working_day[0]['hour_from'],
+                    'check_out_am': working_day[0]['hour_to'],
+                    'check_in_pm': working_day[1]['hour_from'],
+                    'check_out_pm': working_day[1]['hour_to']
+                }])
         return lines
 
     @api.one
