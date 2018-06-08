@@ -1,5 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
-access_global_functions_all,global_functions_all,model_global_functions,,1,0,0,0
+access_global_functions_all,global_functions_all,model_eliterp_global_functions,,1,0,0,0
 
 access_canton_manager,canton_manager,model_eliterp_canton,base.group_partner_manager,1,1,1,1
 access_canton_all,canton_all,model_eliterp_canton,,1,0,0,0
