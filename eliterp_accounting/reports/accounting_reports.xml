@@ -17,7 +17,7 @@
                                     </strong>
                                 </h3>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4" t-if="doc.date">
                                     <strong>Fecha pago:</strong>
                                     <p t-field="doc.date"/>
@@ -83,7 +83,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Fecha Documento:</strong>
                                     <p t-field="doc.start_date"/>
@@ -97,7 +97,7 @@
                                     <p t-field="doc.end_date"/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Banco:</strong>
                                     <p t-field="doc.bank_id"/>
@@ -241,7 +241,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-3">
                                     <strong>Fecha documento:</strong>
                                     <p t-field="doc.create_date"/>
@@ -259,7 +259,7 @@
                                     <p t-field="doc.amount"/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-6">
                                     <strong>Banco:</strong>
                                     <p t-field="doc.bank_cash"/>
@@ -321,7 +321,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Fecha documento:</strong>
                                     <p t-field="doc.create_date"/>
@@ -335,7 +335,7 @@
                                     <p t-field="doc.amount"/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-6">
                                     <strong>Banco:</strong>
                                     <p t-field="doc.bank_id"/>
@@ -397,7 +397,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Fecha documento:</strong>
                                     <p t-field="doc.create_date"/>
@@ -411,7 +411,7 @@
                                     <p t-field="doc.amount"/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-6">
                                     <strong>Banco:</strong>
                                     <p t-field="doc.bank_id"/>
@@ -473,7 +473,7 @@
                     <t t-set="flag">0</t>
                     <t t-call="web.external_layout">
                         <div class="page">
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-4">
                                     <strong>Fecha documento:</strong>
                                     <p t-field="doc.create_date"/>
@@ -487,7 +487,7 @@
                                     <p t-field="doc.amount_transfer"/>
                                 </div>
                             </div>
-                            <div class="row mt32 mb32">
+                            <div class="row">
                                 <div class="col-xs-6">
                                     <strong>Banco:</strong>
                                     <p t-field="doc.account_debit_id"/>

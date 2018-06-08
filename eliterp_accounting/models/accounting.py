@@ -55,7 +55,7 @@ class AccountPeriod(models.Model):
         """
         global_functions = self.env['eliterp.global.functions']
         if len(self.lines_period) >= 12:
-            raise UserError(_("No puede asignar más meses al año Contable."))
+            raise UserError("No puede asignar más meses al año Contable.")
         list = []
         for x in range(1, 13):
             list.append([0, 0, {

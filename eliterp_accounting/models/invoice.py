@@ -185,8 +185,7 @@ class AccountInvoice(models.Model):
                 [('invoice_reference', '=', self.invoice_reference.id), ('state', '=', 'open')])
             amount_notes = self.invoice_reference.amount_untaxed - sum(note.amount_total for note in notes_credit)
             if self.amount_untaxed > amount_notes:
-                raise UserError(
-                    _("Excede de la base imponible de la referencia [%s]." % self.invoice_reference.reference))
+                raise UserError("Excede de la base imponible de la referencia [%s]." % self.invoice_reference.reference)
             res = super(AccountInvoice, self).action_invoice_open()
             # TODO: Venta
             if self.type == 'out_refund':
@@ -204,7 +203,7 @@ class AccountInvoice(models.Model):
         # Facturas de proveedor
         if self.type == 'in_invoice':
             if not self.have_withhold:
-                raise UserError(_("Debe ingresar la retención correspondiente a la factura."))
+                raise UserError("Debe ingresar la retención correspondiente a la factura.")
             else:
                 res = super(AccountInvoice, self).action_invoice_open()
                 self.withhold_id.write({
@@ -337,7 +336,7 @@ class AccountInvoice(models.Model):
             date = datetime.strptime(self.date_invoice, "%Y-%m-%d")
             period = self.env['eliterp.account.period'].search([('year_accounting', '=', date.year)])
             if len(period) == 0:
-                raise UserError(_("Error", "Debe crear primero el Año contable."))
+                raise UserError("Debe crear primero el Año contable.")
             accounting_period = period.lines_period.filtered(lambda x: x.code == date.month)
             self.period = accounting_period.id
 
