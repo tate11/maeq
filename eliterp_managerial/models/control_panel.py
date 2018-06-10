@@ -41,7 +41,7 @@ class ControlPanelLine(models.Model):
         if self.adjunt:
             return {
                 'type': 'ir.actions.act_url',
-                'url': '/web/content?model=eliterp.control.panel&field=adjunt&id=%s&download=true&filename_field=adjunt_name' % (
+                'url': '/web/content?model=eliterp.control.panel.line&field=adjunt&id=%s&download=true&filename_field=adjunt_name' % (
                     self.id),
                 'target': 'self'
             }
