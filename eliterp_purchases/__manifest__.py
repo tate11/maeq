@@ -24,6 +24,7 @@
         'data/sequences.xml',
         'views/in_invoice_views.xml',
         'views/supplier_views.xml',
+        'views/purchase_order_views.xml',
         'views/menus.xml',
         'views/dashboard.xml',
     ],

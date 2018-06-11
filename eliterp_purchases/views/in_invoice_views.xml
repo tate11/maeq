@@ -39,7 +39,8 @@
                 <xpath expr="//field[@name='invoice_line_ids']/tree" position="replace">
                     <tree editable="bottom">
                         <field name="sequence" widget="handle"/>
-                        <field name="product_id" context="{'partner_id': parent.partner_id}" domain="[('purchase_ok','=',True)]"/>
+                        <field name="product_id" context="{'partner_id': parent.partner_id}"
+                               domain="[('purchase_ok','=',True)]"/>
                         <field name="name"/>
                         <field name="company_id" invisible="1"/>
                         <field name="quantity"/>
@@ -63,6 +64,23 @@
                                invisible="1"
                                widget="many2many_tags"/><!--CM-->
                     </tree>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_invoice_supplier_1" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_invoice_supplier_1</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_supplier_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after"><!--Plazos de pago-->
+                    <field name="dues"/>
+                    <label for="fee_number" string="No. Cuota/Vencimiento" class="oe_edit_only"/>
+                    <div class="o_row" attrs="{'invisible':[('dues', '=', False)]}">
+                        <field name="fee_number"
+                               attrs="{'required':[('dues', '=', True)]}"/>
+                        <field name="expiration_fee"
+                               attrs="{'required':[('dues', '=', True)]}"/>
+                    </div>
                 </xpath>
             </field>
         </record>

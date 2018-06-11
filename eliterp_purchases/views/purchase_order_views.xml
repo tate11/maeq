@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú SP/OC-->
+        <record id="eliterp_view_form_purchase_order" model="ir.ui.view">
+            <field name="name">eliterp_view_form_purchase_order</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//button[@name='action_view_picking']" position="before"><!--Recibir productos-->
+                    <button name="%(purchase.action_report_purchase_order)d" string="Imprimir orden"
+                            type="action"
+                            states="purchase"
+                            class="oe_highlight"
+                            groups="base.group_user"/>
+                </xpath>
+                <xpath expr="//field[@name='incoterm_id']" position="replace"/><!--Incoterm-->
+                <xpath expr="//field[@name='fiscal_position_id']" position="replace"/><!--Tipos de Contribuyentes-->
+            </field>
+        </record>
+    </data>
+</odoo>
+

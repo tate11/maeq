@@ -3,7 +3,8 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models, _
-from datetime import datetime, timedelta
+from datetime import datetime
+from odoo.exceptions import ValidationError
 
 
 class AccountInvoice(models.Model):
@@ -56,9 +57,29 @@ class AccountInvoice(models.Model):
         self.purchase_id = False
         return {}
 
-    account_analytic_id = fields.Many2one('account.analytic.account', 'Centro de costo',
+    @api.constrains('expiration_fee')
+    def _check_expiration_fee(self):
+        """
+        Verificar que fecha no sea mayor a la de vencimiento ni menor a la fecha de factura
+        """
+        date_fee = datetime.strptime(self.expiration_fee, '%Y-%m-%d')
+        date_invoice = datetime.strptime(self.date_invoice, '%Y-%m-%d')
+        date_due = datetime.strptime(self.date_due, '%Y-%m-%d')
+        if (date_fee < date_invoice):
+            raise ValidationError('La fecha de cuota no puede ser menor a la de la factura.')
+        if (date_fee > date_due):
+            raise ValidationError('La fecha de cuota no puede ser mayor a la de vencimiento de la factura.')
+
+
+    account_analytic_id = fields.Many2one('account.analytic.account', 'Centro de costo', readonly=True,
                                           states={'draft': [('readonly', False)]})
     attach_invoice = fields.Binary('Adjuntar factura', attachment=True)
     attached_name = fields.Char('Nombre de adjunto')
-    concept = fields.Char('Concepto')
-    payment_conditions = fields.Selection([('cash', 'Contado'), ('credit', 'Crédito')], 'Condiciones de pago')
+    concept = fields.Char('Concepto', readonly=True,
+                          states={'draft': [('readonly', False)]})
+    payment_conditions = fields.Selection([('cash', 'Contado'), ('credit', 'Crédito')], 'Condiciones de pago'
+                                          , readonly=True, states={'draft': [('readonly', False)]}
+                                          )
+    dues = fields.Boolean('Cuotas?', default=False, readonly=True, states={'draft': [('readonly', False)]})
+    fee_number = fields.Integer('No. Cuota', readonly=True, states={'draft': [('readonly', False)]})
+    expiration_fee = fields.Date('Fecha vencimiento cuota', default=fields.Date.context_today,  readonly=True, states={'draft': [('readonly', False)]})
