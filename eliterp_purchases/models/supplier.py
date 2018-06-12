@@ -3,6 +3,7 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models, _
+from odoo.tools import float_is_zero
 
 
 class ResPartner(models.Model):
@@ -33,8 +34,31 @@ class ResPartner(models.Model):
         if self.property_account_payable_id:
             self.property_account_receivable_id = self.property_account_payable_id.id
 
+    @api.multi
+    def action_view_pending_balance(self):
+        """
+        Facturas con saldo pendiente de proveedor
+        """
+        if float_is_zero(self.pending_balance, precision_rounding=3):  # Si es 0 no se lleva a la acción
+            return
+        invoices = self.env['account.invoice'].search([('partner_id', '=', self.id), ('state', '=', 'open')])
+        invoices = invoices.filtered(lambda invoice: not invoice.reconciled)
+        action = self.env.ref('purchase.act_res_partner_2_supplier_invoices')
+        result = action.read()[0]
+        if len(invoices) > 1:
+            result['domain'] = "[('id','in',%s)]" % (invoices.ids)
+        elif len(invoices) == 1:
+            res = self.env.ref('account.invoice_supplier_form', False)
+            result['views'] = [(res and res.id or False, 'form')]
+            result['res_id'] = invoices.id
+        return result
+
     pending_balance = fields.Float(compute='_purchase_invoice_count', string='Saldo')
-    payment_conditions = fields.Selection([('cash', 'Contado'), ('credit', 'Crédito')], string='Condición de pago')
+    payment_conditions = fields.Selection([
+        ('cash', 'Contado'),
+        ('credit', 'Crédito'),
+        ('credit_fees', 'Crédito cuotas')
+    ], string='Condición de pago')
     way_to_pay = fields.Selection([('transfer', 'Transferencia'), ('check', 'Cheque'), ('cash', 'Efectivo')],
                                   string='Forma de pago')
     property_account_payable_id = fields.Many2one('account.account',

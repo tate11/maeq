@@ -5,6 +5,7 @@
 from odoo import api, fields, models, _
 from datetime import datetime, timedelta
 from dateutil.relativedelta import relativedelta
+from odoo.exceptions import ValidationError
 
 
 class Employee(models.Model):
@@ -58,6 +59,17 @@ class ContractFunctions(models.Model):
 
 class Contract(models.Model):
     _inherit = 'hr.contract'
+
+    @api.constrains('employee_id')
+    def _check_employee_id(self):
+        """
+        Validamos qué empleado no tenga contrato activo
+        :return:
+        """
+        contract = self.employee_id.contract_id
+        if contract:
+            if contract.state_customize == 'active':
+                raise ValidationError("Empleado %s tiene contrato activo en sistema." % self.employee_id.name)
 
     @api.onchange('employee_id')
     def _onchange_employee_id(self):

@@ -26,13 +26,6 @@ class Gang(models.Model):
 
     _description = 'Cuadrilla de operación'
 
-    @api.model
-    def name_get(self):
-        result = []
-        for data in self:
-            result.append((data.id, "%s [%s]" % (data.name, data.code)))
-        return result
-
     @api.depends('lines_employees')
     @api.one
     def _get_employees(self):

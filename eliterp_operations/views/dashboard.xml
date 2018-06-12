@@ -182,20 +182,6 @@
                   action="eliterp_action_operations_maintenance"
                   sequence="2"/>
 
-        <menuitem id="eliterp_menu_operations_project"
-                  name="Proyectos"
-                  parent="eliterp_menu_operations"
-                  sequence="3"/>
-        <menuitem id="eliterp_menu_operations_project_work"
-                  name="Obras"
-                  parent="eliterp_menu_operations_project"
-                  action="eliterp_action_work"
-                  sequence="1"/>
-        <menuitem id="eliterp_menu_operations_project_project"
-                  name="Proyecto"
-                  parent="eliterp_menu_operations_project"
-                  action="eliterp_action_project"
-                  sequence="2"/>
 
         <menuitem id="eliterp_menu_operations_reports"
                   name="Reportes"
@@ -231,5 +217,24 @@
                   parent="eliterp_menu_operations_configuration"
                   action="eliterp_action_gang"
                   sequence="3"/>
+
+        <!--
+            Menús en módulo de Ventas
+        -->
+        <menuitem id="eliterp_menu_operations_project_sales"
+                  name="Contratos"
+                  parent="sale.sale_order_menu"
+                  sequence="4"/>
+        <menuitem id="eliterp_menu_operations_project_project_sales"
+                  name="Proyecto"
+                  parent="eliterp_menu_operations_project_sales"
+                  action="eliterp_operations.eliterp_action_project"
+                  sequence="1"/>
+        <menuitem id="eliterp_menu_operations_project_work_sales"
+                  name="Obras"
+                  parent="eliterp_menu_operations_project_sales"
+                  action="eliterp_operations.eliterp_action_work"
+                  sequence="2"/>
+
     </data>
 </odoo>

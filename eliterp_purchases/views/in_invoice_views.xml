@@ -23,17 +23,18 @@
                 <xpath expr="//field[@name='user_id']" position="attributes"><!--Responsable-->
                     <attribute name="invisible">1</attribute>
                 </xpath>
-                <xpath expr="//field[@name='payment_term_id']" position="replace"><!--Plazos de pago-->
-                    <field name="payment_conditions"/>
-                    <field name="payment_term_id"
-                           attrs="{'invisible':[('payment_conditions', '!=', 'credit')]}"/>
-                </xpath>
+                <xpath expr="//field[@name='payment_term_id']" position="replace"/><!--Plazos de pago-->
                 <xpath expr="//page[@name='other_info']//field[@name='name']"
                        position="replace"><!--Referencia/Descripción-->
                     <field name="name" invisible="1"/>
                 </xpath>
                 <xpath expr="//field[@name='fiscal_position_id']" position="attributes"><!--Tipos de Contribuyentes-->
                     <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='tax_support_id']" position="after"><!--Sustento tribuario-->
+                    <field name="payment_conditions"/>
+                    <field name="payment_term_id"
+                           attrs="{'invisible':[('payment_conditions','!=', 'credit' )]}"/>
                 </xpath>
                 <!--Detalle de factura-->
                 <xpath expr="//field[@name='invoice_line_ids']/tree" position="replace">
@@ -72,15 +73,32 @@
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='payment_term_id']" position="after"><!--Plazos de pago-->
-                    <field name="dues"/>
-                    <label for="fee_number" string="No. Cuota/Vencimiento" class="oe_edit_only"/>
-                    <div class="o_row" attrs="{'invisible':[('dues', '=', False)]}">
-                        <field name="fee_number"
-                               attrs="{'required':[('dues', '=', True)]}"/>
-                        <field name="expiration_fee"
-                               attrs="{'required':[('dues', '=', True)]}"/>
-                    </div>
+                <xpath expr="//page[@name='other_info']" position="after"><!--Otra información-->
+                    <page string="Cuotas" group="account.group_account_user"
+                          attrs="{'invisible':[('payment_conditions', '!=', 'credit_fees')]}">
+                        <group>
+                            <group>
+                                <label for="amount_of_fees" string="No. de cuotas"/>
+                                <div class="o_row">
+                                    <field name="amount_of_fees"/>
+                                    <button name="load_fees"
+                                            type="object"
+                                            attrs="{'invisible':[('state', '!=', 'draft')]}"
+                                            class="oe_highlight"
+                                            string="Generar líneas"/>
+                                </div>
+                            </group>
+                        </group>
+                        <group>
+                            <field name="quota_line_invoice" nolabel="1">
+                                <tree editable="bottom" create="false">
+                                    <field name="number"/>
+                                    <field name="amount"/>
+                                    <field name="expiration_fee"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </page>
                 </xpath>
             </field>
         </record>

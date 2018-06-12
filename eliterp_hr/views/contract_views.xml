@@ -98,34 +98,41 @@
                                             <field name="struct_id"/>
                                         </group>
                                         <group string="Duración">
-                                            <group name='duration_group' invisible="1"><!--hr_payroll_account-->
-                                            </group>
                                             <field name="test_days" invisible="1"/><!--Día de prueba-->
                                             <label for="is_trial"
                                                    string="Es período de prueba?"/>
                                             <div>
-                                                <field name="is_trial"
-                                                       attrs="{'readonly':[('state_customize', '!=', 'draft')]}"
-                                                       class="oe_inline"/>
-                                                <field name="end_trial" class="oe_inline"/>
-                                                <span attrs="{'invisible':[('end_trial', '=', False)]}"
-                                                      class="text-muted oe_inline">(Período de prueba finalizado)
-                                                </span>
+                                                <div>
+                                                    <field name="is_trial"
+                                                           class="oe_inline"/>
+                                                    <field name="end_trial" class="oe_inline"/>
+                                                </div>
+                                                <div>
+                                                    <span attrs="{'invisible':[('end_trial', '=', False)]}"
+                                                          class="text-muted oe_inline">(Período de prueba finalizado)
+                                                    </span>
+                                                </div>
                                             </div>
                                             <label for="trial_date_start"
-                                                   string="Duración"
+                                                   string="Inicio/Fin"
                                                    attrs="{'invisible':[('is_trial', '=', False)]}"
                                             />
-                                            <div attrs="{'invisible':[('is_trial', '=', False)]}">
-                                                <field name="trial_date_start" class="oe_inline"/>
-                                                <label string="-" class="oe_inline"/>
-                                                <field name="trial_date_end" class="oe_inline"/>
+                                            <div>
+                                                <div attrs="{'invisible':[('is_trial', '=', False)]}">
+                                                    <field name="trial_date_start" class="oe_inline"/>
+                                                    <label string="-" class="oe_inline"/>
+                                                    <field name="trial_date_end" class="oe_inline"/>
+                                                </div>
+                                                <div attrs="{'invisible':['|', ('is_trial', '=', False), ('end_trial', '=', True)]}">
+                                                    <field name="days_for_trial" class="oe_inline"/>
+                                                    días de prueba
+                                                </div>
                                             </div>
-                                            <field name="days_for_trial"
-                                                   attrs="{'invisible':['|', ('is_trial', '=', False), ('end_trial', '=', True)]}"/>
                                         </group>
                                     </group>
-                                    <group string="Notas">
+                                    <group name='duration_group' invisible="1"><!--hr_payroll_account-->
+                                    </group>
+                                    <group string="Notas y comentarios">
                                         <field name="notes" nolabel="1"/>
                                     </group>
                                 </page>

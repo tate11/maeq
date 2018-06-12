@@ -19,6 +19,8 @@ class LinesAdvancePayment(models.Model):
     _description = 'Líneas de anticipo de quincena'
 
     employee_id = fields.Many2one('hr.employee', string='Empleado')
+    job_id = fields.Many2one('hr.job', string='Cargo', related='employee_id.job_id', store=True)
+    admission_date = fields.Date(related='employee_id.admission_date', store=True, string='Fecha ingreso')
     account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
     amount_advance = fields.Float('Monto de anticipo', default=0.00)
     advanced_id = fields.Many2one('eliterp.advance.payment', 'Anticipo')
@@ -67,16 +69,26 @@ class AdvancePayment(models.Model):
 
     def load_employees(self):
         """
-        Cargamos empleados para total de anticipo
+        Cargamos empleados para total de anticipo, debe tener un contrato el empleado
         """
         if self.lines_advance:
             self.lines_advance.unlink()  # Borramos líneas anteriores, no montar
         list_employees = []
-        for employee in self.env['hr.employee'].search(
-                [('active', '=', True), ('account_advance_payment', '!=', False)]):
-            list_employees.append([0, 0, {'employee_id': employee.id,
-                                          'account_id': employee.account_advance_payment.id,
-                                          'amount_advance': round(float((employee.wage * 40) / 100), 2)}])
+        for employee in self.env['hr.employee'].search([
+            ('active', '=', True),
+            ('contract_id', '!=', False)
+        ]):
+            amount_advance = 0.0  # Para MAEQ se trabajará así por el momento
+            antiquity = employee.contract_id.antiquity
+            if antiquity >= 15:
+                amount_advance = round(float((employee.wage * 40) / 100), 2)
+            else:
+                amount_advance = 80.0
+            list_employees.append([0, 0, {
+                'employee_id': employee.id,
+                'account_id': employee.account_advance_payment.id,
+                'amount_advance': amount_advance
+            }])
         return self.write({'lines_advance': list_employees})
 
     @api.one
@@ -143,7 +155,7 @@ class AdvancePayment(models.Model):
             count -= 1
             if count == 0:
                 self.env['account.move.line'].with_context(check_move_validity=True).create(
-                    {'name': line.account_id.name,
+                    {'name': line.account_id.name + ": " + line.employee_id.name,
                      'journal_id': self.journal_id.id,
                      'account_id': line.account_id.id,
                      'move_id': move_id.id,
@@ -152,7 +164,7 @@ class AdvancePayment(models.Model):
                      'date': self.date})
             else:
                 self.env['account.move.line'].with_context(check_move_validity=False).create(
-                    {'name': line.account_id.name,
+                    {'name': line.account_id.name + ": " + line.employee_id.name,
                      'journal_id': self.journal_id.id,
                      'account_id': line.account_id.id,
                      'move_id': move_id.id,
@@ -212,3 +224,4 @@ class AdvancePayment(models.Model):
     approval_user = fields.Many2one('res.users', string='Aprobado por')
     reason_deny = fields.Text('Negado por')
     count_lines = fields.Integer('Nº de empleados', compute='_get_count_lines')
+    comment = fields.Text('Notas y comentarios')

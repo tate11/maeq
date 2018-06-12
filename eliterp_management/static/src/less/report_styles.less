@@ -5,7 +5,7 @@
 .o_boxed_header {
     text-transform: uppercase;
     color: @gray;
-    border-bottom: 1px solid #F78F1E;
+    border-bottom: 3px solid #F78F1E;
     img {
         max-height: 100px;
     }
@@ -14,13 +14,9 @@
         font-weight: 700;
     }
 }
-/*División en footer*/
-hr.divider {
-
-}
-
 .o_boxed_footer {
-    border-top: none; /*Lo hacemos para eliminar el borde del footer*/
+    border-top: 1px solid #F78F1E;
+    padding-top: 15px;
     .eliterp_list {
         list-style: none;
         > li {
@@ -64,11 +60,10 @@ hr.divider {
                     border-top: none;
                     border-right: 1px solid @gray;
                 }
-                /*
                 td:last-child {
-                    background-color: @gray-lighter;
+                    background-color: white; /*Evitar color gris en tabla*/
                 }
-                */
+
             }
         }
     }

@@ -135,9 +135,18 @@ class Payslip(models.Model):
         }
 
         for input in inputs:  # Operaciones de reglas salariales
-            if input.condition_select == 'python':
+            if input.condition_select == 'python' and input.code != 'ADQ':
                 safe_eval(input.condition_python, local_dict, mode='exec', nocopy=True)
                 amount = local_dict['result']
+            elif input.code == 'ADQ':  # TODO: Esto se hace para MAEQ
+                last_advance_payment = self.env['eliterp.advance.payment'].search([('state', '=', 'posted')])
+                if last_advance_payment:
+                    for line in last_advance_payment[-1].lines_advance:
+                        if line.employee_id == self.employee_id:
+                            amount = line.amount_advance
+                            break
+                else:
+                    amount = 0.00
             else:
                 amount = 0.00
             input_data = {

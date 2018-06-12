@@ -16,7 +16,8 @@
         'eliterp_purchases',
         'mail',
         'hr',
-        'stock'
+        'stock',
+        'sale'
     ],
     'data': [
         'data/sequences.xml',

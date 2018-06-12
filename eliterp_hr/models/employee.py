@@ -197,6 +197,28 @@ class Employee(models.Model):
             res['context'] = "{'default_employee_id': " + str(self[0].id) + "}"
         return res
 
+    @api.multi
+    def write(self, vals):
+        """
+        Modificamos la fecha de ingreso del contrato al cambiar la del empleado
+        :param vals:
+        :return: object
+        """
+        res = super(Employee, self).write(vals)
+        if self.contract_id and 'admission_date' in vals:
+            self.contract_id.update({'date_start': vals['admission_date']})
+        return res
+
+    @api.depends('apply_overtime', 'wage')
+    @api.one
+    def _get_amount_hours(self):
+        """
+        Obtenemos valor de HE por empleado
+        """
+        if self.apply_overtime:
+            self.extra_hours = round((self.wage / 240) * 2, 2)
+            self.additional_hours = round((self.wage / 240) * 1.5, 2)
+
     names = fields.Char('Nombres', required=True)
     surnames = fields.Char('Apellidos', required=True)
     education_level = fields.Selection([
@@ -234,3 +256,6 @@ class Employee(models.Model):
     home_address = fields.Char('Dirección de domicilio')
 
     lines_history = fields.One2many('eliterp.lines.history.employee', 'employee_id', string='Historial de empleado')
+    apply_overtime = fields.Boolean('Aplica?', default=False)
+    extra_hours = fields.Float('Monto HE 100%', compute='_get_amount_hours', store=True)
+    additional_hours = fields.Float('Monto HE 50%', compute='_get_amount_hours', store=True)

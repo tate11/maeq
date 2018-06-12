@@ -3,8 +3,19 @@
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
 from odoo import api, fields, models, _
-from datetime import datetime
-from odoo.exceptions import ValidationError
+from datetime import datetime, timedelta
+from odoo.exceptions import UserError
+
+
+class QuotaLineInvoice(models.Model):
+    _name = 'eliterp.quota.line.invoice'
+
+    _description = 'Línea de cuotas en factura de proveedor'
+
+    number = fields.Integer('No.', required=True)
+    amount = fields.Float('Monto de cuota', required=True)
+    expiration_fee = fields.Date('Fecha vencimiento cuota', required=True)
+    invoice_id = fields.Many2one('account.invoice', string='Factura')
 
 
 class AccountInvoice(models.Model):
@@ -50,26 +61,36 @@ class AccountInvoice(models.Model):
 
         self.invoice_line_ids += new_lines
         self.payment_term_id = self.purchase_id.payment_term_id
-        self.account_analytic_id = self.purchase_id.account_analytic_id.id if self.purchase_id.account_analytic_id else False
-        self.project_id = self.purchase_id.project_id.id if self.purchase_id.project_id else False
-        self.account_id = self.partner_id.property_account_receivable_id
+        self.account_analytic_id = self.purchase_id.account_analytic_id.id # MARZ
+        self.project_id = self.purchase_id.project_id.id  # MARZ
+        self.account_id = self.partner_id.property_account_receivable_id # MARZ
         self.env.context = dict(self.env.context, from_purchase_order_change=True)
         self.purchase_id = False
         return {}
 
-    @api.constrains('expiration_fee')
-    def _check_expiration_fee(self):
+    @api.multi
+    def load_fees(self):
         """
-        Verificar que fecha no sea mayor a la de vencimiento ni menor a la fecha de factura
+        Creamos línea de cuotas
         """
-        date_fee = datetime.strptime(self.expiration_fee, '%Y-%m-%d')
-        date_invoice = datetime.strptime(self.date_invoice, '%Y-%m-%d')
-        date_due = datetime.strptime(self.date_due, '%Y-%m-%d')
-        if (date_fee < date_invoice):
-            raise ValidationError('La fecha de cuota no puede ser menor a la de la factura.')
-        if (date_fee > date_due):
-            raise ValidationError('La fecha de cuota no puede ser mayor a la de vencimiento de la factura.')
-
+        if not self.date_invoice or not self.date_due:
+            raise UserError('Necesita la fecha de factura y vencimiento.')
+        if self.amount_of_fees <= 1:
+            raise UserError('Número de cuotas debe ser mayor a 1.')
+        quota_line = []
+        self.quota_line_invoice.unlink() # Borramos líneas anteriores
+        for x in range(1, self.amount_of_fees):
+            start_date = datetime.strptime(self.date_invoice, "%Y-%m-%d")
+            carry, new_month = divmod(start_date.month + x, 12)
+            if new_month == 0:
+                new_month = 12
+            date = start_date.replace(year=start_date.year + carry, month=new_month)
+            quota_line.append([0, 0, {
+                'number': x,
+                'amount': 0,
+                'expiration_fee': date,
+            }])
+        return self.update({'quota_line_invoice': quota_line})
 
     account_analytic_id = fields.Many2one('account.analytic.account', 'Centro de costo', readonly=True,
                                           states={'draft': [('readonly', False)]})
@@ -77,9 +98,13 @@ class AccountInvoice(models.Model):
     attached_name = fields.Char('Nombre de adjunto')
     concept = fields.Char('Concepto', readonly=True,
                           states={'draft': [('readonly', False)]})
-    payment_conditions = fields.Selection([('cash', 'Contado'), ('credit', 'Crédito')], 'Condiciones de pago'
-                                          , readonly=True, states={'draft': [('readonly', False)]}
-                                          )
-    dues = fields.Boolean('Cuotas?', default=False, readonly=True, states={'draft': [('readonly', False)]})
-    fee_number = fields.Integer('No. Cuota', readonly=True, states={'draft': [('readonly', False)]})
-    expiration_fee = fields.Date('Fecha vencimiento cuota', default=fields.Date.context_today,  readonly=True, states={'draft': [('readonly', False)]})
+    payment_conditions = fields.Selection([
+        ('cash', 'Contado'),
+        ('credit', 'Crédito'),
+        ('credit_fees', 'Crédito cuotas')
+    ], string='Condición de pago'  , readonly=True, states={'draft': [('readonly', False)]})
+    amount_of_fees = fields.Integer('Cantidad de cuotas', readonly=True, states={'draft': [('readonly', False)]},
+                                    default=1)
+    quota_line_invoice = fields.One2many('eliterp.quota.line.invoice', 'invoice_id', string='Línea de cuotas',
+                                         readonly=True,
+                                         states={'draft': [('readonly', False)]})
