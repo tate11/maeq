@@ -40,7 +40,7 @@
         <field name="page_width">0</field>
         <field name="orientation">Landscape</field>
         <field name="margin_top">35</field>
-        <field name="margin_bottom">35s</field>
+        <field name="margin_bottom">35</field>
         <field name="margin_left">2</field>
         <field name="margin_right">2</field>
         <field name="header_line" eval="False"/>
