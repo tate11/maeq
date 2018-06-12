@@ -16,6 +16,7 @@
         'eliterp_purchases',
         'mail',
         'hr',
+        'eliterp_hr',
         'stock',
         'sale'
     ],
