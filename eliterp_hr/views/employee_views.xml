@@ -137,11 +137,18 @@
                                 <field name="address_home_id"
                                        invisible="1"/><!--Dirección Privada, no funciona instalación-->
                             </group>
-                            <group string="Horas extras" col="6">
-                                <field name="apply_overtime"/>
-                                <field name="extra_hours" attrs="{'invisible':[('apply_overtime','=', False)]}"/>
-                                <field name="additional_hours" attrs="{'invisible':[('apply_overtime','=', False)]}"/>
+                            <group>
+                                <group string="Horas extras">
+                                    <field name="apply_overtime"/>
+                                    <field name="extra_hours" attrs="{'invisible':[('apply_overtime','=', False)]}"/>
+                                    <field name="additional_hours"
+                                           attrs="{'invisible':[('apply_overtime','=', False)]}"/>
+                                </group>
+                                <group string="Adicionales">
+                                    <field name="mobilization"/>
+                                </group>
                             </group>
+
                             <group name="active_group" invisible="1"><!--hr_timesheet (Parte de horas no funciona)-->
 
                             </group>
@@ -150,7 +157,7 @@
                             <group>
                                 <field name="lines_history" nolabel="1">
                                     <tree editable="bottom">
-                                        <field name="type" options="{'no_create':True}"/>
+                                        <field name="type"/>
                                         <field name="date"/>
                                         <field name="comment"/>
                                         <field name="date_validity"/>

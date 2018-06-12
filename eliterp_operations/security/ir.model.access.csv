@@ -25,4 +25,4 @@ access_project_manager_sales,project_manager_sales,model_eliterp_project,sales_t
 access_project_manager,project_manager,model_eliterp_project,eliterp_operations.eliterp_group_operations_manager,1,1,1,1
 access_project_user,project_user,model_eliterp_project,base.group_user,1,0,0,0
 
-
+access_record_overtime_operations,record_overtime_operations,model_eliterp_record_overtime,eliterp_operations.eliterp_group_operations_manager,0,0,1,0

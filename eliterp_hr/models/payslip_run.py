@@ -263,7 +263,7 @@ class PayslipRun(models.Model):
         self._create_line_expenses('MUL', move_id, penalty)  # Multas
         self._create_line_expenses('FALT_ATRA', move_id, absence)  # Faltas y atrasos
         self._create_line_expenses('PLAN', move_id, cellular_plan)  # Plan celular
-        self._create_line_expenses('PRES_ADQ', move_id, loan_payment_advance)  # Préstamo anticipo quincena
+        self._create_line_expenses('PRES_ANTIC', move_id, loan_payment_advance)  # Préstamo anticipo quincena
         self._create_line_expenses('IESS_17.60%', move_id, iess_patronal)  # IEES 17.60%
         self._create_line_expenses('OEG', move_id, other_expenses)  # Otros egresos
 

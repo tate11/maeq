@@ -166,7 +166,7 @@
         <record id="eliterp_hr_rule_17" model="hr.salary.rule">
             <field name="name">PRÉSTAMO ANTICIPO QUINCENA</field>
             <field name="category_id" ref="eliterp_expenses"/>
-            <field name="code">PRES_ADQ</field>
+            <field name="code">PRES_ANTIC</field>
             <field name="account_id" ref="eliterp_accounting.1_eliterp_account_11254"/>
             <field name="condition_select">none</field>
             <field name="amount_select">fix</field>

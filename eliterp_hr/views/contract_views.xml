@@ -37,7 +37,7 @@
             <tree position="replace">
                 <tree decoration-info="state_customize =='draft'"
                       decoration-muted="state_customize =='finalized'"
-                      decoration-success="state_customize == 'in_process'"
+                      decoration-success="state_customize == 'active'"
                       default_order='date_start desc'>
                     <field name="employee_id"/>
                     <field name="department_id"/>

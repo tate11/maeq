@@ -34,6 +34,7 @@
         'views/payslip_run_views.xml',
         'views/holiday_views.xml',
         'views/attendance_views.xml',
+        'views/extra_hours_views.xml',
         'reports/reports_views.xml',
         'reports/hr_reports.xml',
         'views/dashboard.xml',

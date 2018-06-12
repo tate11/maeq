@@ -102,6 +102,20 @@ class CMC(models.Model):
             horometro = machine.horometro_initial
         return horometro
 
+    def _create_record_overtime(self, employee):
+        """
+        Creamos los registros de horas extras
+        """
+        if employee.apply_overtime:
+            amount = round(self.extra_hours * employee.additional_hours, 2)
+            object_record_overtime = self.env['eliterp.record.overtime']
+            object_record_overtime.create({
+                'name': employee.id,
+                'date': self.date,
+                'additional_hours': self.extra_hours,
+                'total_additional_hours': amount
+            })
+
     @api.multi
     def validate(self):
         """
@@ -122,6 +136,10 @@ class CMC(models.Model):
                     'description': line.detail,
                     'machine_id': self.machine_id.id
                 })
+        # Creamos líneas de horas extras
+        if self.extra_hours > 0:
+            self._create_record_overtime(self.operator)
+            self._create_record_overtime(self.assistant)
         self.write({
             'state': 'validate'
         })
@@ -192,7 +210,6 @@ class CMC(models.Model):
             self.extra_hours = worked_hours - 8
         self.worked_hours = worked_hours
 
-
     prefix_id = fields.Many2one('eliterp.prefix.cmc', 'Prefijo CMC', required=True, readonly=True,
                                 states={'draft': [('readonly', False)]})
     name = fields.Char('Nº', size=3, required=True, readonly=True,
@@ -221,10 +238,10 @@ class CMC(models.Model):
                         states={'draft': [('readonly', False)]})
 
     initial_horometro = fields.Float('Horómetro inicial', required=True, readonly=True,
-                                       states={'draft': [('readonly', False)]})
+                                     states={'draft': [('readonly', False)]})
     initial_horometro_old = fields.Float('Horómetro inicial viejo')  # Para motivos de cálculos
     final_horometro = fields.Float('Horómetro final', copy=False, readonly=True,
-                                     states={'draft': [('readonly', False)]})
+                                   states={'draft': [('readonly', False)]})
     horometro_difference = fields.Boolean('Hay diferencia?', default=False, copy=False,
                                           help='En caso de diferencia con la información del CMC físico se indicará la información')
     reason = fields.Text('Motivo', copy=False, readonly=True,
@@ -246,7 +263,7 @@ class CMC(models.Model):
 
     state = fields.Selection(STATES, string='Estado', default='draft')
     comment = fields.Text('Notas y comentarios', readonly=True,
-                                     states={'draft': [('readonly', False)]})
+                          states={'draft': [('readonly', False)]})
 
     _sql_constraints = [
         ('number_unique', 'unique (prefix_id, name, state)', "El Nº de CMC debe ser único por prefijo.")

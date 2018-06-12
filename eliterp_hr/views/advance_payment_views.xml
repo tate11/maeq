@@ -106,7 +106,7 @@
                                     class="oe_highlight"/>
                         </group>
                         <field name="lines_advance" nolabel="1">
-                            <tree>
+                            <tree create="false" editable="bottom">
                                 <field name="employee_id"/>
                                 <field name="job_id"/>
                                 <field name="admission_date"/>

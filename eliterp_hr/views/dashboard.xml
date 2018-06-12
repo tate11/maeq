@@ -30,6 +30,33 @@
                 </search>
             </field>
         </record>
+        <record id="eliterp_view_search_record_overtime" model="ir.ui.view">
+            <field name="name">eliterp_view_search_record_overtime</field>
+            <field name="model">eliterp.record.overtime</field>
+            <field name="arch" type="xml">
+                <search>
+                    <field name="name"/>
+                    <field name="date"/>
+                    <separator/>
+                    <filter name="week" string="Está semana"
+                            domain="[
+                                '&amp;',
+                                ('date', '>=', (context_today() + relativedelta(weeks=-1,days=1,weekday=0)).strftime('%Y-%m-%d')),
+                                ('date', '&lt;=', (context_today() + relativedelta(weekday=6)).strftime('%Y-%m-%d')),
+                            ]"/>
+                    <filter name="month" string="Este mes"
+                            domain="[
+                                '&amp;',
+                                ('date', '>=', (context_today() + relativedelta(day=1)).strftime('%Y-%m-%d')),
+                                ('date', '&lt;=', (context_today() + relativedelta(months=1, day=1, days=-1)).strftime('%Y-%m-%d')),
+                            ]"/>
+                    <group expand="0" string="Group By">
+                        <filter string="Empleado" name="groupby_employee" domain="[]" context="{'group_by':'name'}"/>
+                        <filter string="Por mes" name="groupby_date" domain="[]" context="{'group_by':'date'}"/>
+                    </group>
+                </search>
+            </field>
+        </record>
         <!--Acciones-->
         <record id="eliterp_action_attendance_record" model="ir.actions.act_window">
             <field name="name">Registro diario de asistencias</field>
@@ -41,6 +68,14 @@
                     Clic para crear nuevo registro diario de asistencias.
                 </p>
             </field>
+        </record>
+        <record id="eliterp_action_record_overtime" model="ir.actions.act_window">
+            <field name="name">Registro de horas extras</field>
+            <field name="res_model">eliterp.record.overtime</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree</field><!--Sin vista de formulario-->
+            <field name="context">{"search_default_groupby_employee": 1}</field>
+            <field name="search_view_id" ref="eliterp_view_search_record_overtime"/>
         </record>
         <record id="eliterp_action_hr_settings" model="ir.actions.act_window">
             <field name="name">Ajustes</field>
@@ -221,6 +256,12 @@
                   parent="eliterp_menu_hr_absences"
                   action="hr_holidays.action_hr_holidays_dashboard"
                   sequence="2"/>
+
+        <menuitem id="eliterp_menu_hr_record_overtime"
+                  name="Registro de horas extras"
+                  parent="eliterp_menu_hr_employees_news"
+                  action="eliterp_action_record_overtime"
+                  sequence='3'/>
 
         <menuitem id="eliterp_menu_hr_paysheet"
                   name="Nómina"

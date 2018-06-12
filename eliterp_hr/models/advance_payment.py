@@ -87,7 +87,7 @@ class AdvancePayment(models.Model):
             list_employees.append([0, 0, {
                 'employee_id': employee.id,
                 'account_id': employee.account_advance_payment.id,
-                'amount_advance': amount_advance
+                'amount_advance': amount_advance + round((employee.mobilization / 2), 2)
             }])
         return self.write({'lines_advance': list_employees})
 

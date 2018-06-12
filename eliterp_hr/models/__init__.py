@@ -10,3 +10,4 @@ from . import payslip
 from . import payslip_run
 from . import attendance
 from . import holidays
+from . import record_overtime

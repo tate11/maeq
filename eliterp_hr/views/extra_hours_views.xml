@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú Horas extras-->
+        <record id="eliterp_view_tree_record_overtime" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_record_overtime</field>
+            <field name="model">eliterp.record.overtime</field>
+            <field name="arch" type="xml">
+                <tree create="false">
+                    <field name="name"/>
+                    <field name="job_id"/>
+                    <field name="date"/>
+                    <field name="additional_hours"/>
+                    <field name="total_additional_hours"/>
+                </tree>
+            </field>
+        </record>
+    </data>
+</odoo>

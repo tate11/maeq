@@ -142,8 +142,8 @@ class Employee(models.Model):
         :param column_name:
         :return:
         """
-        query = """UPDATE hr_employee SET wage=386
-                    WHERE wage is NULL
+        query = """UPDATE hr_employee SET names='Sin nombres', surnames='Sin apellidos', wage=386
+                    WHERE wage is NULL AND names is NULL AND surnames is NULL
                         """
         self.env.cr.execute(query)
 
@@ -259,3 +259,5 @@ class Employee(models.Model):
     apply_overtime = fields.Boolean('Aplica?', default=False)
     extra_hours = fields.Float('Monto HE 100%', compute='_get_amount_hours', store=True)
     additional_hours = fields.Float('Monto HE 50%', compute='_get_amount_hours', store=True)
+    mobilization = fields.Float('Movilización',
+                                help='Será dado al empleado la mitad en ADQ y la otra mitad en Rol consolidado.')
