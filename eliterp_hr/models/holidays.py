@@ -153,97 +153,114 @@ class Holidays(models.Model):
             for line in self.lines_vacations:
                 total += line.vacations_available
             if self.number_of_days_temp > total:
-                raise ValidationError("Duración de vacaciones a tomar mayores a las por gozar.")
+                raise ValidationError("Duración de vacaciones a tomar mayores a las totales por gozar (%s)." % int(total))
+
+    @staticmethod
+    def _get_lines_vacations(employee):
+        """
+        Obtenemos las líneas de vacaciones por período
+        :return: list
+        """
+        lines = []
+        if not employee:
+            return lines
+        today = datetime.today().date()
+        days = 0
+        admission_date = datetime.strptime(employee.admission_date, "%Y-%m-%d").date()
+        years = today.year - admission_date.year
+        if years == 0:
+            days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(admission_date,
+                                                                                              datetime.min.time())).days) / float(
+                24))
+            data = {
+                'employee': employee.id,
+                'period': str(admission_date.year) + "-" + str(today.year),
+                'vacations_generated': days,
+                'vacations_taken': 0,
+                'vacations_available': 0,
+            }
+            lines.append(data)
+        if years >= 1:
+            if years == 1:
+                if today < admission_date.replace(year=today.year):
+                    days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                        admission_date, datetime.min.time())).days) / float(24))
+                    data = {
+                        'employee': employee.id,
+                        'period': str(admission_date.year) + "-" + str(today.year),
+                        'vacations_generated': days,
+                        'vacations_taken': 0,
+                        'vacations_available': 0,
+                    }
+                    lines.append(data)
+                else:
+                    days = 15
+                    data = {
+                        'employee': employee.id,
+                        'period': str(admission_date.year) + "-" + str(today.year),
+                        'vacations_generated': days,
+                        'vacations_taken': 0,
+                        'vacations_available': 0,
+                    }
+                    lines.append(data)
+
+                    days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                        admission_date.replace(year=today.year), datetime.min.time())).days) / float(24))
+                    data = {'employee': employee.id,
+                            'period': str(today.year) + "-" + str(today.year + 1),
+                            'vacations_generated': days,
+                            'vacations_taken': 0,
+                            'vacations_available': 0, }
+                    lines.append(data)
+            if years > 1:
+                for x in range(1, years):
+                    days = 15
+                    data = {'employee': employee.id,
+                            'period': str(admission_date.year) + "-" + str(admission_date.year + x),
+                            'vacations_generated': days,
+                            'vacations_taken': 0,
+                            'vacations_available': 0, }
+                    lines.append(data)
+                if today < admission_date.replace(year=today.year):
+                    days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                        admission_date.replace(year=today.year - 1), datetime.min.time())).days) / float(24))
+                    data = {'employee': employee.id,
+                            'period': str(admission_date.year + 1) + "-" + str(today.year),
+                            'vacations_generated': days,
+                            'vacations_taken': 0,
+                            'vacations_available': 0, }
+                    lines.append(data)
+                else:
+                    days = 15
+                    data = {'employee': employee.id,
+                            'period': str(admission_date.year + 1) + "-" + str(today.year),
+                            'vacations_generated': days,
+                            'vacations_taken': 0,
+                            'vacations_available': 0, }
+                    lines.append(data)
+                    days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
+                        admission_date.replace(year=today.year), datetime.min.time())).days) / float(24))
+                    data = {'employee': employee.id,
+                            'period': str(today.year) + "-" + str(today.year + 1),
+                            'vacations_generated': days,
+                            'vacations_taken': 0,
+                            'vacations_available': 0, }
+                    lines.append(data)
+        return lines
 
     @api.onchange('employee_id', 'holiday_status_id')
     def _onchange_employee_id(self):
         """
         Generamos las vacaciones de empleado si el tipo de ausencia
-        es para vacaciones
+        es para vacaciones y asigar departamento si tiene
         """
+        self.department_id = self.employee_id.department_id
         if self.is_vacations:
             employee = self.employee_id
-            if not employee.admission_date:
-                return
             lines_vacations = self.lines_vacations.browse([])
-            data = []
-            days = 0
-            today = datetime.today().date()
-            admission_date = datetime.strptime(employee.admission_date, "%Y-%m-%d").date()
-            years = today.year - admission_date.year
-            if years == 0:
-                days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(admission_date,
-                                                                                                  datetime.min.time())).days) / float(
-                    24))
-                data = {'employee': employee.id,
-                        'period': str(admission_date.year) + "-" + str(today.year),
-                        'vacations_generated': days,
-                        'vacations_taken': 0,
-                        'vacations_available': 0, }
-                lines_vacations += lines_vacations.new(data)
-            if years >= 1:
-                if years == 1:
-                    if today < admission_date.replace(year=today.year):
-                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
-                            admission_date, datetime.min.time())).days) / float(24))
-                        data = {'employee': employee.id,
-                                'period': str(admission_date.year) + "-" + str(today.year),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
-                    else:
-                        days = 15
-                        data = {'employee': employee.id,
-                                'period': str(admission_date.year) + "-" + str(today.year),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
-
-                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
-                            admission_date.replace(year=today.year), datetime.min.time())).days) / float(24))
-                        data = {'employee': employee.id,
-                                'period': str(today.year) + "-" + str(today.year + 1),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
-                if years > 1:
-                    for x in range(1, years):
-                        days = 15
-                        data = {'employee': employee.id,
-                                'period': str(admission_date.year) + "-" + str(admission_date.year + x),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
-
-                    if today < admission_date.replace(year=today.year):
-                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
-                            admission_date.replace(year=today.year - 1), datetime.min.time())).days) / float(24))
-                        data = {'employee': employee.id,
-                                'period': str(admission_date.year + 1) + "-" + str(today.year),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
-                    else:
-                        days = 15
-                        data = {'employee': employee.id,
-                                'period': str(admission_date.year + 1) + "-" + str(today.year),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
-                        days = int(float((datetime.combine(today, datetime.min.time()) - datetime.combine(
-                            admission_date.replace(year=today.year), datetime.min.time())).days) / float(24))
-                        data = {'employee': employee.id,
-                                'period': str(today.year) + "-" + str(today.year + 1),
-                                'vacations_generated': days,
-                                'vacations_taken': 0,
-                                'vacations_available': 0, }
-                        lines_vacations += lines_vacations.new(data)
+            data = self._get_lines_vacations(employee)
+            for line in data:  # Añadimos líneas de vacaciones a objeto
+                lines_vacations += lines_vacations.new(line)
             self.lines_vacations = lines_vacations
             vacations_taken = self.employee_id.days_taken  # Las vacaciones tomados por empleado
             # Hacemos la disminución con los días de vacaciones tomados
@@ -275,7 +292,7 @@ class Holidays(models.Model):
                         'vacations_taken': 0,
                         'vacations_available': line.vacations_generated
                     })
-            if vacations_taken != 0:  # TODO: Para que sirve
+            if vacations_taken != 0:
                 self.lines_vacations[-1].update(
                     {'vacations_available': self.lines_vacations[-1].vacations_available - vacations_taken})
         return
@@ -283,7 +300,7 @@ class Holidays(models.Model):
     @api.model
     def _get_vacations(self):
         """
-        Obtenemos las vacaciones menos los días de la solicitud
+        R: Obtenemos las vacaciones menos los días de la solicitud
         """
         data = []
         days = int(self.number_of_days_temp)
