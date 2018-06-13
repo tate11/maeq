@@ -120,22 +120,25 @@
                                             <span t-field="line.admission_date"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-field="line.amount_advance"/>
+                                            <span t-esc="'%.2f' % line.amount_advance"/>
                                         </td>
                                     </tr>
                                 </tbody>
                             </table>
                             <div class="clearfix">
                                 <div class="row">
-                                    <div class="col-xs-4  pull-right text-right">
+                                    <div class="col-xs-4  pull-right">
                                         <table class="table">
                                             <tbody>
                                                 <tr>
-                                                    <td class="col-xs-2">
-                                                        <strong>Total</strong>
+
+                                                    <td class="col-xs-2 text-right" >
+                                                        <div style="font-size:15px;">Total</div>
+
                                                     </td>
-                                                    <td class="col-xs-2">
-                                                        <span t-esc="'%.2f' % doc.total"/>
+                                                    <td class="col-xs-2 text-right">
+                                                        <div style="font-size:15px;"><span t-esc="'%.2f' % doc.total"/></div>
+
                                                     </td>
                                                 </tr>
                                             </tbody>
