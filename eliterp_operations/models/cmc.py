@@ -5,6 +5,7 @@
 from odoo import models, fields, api
 from odoo.addons import decimal_precision as dp
 from odoo.exceptions import ValidationError, UserError
+from odoo.tools import float_is_zero
 
 STATES = [
     ('draft', 'Borrador'),
@@ -76,9 +77,23 @@ class SuppliesCMC(models.Model):
 
     _description = 'Insumos usados en CMC'
 
-    product_id = fields.Many2one('product.product', domain=[('purchase_ok', '=', True)], string='Insumo')
+    @api.onchange('product_id')
+    def onchange_product_id(self):
+        """
+        Actualizamos datos de producto al cambiar el mismo
+        """
+        self.name = self.product_id.description_purchase
+        self.product_uom_id = self.product_id.uom_id.id
+        return {'domain': {'product_uom_id': [('category_id', '=', self.product_id.uom_id.category_id.id)]}}
+
+    product_id = fields.Many2one('product.product', domain=[
+        ('purchase_ok', '=', True),
+        ('qty_available', '>', 0),
+        ('type', '=', 'product')
+    ], string='Producto', required=True)  # Soló productos almacenables y con stock físico
+    name = fields.Text('Descripción')
     product_quantity = fields.Float('Cantidad', digits=dp.get_precision('Product Unit of Measure'), required=True)
-    product_uom_id = fields.Many2one('product.uom', string='Unidad de medida')
+    product_uom_id = fields.Many2one('product.uom', string='Unidad de medida', required=True)
     cmc_id = fields.Many2one('eliterp.cmc', 'CMC')
 
 
@@ -102,6 +117,47 @@ class CMC(models.Model):
             horometro = machine.horometro_initial
         return horometro
 
+    def create_picking(self):
+        """
+        Creamos un picking desde el CMC cómo transferencia interna
+        """
+        Picking = self.env['stock.picking']
+        Move = self.env['stock.move']
+        for cmc in self:
+            picking_type = cmc.picking_type_id
+            location_id = picking_type.default_location_src_id.id
+            destination_id = picking_type.default_location_dest_id.id
+            moves = Move
+            picking_vals = {
+                'origin': "CMC/%s-%s" % (cmc.prefix_id.name, cmc.name),
+                'date_done': cmc.date,
+                'picking_type_id': picking_type.id,
+                'company_id': self.env.user.company_id.id,
+                'move_type': 'direct',
+                'location_id': location_id,
+                'location_dest_id': destination_id,
+            }
+            message = 'Se realizó movimiento de inventario del CMC: %s-%s' % (cmc.prefix_id.name, cmc.name)
+            cmc_picking = Picking.create(picking_vals.copy())
+            cmc_picking.message_post(body=message)
+            for line in cmc.supplies.filtered(lambda l: not float_is_zero(l.product_quantity,
+                                                                          precision_rounding=l.product_uom_id.rounding)):
+                moves |= Move.create({
+                    'name': line.name,
+                    'product_uom': line.product_uom_id.id,
+                    'picking_id': cmc_picking.id,
+                    'picking_type_id': picking_type.id,
+                    'product_id': line.product_id.id,
+                    'product_uom_qty': abs(line.product_quantity),
+                    'state': 'draft',
+                    'location_id': location_id,
+                    'location_dest_id': destination_id,
+                })
+            # Realizar las operaciones de inventario
+            moves._action_confirm()
+            moves._action_assign()
+            cmc.write({'picking_id': cmc_picking.id})  # Picking creado se asigna a cmc
+
     def _create_record_overtime(self, employee):
         """
         Creamos los registros de horas extras
@@ -115,6 +171,7 @@ class CMC(models.Model):
                 'additional_hours': self.extra_hours,
                 'total_additional_hours': amount
             })
+        return True
 
     @api.multi
     def validate(self):
@@ -140,6 +197,7 @@ class CMC(models.Model):
         if self.extra_hours > 0:
             self._create_record_overtime(self.operator)
             self._create_record_overtime(self.assistant)
+        self.create_picking()  # Función para crear picking
         self.write({
             'state': 'validate'
         })
@@ -246,8 +304,10 @@ class CMC(models.Model):
                                           help='En caso de diferencia con la información del CMC físico se indicará la información')
     reason = fields.Text('Motivo', copy=False, readonly=True,
                          states={'draft': [('readonly', False)]})
-    supplies = fields.One2many('eliterp.supplies.cmc', 'cmc_id', 'Insumos de CMC')
-    piece_ids = fields.One2many('eliterp.parts.management', 'cmc_id', 'Administración de piezas')
+    supplies = fields.One2many('eliterp.supplies.cmc', 'cmc_id', 'Insumos de CMC', readonly=True,
+                               states={'draft': [('readonly', False)]})
+    piece_ids = fields.One2many('eliterp.parts.management', 'cmc_id', 'Administración de piezas', readonly=True,
+                                states={'draft': [('readonly', False)]})
 
     check_in_am = fields.Datetime('Hora ingreso AM', readonly=True,
                                   states={'draft': [('readonly', False)]})
@@ -264,6 +324,12 @@ class CMC(models.Model):
     state = fields.Selection(STATES, string='Estado', default='draft')
     comment = fields.Text('Notas y comentarios', readonly=True,
                           states={'draft': [('readonly', False)]})
+    picking_type_id = fields.Many2one('stock.picking.type', 'Usado para',
+                                      domain=[('code', '=', 'internal')], readonly=True,
+                                      states={'draft': [('readonly', False)]},
+                                      help="Está determinada operación será usada en el uso de insumos para CMC's.")
+    picking_id = fields.Many2one('stock.picking', 'Movimiento', readonly=True,
+                                 states={'draft': [('readonly', False)]})
 
     _sql_constraints = [
         ('number_unique', 'unique (prefix_id, name, state)', "El Nº de CMC debe ser único por prefijo.")
