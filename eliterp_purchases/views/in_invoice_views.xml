@@ -64,6 +64,8 @@
                         <field name="analytic_tag_ids"
                                invisible="1"
                                widget="many2many_tags"/><!--CM-->
+                        <field name="purchase_line_id" readonly="0" invisible="1"/><!--FIXME: Soló funciona así-->
+                        <field name="purchase_id" readonly="0" invisible="1"/>
                     </tree>
                 </xpath>
             </field>
