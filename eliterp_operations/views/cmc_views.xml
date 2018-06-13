@@ -69,16 +69,21 @@
                             </page>
                             <page string="Insumos">
                                 <group col="4" string="Insumos usados en trabajo">
-                                    <field name="supplies" nolabel="1">
-                                        <tree editable="bottom">
-                                            <field name="product_id"
-                                                   options="{'no_open': True, 'no_create': True}"/>
-                                            <field name="product_quantity"/>
-                                            <field name="product_uom_id"
-                                                   options="{'no_open': True, 'no_create': True}"/>
-                                        </tree>
-                                    </field>
+                                    <field name="picking_type_id"/>
+                                    <field name="picking_id" attrs="{'invisible': [['picking_id', '=', False]]}"/>
                                 </group>
+                                    <group>
+                                        <field name="supplies" nolabel="1">
+                                            <tree editable="bottom">
+                                                <field name="product_id"
+                                                       options="{'no_open': True, 'no_create': True}"/>
+                                                <field name="name"/>
+                                                <field name="product_quantity"/>
+                                                <field name="product_uom_id"
+                                                       options="{'no_open': True, 'no_create': True}"/>
+                                            </tree>
+                                        </field>
+                                    </group>
                             </page>
                             <page string="Piezas">
                                 <group col="4" string="Administración de piezas">
