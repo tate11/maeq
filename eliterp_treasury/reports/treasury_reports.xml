@@ -541,5 +541,544 @@
                 print_report_name="'Liquidaciones de viático - %s' % (object.name or '/')"
                 paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
         />
+        <!--
+                Reportes del módulo Tesoderia
+        -->
+        <!--Reporte de cuentas por cobrar-->
+        <template id="eliterp_report_accounts_receivable">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">REPO-TESO-001-V1</t>
+                    <t t-set="report_title">REPORTE DE CUENTAS POR COBRAR</t>
+                    <t t-set="is_report" t-value="True"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <strong>Fecha de inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Emisión:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th colspan="7">&amp;nbsp;</th>
+                                        <th colspan="5" class="text-center">VALORES POR VENCER</th>
+                                        <th colspan="5" class="text-right">VALORES VENCIDOS</th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th colspan="7">&amp;nbsp;</th>
+                                        <th colspan="5" class="text-center">ANTIGÜEDAD DE CARTERA (DÍAS)</th>
+                                        <th colspan="5" class="text-right">ANTIGÜEDAD DE CARTERA (DÍAS)</th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">CLIENTE</th>
+                                        <th class="text-center">NO. FACTURA</th>
+                                        <th class="text-center">VALOR</th>
+                                        <th class="text-center">SALDO PENDIENTE</th>
+                                        <th class="text-center">FECHA EMISIÓN</th>
+                                        <th class="text-center">FECHA VENCIMIENTO</th>
+                                        <th class="text-center">MOROSIDAD</th>
+                                        <th class="text-center">1-30</th>
+                                        <th class="text-center">31-90</th>
+                                        <th class="text-center">91-180</th>
+                                        <th class="text-center">181-360</th>
+                                        <th class="text-center">Mayor a</th>
+                                        <th class="text-center">1-30</th>
+                                        <th class="text-center">31-90</th>
+                                        <th class="text-center">91-180</th>
+                                        <th class="text-center">181-360</th>
+                                        <th class="text-center">Mayor a</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="get_lines(doc)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line['partner']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['number']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['amount']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['outstanding_balance']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['expedition_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['expiration_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['delinquency']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_30']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_90']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_180']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_360']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_mayor']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_30']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_90']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_180']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_360']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_mayor']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_accounts_receivable_report"
+                model="eliterp.accounts.receivable.report"
+                string="Reporte de cuentas por cobrar"
+                report_type="qweb-pdf"
+                name="eliterp_treasury.eliterp_report_accounts_receivable"
+                file="eliterp_treasury.eliterp_report_accounts_receivable"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Reporte de cuentas por pagar-->
+        <template id="eliterp_report_accounts_to_pay">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">REPO-TESO-002-V1</t>
+                    <t t-set="report_title">REPORTE DE CUENTAS POR PAGAR</t>
+                    <t t-set="is_report" t-value="True"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <strong>Fecha de inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Emisión:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th colspan="11">&amp;nbsp;</th>
+                                        <th colspan="5" class="text-center">VALORES POR VENCER</th>
+                                        <th colspan="5" class="text-right">VALORES VENCIDOS</th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th colspan="5">&amp;nbsp;</th>
+                                        <th colspan="2" class="text-center">NOTA DE CRÉDITO</th>
+                                        <th colspan="4">&amp;nbsp;</th>
+                                        <th colspan="5" class="text-center">ANTIGÜEDAD DE CARTERA (DÍAS)</th>
+                                        <th colspan="5" class="text-right">ANTIGÜEDAD DE CARTERA (DÍAS)</th>
+                                    </tr>
+                                </thead>
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">PROVEEDOR</th>
+                                        <th class="text-center">NO. FACTURA</th>
+                                        <th class="text-center">SUBTOTAL</th>
+                                        <th class="text-center">IVA</th>
+                                        <th class="text-center">TOTAL</th>
+                                        <th class="text-center">No.</th>
+                                        <th class="text-center">Valor</th>
+                                        <th class="text-center">SALDO PENDIENTE</th>
+                                        <th class="text-center">FECHA EMISIÓN</th>
+                                        <th class="text-center">FECHA VENCIMIENTO</th>
+                                        <th class="text-center">MOROSIDAD</th>
+                                        <th class="text-center">1-30</th>
+                                        <th class="text-center">31-90</th>
+                                        <th class="text-center">91-180</th>
+                                        <th class="text-center">181-360</th>
+                                        <th class="text-center">Mayor a</th>
+                                        <th class="text-center">1-30</th>
+                                        <th class="text-center">31-90</th>
+                                        <th class="text-center">91-180</th>
+                                        <th class="text-center">181-360</th>
+                                        <th class="text-center">Mayor a</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="get_lines(doc)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line['provider']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['number']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['subtotal']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['iva']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['amount']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['credit_note_number']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['amount_note_number']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['outstanding_balance']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['broadcast_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['expiration_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['delinquency']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_30']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_90']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_180']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_360']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['overcome_mayor']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_30']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_90']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_180']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_360']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['defeated_mayor']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_accounts_to_pay"
+                model="eliterp.accounts.to.pay.report"
+                string="Reporte de cuentas por pagar"
+                report_type="qweb-pdf"
+                name="eliterp_treasury.eliterp_report_accounts_to_pay"
+                file="eliterp_treasury.eliterp_report_accounts_to_pay"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Reporte de cheque recibidos-->
+        <template id="eliterp_report_checks_received_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">REPO-TESO-003-V1</t>
+                    <t t-set="report_title">REPORTE DE CHEQUES RECIBIDOS</t>
+                    <t t-set="is_report" t-value="True"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <strong>Fecha de inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Emisión:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">FECHA INGRESO</th>
+                                        <th class="text-center">FECHA DOCUMENTO</th>
+                                        <th class="text-center">FECHA COBRO</th>
+                                        <th class="text-center">CLIENTE</th>
+                                        <th class="text-center">NO. FACTURA</th>
+                                        <th class="text-center">BANCO EMISOR</th>
+                                        <th class="text-center">NO. CHEQUE</th>
+                                        <th class="text-center">VALOR</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="get_lines(doc)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line['date_received']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['document_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['credit_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['partner']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['facturas']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['issuing_bank']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['number_check']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['amount']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_checks_received_report"
+                model="eliterp.checks.received.report"
+                string="Reporte de cheques recibidos"
+                report_type="qweb-pdf"
+                name="eliterp_treasury.eliterp_report_checks_received_report"
+                file="eliterp_treasury.eliterp_report_checks_received_report"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Reporte de cheque emitidos-->
+        <template id="eliterp_report_checks_issued_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">REPO-TESO-004-V1</t>
+                    <t t-set="report_title">REPORTE DE CHEQUES EMITIDOS</t>
+                    <t t-set="is_report" t-value="True"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <strong>Fecha de inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Emisión:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">NO. CHEQUE</th>
+                                        <th class="text-center">BANCO</th>
+                                        <th class="text-center">FECHA EMISIÓN</th>
+                                        <th class="text-center">FECHA PAGO</th>
+                                        <th class="text-center">BENEFICIARIO</th>
+                                        <th class="text-center">CONCEPTO</th>
+                                        <th class="text-center">Monto</th>
+                                        <th class="text-center">ESTADO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="get_lines(doc)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line['number_check']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['bank']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['broadcast_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['pay_day']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['beneficiary']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['concept']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['amount']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['state']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_checks_issued_report"
+                model="eliterp.checks.issued.report"
+                string="Reporte de cheques emitidos"
+                report_type="qweb-pdf"
+                name="eliterp_treasury.eliterp_report_checks_issued_report"
+                file="eliterp_treasury.eliterp_report_checks_issued_report"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+        <!--Reporte de pagos programados-->
+        <template id="eliterp_report_scheduled_payments">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">REPO-TESO-005-V1</t>
+                    <t t-set="report_title">REPORTE DE PAGOS PROGRAMADOS</t>
+                    <t t-set="is_report" t-value="True"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <strong>Fecha de inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha Fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Emisión:</strong>
+                                    <p t-field="doc.create_date"/>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center">PROVEEDOR</th>
+                                        <th class="text-center">NO. FACTURA</th>
+                                        <th class="text-center">SUBTOTAL</th>
+                                        <th class="text-center">IVA</th>
+                                        <th class="text-center">TOTAL</th>
+                                        <th class="text-center">SALDO PENDIENTE</th>
+                                        <th class="text-center">FECHA VENCIMIENTO </th>
+                                        <th class="text-center">MOROSIDAD</th>
+                                        <th class="text-center">VALOR PAGO</th>
+                                        <th class="text-center">FORMA PAGO</th>
+                                        <th class="text-center">FECHA PAGO</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="get_lines(doc)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line['provider']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['number_factura']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['subtotal']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['iva']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['amount']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['outstanding_balance']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['expiration_date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['delinquency']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['payment_value']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['form_pay']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['pay_day']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_scheduled_payments_report"
+                model="eliterp.scheduled.payments.report"
+                string="Reporte de pagos progrmados"
+                report_type="qweb-pdf"
+                name="eliterp_treasury.eliterp_report_scheduled_payments"
+                file="eliterp_treasury.eliterp_report_scheduled_payments"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
+
     </data>
 </odoo>
