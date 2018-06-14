@@ -197,7 +197,8 @@ class CMC(models.Model):
         if self.extra_hours > 0:
             self._create_record_overtime(self.operator)
             self._create_record_overtime(self.assistant)
-        self.create_picking()  # Función para crear picking
+        if self.picking_type_id:
+            self.create_picking()  # Función para crear picking si tiene tipo de operación
         self.write({
             'state': 'validate'
         })

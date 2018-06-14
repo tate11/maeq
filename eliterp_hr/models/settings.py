@@ -2,7 +2,7 @@
 # Copyright 2018 Elitumdevelop S.A, Ing. Mario Rangel
 # License LGPL-3.0 or later (http://www.gnu.org/licenses/lgpl.html).
 
-from odoo import fields, models, _
+from odoo import fields, models, api
 
 
 class ConfigSettings(models.TransientModel):
@@ -18,3 +18,11 @@ class ConfigSettings(models.TransientModel):
         default_model='hr.contract',
         default=90
     )
+    default_advance_days = fields.Integer(
+        'Días para ADQ',
+        default_model='eliterp.advance.payment',
+        default=10
+    )
+
+
+

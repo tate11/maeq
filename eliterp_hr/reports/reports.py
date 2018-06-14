@@ -111,42 +111,37 @@ class ReportAbsencesPdf(models.AbstractModel):
         arg.append(('holiday_type', '=', 'employee'))
         arg.append(('date_from', '>=', doc.start_date))
         arg.append(('date_from', '<=', doc.end_date))
-        if context['filtro_ausencia'] != 'todas':
-            if isinstance(context['ausencias'], int):
-                arg.append(('holiday_status_id', '=', context['ausencias']))
-            else:
-                arg.append(('holiday_status_id', '=', context['ausencias'].id))
-        if context['filtro_empleado'] != 'todos':
-            if isinstance(context['empleados'], int):
-                arg.append(('employee_id', '=', context['empleados']))
-            else:
-                arg.append(('employee_id', '=', context['empleados'].id))
-        ausencias = self.env['hr.holidays'].search(arg)
-        for ausencia in ausencias:
+        if doc.type_absences != 'all':
+            arg.append(('holiday_status_id', '=', doc.holidays_status_id.id))
+        if doc.type_employees != 'all':
+            arg.append(('employee_id', '=', doc.employee_id.id))
+        absences = self.env['hr.holidays'].search(arg)
+        for line in absences:
             data.append({
-                'estado': ausencia.employee_id.state_laboral,
-                'nombre': ausencia.employee_id.name,
-                'tipo_ausencia': ausencia.name,
-                'fecha_inicial': ausencia.date_from,
-                'fecha_final': ausencia.date_to,
-                'days': str(ausencia.number_of_days_temp),
-                'comentario': ausencia.report_note
+                'employee': line.employee_id.name,
+                'holiday': line.name,
+                'date_from': line.date_from,
+                'date_to': line.date_to,
+                'days': str(int(line.number_of_days_temp)),
+                'report_note': line.report_note
             })
-        if context['filtro_empleado'] == 'todos':
-            data = filter(lambda x: x['estado'] == context['state_laboral'], data)
-        data = sorted(data, key=lambda x: (x['nombre'], x['fecha_inicial']))
-        ausencias_todos = self.env['hr.holidays'].search([('state', '=', 'validate'),
-                                                          ('date_from', '>=', context['fecha_inicio']),
-                                                          ('date_from', '<=', context['fecha_fin']),
-                                                          ('holiday_type', '=', 'category')])
-        for ausencia in ausencias_todos:
+        data = sorted(data,
+                      key=lambda x: (x['employee'], x['date_from']))  # Ordenamos por empleado y fecha de inicio
+        # Buscamos las ausencias de Nómina
+        absences_category = self.env['hr.holidays'].search([
+            ('state', '=', 'validate'),
+            ('date_from', '>=', doc.start_date),
+            ('date_from', '<=', doc.end_date),
+            ('holiday_type', '=', 'category')
+        ])
+        for line in absences_category:
             data.append({
-                'nombre': 'NÓMINA',
-                'tipo_ausencia': ausencia.name,
-                'fecha_inicial': ausencia.date_from,
-                'fecha_final': ausencia.date_to,
-                'days': str(ausencia.number_of_days_temp),
-                'comentario': ausencia.report_note
+                'employee': line.employee_id.name,
+                'holiday': line.name,
+                'date_from': line.date_from,
+                'date_to': line.date_to,
+                'days': str(int(line.number_of_days_temp)),
+                'report_note': line.report_note
             })
         return data
 

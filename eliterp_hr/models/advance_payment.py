@@ -78,9 +78,9 @@ class AdvancePayment(models.Model):
             ('active', '=', True),
             ('contract_id', '!=', False)
         ]):
-            amount_advance = 0.0  # Para MAEQ se trabajará así por el momento
+            amount_advance = 0.0  # Para MAEQ se trabajará así por el momento la variable está configurada en Ajustes RRHH
             antiquity = employee.contract_id.antiquity
-            if antiquity >= 15:
+            if antiquity >= self.advance_days:
                 amount_advance = round(float((employee.wage * 40) / 100), 2)
             else:
                 amount_advance = 80.0
@@ -225,3 +225,4 @@ class AdvancePayment(models.Model):
     reason_deny = fields.Text('Negado por')
     count_lines = fields.Integer('Nº de empleados', compute='_get_count_lines')
     comment = fields.Text('Notas y comentarios')
+    advance_days = fields.Integer('Días de ADQ')
