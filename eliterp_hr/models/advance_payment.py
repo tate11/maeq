@@ -18,11 +18,21 @@ class LinesAdvancePayment(models.Model):
 
     _description = 'Líneas de anticipo de quincena'
 
+    @api.one
+    def _get_total(self):
+        """
+        Total de línea
+        """
+        self.amount_total = round(self.amount_advance + self.mobilization, 2)
+
     employee_id = fields.Many2one('hr.employee', string='Empleado')
     job_id = fields.Many2one('hr.job', string='Cargo', related='employee_id.job_id', store=True)
     admission_date = fields.Date(related='employee_id.admission_date', store=True, string='Fecha ingreso')
     account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
     amount_advance = fields.Float('Monto de anticipo', default=0.00)
+    mobilization = fields.Float(related='employee_id.mobilization', store=True, string='Movilización')
+    antiquity = fields.Integer('Días')
+    amount_total = fields.Float('Total', compute='_get_total')
     advanced_id = fields.Many2one('eliterp.advance.payment', 'Anticipo')
 
 
@@ -87,7 +97,8 @@ class AdvancePayment(models.Model):
             list_employees.append([0, 0, {
                 'employee_id': employee.id,
                 'account_id': employee.account_advance_payment.id,
-                'amount_advance': amount_advance + round((employee.mobilization / 2), 2)
+                'antiquity': antiquity,
+                'amount_advance': amount_advance,
             }])
         return self.write({'lines_advance': list_employees})
 
@@ -97,7 +108,7 @@ class AdvancePayment(models.Model):
         """
         Total de líneas de anticipo
         """
-        self.total = sum(line.amount_advance for line in self.lines_advance)
+        self.total = sum(line.amount_total for line in self.lines_advance)
 
     @api.multi
     def to_approve(self):
@@ -160,7 +171,7 @@ class AdvancePayment(models.Model):
                      'account_id': line.account_id.id,
                      'move_id': move_id.id,
                      'credit': 0.0,
-                     'debit': line.amount_advance,
+                     'debit': line.amount_total,
                      'date': self.date})
             else:
                 self.env['account.move.line'].with_context(check_move_validity=False).create(
@@ -169,7 +180,7 @@ class AdvancePayment(models.Model):
                      'account_id': line.account_id.id,
                      'move_id': move_id.id,
                      'credit': 0.0,
-                     'debit': line.amount_advance,
+                     'debit': line.amount_total,
                      'date': self.date})
 
         move_id.post()
@@ -206,7 +217,6 @@ class AdvancePayment(models.Model):
         self.count_lines = len(self.lines_advance) if self.lines_advance else 0
 
     name = fields.Char('No. Documento')
-    # TODO: No hacer mejor como período de factura
     period = fields.Char('Período', compute='_get_period', store=True)
     date = fields.Date('Fecha de emisión', default=fields.Date.context_today, required=True)
     account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')],

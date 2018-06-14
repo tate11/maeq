@@ -31,7 +31,6 @@
         <field name="name">eliterp_view_tree_advance</field>
         <field name="model">eliterp.advance.payment</field>
         <field name="arch" type="xml">
-            <!--TODO-->
             <tree decoration-info="state=='draft'"
                   decoration-muted="state=='deny'"
                   decoration-success="state == 'posted'"
@@ -106,12 +105,15 @@
                                     class="oe_highlight"/>
                         </group>
                         <field name="lines_advance" nolabel="1">
-                            <tree create="false" editable="bottom">
+                            <tree create="false" default_order='antiquity asc' editable="bottom">
                                 <field name="employee_id"/>
                                 <field name="job_id"/>
                                 <field name="admission_date"/>
                                 <field name="account_id" invisible="1"/>
-                                <field name="amount_advance"/>
+                                <field name="antiquity"/>
+                                <field name="amount_advance" sum="Total"/>
+                                <field name="mobilization" sum="Total"/>
+                                <field name="amount_total" sum="Total"/>
                             </tree>
                         </field>
                     </group>

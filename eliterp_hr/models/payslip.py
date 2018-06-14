@@ -143,7 +143,7 @@ class Payslip(models.Model):
                 if last_advance_payment:
                     for line in last_advance_payment[-1].lines_advance:
                         if line.employee_id == self.employee_id:
-                            amount = line.amount_advance
+                            amount = line.amount_total
                             break
                 else:
                     amount = 0.00

@@ -86,6 +86,16 @@
             <field name="condition_select">none</field>
             <field name="amount_select">fix</field>
         </record>
+        <record id="eliterp_hr_rule_8" model="hr.salary.rule">
+            <field name="name">MOVILIZACIÓN</field>
+            <field name="category_id" ref="eliterp_income"/>
+            <field name="code">MOVILIZ</field>
+            <field name="account_id" ref="eliterp_accounting.1_eliterp_account_52218"/>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = employee.mobilization
+            </field>
+            <field name="amount_select">fix</field>
+        </record>
         <!--Reglas salariales, EGRESOS-->
         <record id="eliterp_hr_rule_8" model="hr.salary.rule">
             <field name="name">ANTICIPO DE QUINCENA</field>

@@ -184,6 +184,7 @@ class PayslipRun(models.Model):
         extra_hours = 0.00  # TODO
         additional_hours = 0.00  # TODO
         other_income = 0.00
+        mobilization = 0.00  # MAEQ
         total_income = 0.00
         # Egresos
         payment_advance = 0.00
@@ -204,6 +205,9 @@ class PayslipRun(models.Model):
         provision_reserve_funds = 0.00
         advances = []
         flag_benefits = False  # Bandera para acumular beneficios
+        last_advance_payment = self.env['eliterp.advance.payment'].search([('state', '=', 'posted')]) # MAEQ
+        for line in last_advance_payment[-1].lines_advance:
+            mobilization += line.mobilization
         for role in self.lines_payslip_run:  # Comenzamos a sumar los roles individuales para creación del consolidado
             wage += round(role.wage, 3)
             other_income += round(role.other_income, 3)
@@ -289,6 +293,7 @@ class PayslipRun(models.Model):
         # self._create_line_income('HEEX', move_id, extra_hours, False)  # Horas extras
         # self._create_line_income('HESU', move_id, additional_hours, False)  # Horas suplementarias
         self._create_line_income('OIN', move_id, other_income, False)  # Otros ingresos
+        self._create_line_income('MOVILIZ', move_id, round(mobilization, 3), False)  # MAEQ: Movilización
         self._create_line_income('SUE', move_id, wage, True)  # Sueldo
 
         move_id.post()

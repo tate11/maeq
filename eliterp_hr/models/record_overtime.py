@@ -15,4 +15,4 @@ class RecordOvertime(models.Model):
     date = fields.Date('Fecha registro')
     additional_hours = fields.Float('HE 50%')
     amount_additional_hours = fields.Float(related='name.additional_hours', string='Monto HE 50%')
-    total_additional_hours = fields.Float('Total HE 50%')
+    total_additional_hours = fields.Float('Monto')

@@ -120,7 +120,7 @@
                                             <span t-field="line.admission_date"/>
                                         </td>
                                         <td class="text-right">
-                                            <span t-esc="'%.2f' % line.amount_advance"/>
+                                            <span t-esc="'%.2f' % line.amount_total"/>
                                         </td>
                                     </tr>
                                 </tbody>
