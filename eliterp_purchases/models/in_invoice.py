@@ -63,7 +63,7 @@ class AccountInvoice(models.Model):
         self.payment_term_id = self.purchase_id.payment_term_id
         self.account_analytic_id = self.purchase_id.account_analytic_id.id # MARZ
         self.project_id = self.purchase_id.project_id.id  # MARZ
-        self.account_id = self.partner_id.property_account_receivable_id # MARZ
+        self.account_id = self.partner_id.property_account_payable_id # MARZ
         self.env.context = dict(self.env.context, from_purchase_order_change=True)
         self.purchase_id = False
         return {}

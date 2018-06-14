@@ -65,6 +65,12 @@ class AccountInvoice(models.Model):
         Creamos un pago directo desde la pantalla de factura
         :return: dict
         """
+        count = 0
+        for p in self.programmed_payment_ids:
+            if p.state == 'paid':
+                count += 1
+        if len(self.programmed_payment_ids) == count:
+            raise ValidationError("No existen valores para generar pago, pagos programados abonados o cancelados.")
         bank = self.programmed_payment_ids.filtered(lambda x: x.way_to_pay == 'check')
         new_voucher = self.env['account.voucher'].with_context({'voucher_type': 'purchase'})._voucher(
             self,
