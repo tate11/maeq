@@ -10,11 +10,8 @@
                     <group col="4">
                         <field name="customer_type" widget="radio" options="{'horizontal': true}"/>
                         <field name="partner" domain="[('customer','=',True)]"
-                               attrs="{'invisible':[('customer_type','!=','partner')]}" options="{'no_create':True}"/>
-
-                        <!--
-                            <field name="tipo_reporte" string="Tipo de Reporte" options="{'horizontal': true}" widget="radio"/>
-                        -->
+                               attrs="{'invisible':[('customer_type','!=','partner')], 'required': [('customer_type','==', 'partner')]}"
+                               options="{'no_create':True}"/>
                         <field name="estado" string="Estado" options="{'horizontal': true}" widget="radio"/>
                         <field name="delinquency"/>
 
@@ -45,12 +42,9 @@
             <field name="arch" type="xml">
                 <form>
                     <group col="4">
-                        <!--
-                            <field name="tipo_reporte" string="Tipo" widget="radio"/>
-                           -->
                         <field name="provider_type" widget="radio" options="{'horizontal': true}"/>
                         <field name="provider" domain="[('supplier','=',True)]"
-                               attrs="{'invisible':[('provider_type','!=','provider')]}"
+                               attrs="{'invisible':[('provider_type','!=','provider')], 'required': [('provider_type','==', 'provider')]}"
                                options="{'no_create':True}"/>
                         <field name="estado" string="Estado" options="{'horizontal': true}" widget="radio"/>
                         <field name="delinquency" placeholder="...."/>
@@ -83,16 +77,8 @@
                     <group col="4">
                         <field name="customer_type" widget="radio" options="{'horizontal': true}"/>
                         <field name="partner" domain="[('customer','=',True)]"
-                               attrs="{'invisible':[('customer_type','!=','partner')]}" options="{'no_create':True}"/>
-                        <!--
-                            <field name="bank_type"
-                               widget="radio"
-                               options="{'horizontal': true}"/>
-                            <field name="bank"
-                               options="{'no_create':True}"
-                               domain="[('type_action','=','payments')]"
-                               attrs="{'invisible':[('bank_type','!=','bank')]}"/>
-                        -->
+                               attrs="{'invisible':[('customer_type','!=','partner')], 'required': [('customer_type','==', 'partner')]}"
+                               options="{'no_create':True}"/>
                         <field name="start_date" required="1"/>
                         <field name="end_date" required="1"/>
                     </group>
@@ -121,16 +107,6 @@
                 <form>
                     <group col="4">
                         <field name="type_check" string="Tipo de Cheque"/>
-                        <!--
-                            <field name="bank_type"
-                               widget="radio"
-                               options="{'horizontal': true}"
-                               string="Banco"/>
-                            <field name="bank"
-                               options="{'no_create':True}"
-                               domain="[('type_action','=','charges')]"
-                               attrs="{'invisible':[('bank_type','!=','bank')]}"/>
-                        -->
                         <field name="start_date" required="1"/>
                         <field name="end_date" required="1"/>
                     </group>
