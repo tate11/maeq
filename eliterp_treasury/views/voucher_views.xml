@@ -71,6 +71,7 @@
                 </xpath>
                 <field name="partner_id" position="attributes"><!--Cliente-->
                     <attribute name="required">1</attribute>
+                    <attribute name="domain">[('is_contact', '=', False), ('customer','=',True)]</attribute>
                 </field>
                 <field name="date_due" position="attributes"><!--Fecha de Vencimiento-->
                     <attribute name="invisible">1</attribute>
@@ -206,7 +207,7 @@
                             <field name="partner_id"
                                    string="Proveedor"
                                    domain="[('supplier', '=', True)]"
-                                   attrs="{'invisible':[('receipt_for', '!=', 'supplier')], 'readonly':[('state','not in', ('draft'))]}"/>
+                                   attrs="{'invisible':[('receipt_for', '!=', 'supplier')], 'readonly':[('state','not in', ('draft'))], 'required':[('receipt_for', '=', 'supplier')]}"/>
                             <field name="custodian_id"
                                    attrs="{'invisible':[('receipt_for','!=','small_box')], 'required':[('receipt_for','=','small_box')]}"/>
                             <field name="viaticum_id"

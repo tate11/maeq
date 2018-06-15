@@ -56,72 +56,63 @@
                             <field name="work_id"/>
                             <field name="block"/>
                         </group>
-                        <notebook>
-                            <page string="Máquina">
-                                <group col="4" string="Horómetro">
-                                    <field name="initial_horometro"/>
-                                    <field name="final_horometro"/>
-                                    <field name="reason" placeholder="Colocar razón de diferencia"
-                                           attrs="{'invisible':[('horometro_difference','!=', True)], 'required': [('horometro_difference','=', True)]}"/>
-                                    <field name="initial_horometro_old" invisible="1"/>
-                                    <field name="horometro_difference" invisible="1"/>
-                                </group>
-                            </page>
-                            <page string="Insumos">
-                                <group col="4" string="Insumos usados en trabajo">
-                                    <field name="picking_type_id"/>
-                                    <field name="picking_id" attrs="{'invisible': [['picking_id', '=', False]]}"/>
-                                </group>
-                                    <group>
-                                        <field name="supplies" nolabel="1">
-                                            <tree editable="bottom">
-                                                <field name="product_id"
-                                                       options="{'no_open': True, 'no_create': True}"/>
-                                                <field name="name"/>
-                                                <field name="product_quantity"/>
-                                                <field name="product_uom_id"
-                                                       options="{'no_open': True, 'no_create': True}"/>
-                                            </tree>
-                                        </field>
-                                    </group>
-                            </page>
-                            <page string="Piezas">
-                                <group col="4" string="Administración de piezas">
-                                    <field name="piece_ids" nolabel="1">
-                                        <tree editable="bottom">
-                                            <field name="date"/>
-                                            <field name="technical_report" invisible="1"/>
-                                            <field name="movement_type"/>
-                                            <field name="detail"/>
-                                            <field name="reference"
-                                                   options="{'no_create': True, 'no_open': True}"
-                                                   domain="[('id', '!=', parent.machine_id)]"/>
-                                            <field name="horometro"/>
-                                            <field name="responsable"
-                                                   options="{'no_create': True, 'no_open': True}"/>
-                                        </tree>
-                                    </field>
-                                </group>
-                            </page>
-                            <page string="Operador/Empleado">
-                                <group string="Asistencias">
-                                    <group string="AM">
-                                        <field name="check_in_am"/>
-                                        <field name="check_out_am"/>
-                                    </group>
-                                    <group string="PM">
-                                        <field name="check_in_pm"/>
-                                        <field name="check_out_pm"/>
-                                    </group>
+                        <group>
+                            <group string="Máquina">
+                                <field name="initial_horometro"/>
+                                <field name="final_horometro"/>
+                                <field name="reason" placeholder="Colocar razón de diferencia"
+                                       attrs="{'invisible':[('horometro_difference','!=', True)], 'required': [('horometro_difference','=', True)]}"/>
+                                <field name="initial_horometro_old" invisible="1"/>
+                                <field name="horometro_difference" invisible="1"/>
+                            </group>
+                            <group string="Operador/Empleado" col="1">
+                                <group string="Asistencia">
+                                    <field name="check_in_am"/>
+                                    <field name="check_out_am"/>
+                                    <field name="check_in_pm"/>
+                                    <field name="check_out_pm"/>
                                 </group>
                                 <group string="Horas laborables">
-                                    <group col="4">
-                                        <field name="worked_hours"/>
-                                        <field name="extra_hours" attrs="{'invisible': [['worked_hours', '&lt;', 8]]}"/>
-                                    </group>
+                                    <field name="worked_hours"/>
+                                    <field name="extra_hours" attrs="{'invisible': [['worked_hours', '&lt;', 8]]}"/>
                                 </group>
-                            </page>
-                        </notebook>
+                            </group>
+                        </group>
+
+                        <group string="Insumos" col="4">
+                            <field name="picking_type_id"/>
+                            <field name="picking_id" attrs="{'invisible': [['picking_id', '=', False]]}"/>
+                        </group>
+                        <group>
+                            <field name="supplies" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="product_id"
+                                           options="{'no_open': True, 'no_create': True}"/>
+                                    <field name="name"/>
+                                    <field name="product_quantity"/>
+                                    <field name="product_uom_id"
+                                           options="{'no_open': True, 'no_create': True}"/>
+                                </tree>
+                            </field>
+                        </group>
+
+                        <group string="Piezas">
+                            <field name="piece_ids" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="date"/>
+                                    <field name="technical_report" invisible="1"/>
+                                    <field name="movement_type"/>
+                                    <field name="detail"/>
+                                    <field name="reference"
+                                           options="{'no_create': True, 'no_open': True}"
+                                           domain="[('id', '!=', parent.machine_id)]"/>
+                                    <field name="horometro"/>
+                                    <field name="responsable"
+                                           options="{'no_create': True, 'no_open': True}"/>
+                                </tree>
+                            </field>
+                        </group>
+
                         <group string="Notas y comentarios">
                             <field name="comment" nolabel="1"/>
                         </group>

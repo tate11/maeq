@@ -1,6 +1,11 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-
+        <!--Estilos en móduo de Compras-->
+        <template id="eliterp_assets_purchases" inherit_id="web.report_assets_common">
+            <xpath expr="." position="inside">
+                <link href="/eliterp_purchases/static/src/less/purchases_styles.less" rel="stylesheet"/>
+            </xpath>
+        </template>
     </data>
 </odoo>

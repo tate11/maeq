@@ -27,6 +27,7 @@ class LinesPayslipRun(models.Model):
     tenth_4 = fields.Float('Décimo cuarto')
     other_income = fields.Float('Otros ingresos')
     total_income = fields.Float('Total de ingresos')
+    mobilization = fields.Float('Movilización')  # MAEQ
     # Egresos
     payment_advance = fields.Float('Anticipo de quincena')
     iess_personal = fields.Float('IESS 9.45%')
@@ -205,11 +206,9 @@ class PayslipRun(models.Model):
         provision_reserve_funds = 0.00
         advances = []
         flag_benefits = False  # Bandera para acumular beneficios
-        last_advance_payment = self.env['eliterp.advance.payment'].search([('state', '=', 'posted')]) # MAEQ
-        for line in last_advance_payment[-1].lines_advance:
-            mobilization += line.mobilization
         for role in self.lines_payslip_run:  # Comenzamos a sumar los roles individuales para creación del consolidado
             wage += round(role.wage, 3)
+            mobilization += round(role.mobilization, 3)  # MAEQ
             other_income += round(role.other_income, 3)
             iess_personal += round(role.iess_personal, 3)
             iess_patronal += round(role.iess_patronal, 3)
@@ -293,7 +292,7 @@ class PayslipRun(models.Model):
         # self._create_line_income('HEEX', move_id, extra_hours, False)  # Horas extras
         # self._create_line_income('HESU', move_id, additional_hours, False)  # Horas suplementarias
         self._create_line_income('OIN', move_id, other_income, False)  # Otros ingresos
-        self._create_line_income('MOVILIZ', move_id, round(mobilization, 3), False)  # MAEQ: Movilización
+        self._create_line_income('MOVILIZ', move_id, mobilization, False)  # MAEQ: Movilización
         self._create_line_income('SUE', move_id, wage, True)  # Sueldo
 
         move_id.post()
@@ -346,6 +345,9 @@ class PayslipRun(models.Model):
                         0].amount if role.input_line_ids.filtered(
                         lambda x: x.code == 'OIN') else 0.00,
                     'total_income': sum(line.amount for line in role.input_line_ids),
+                    'mobilization': role.input_line_ids.filtered(lambda x: x.code == 'MOVILIZ')[
+                                        0].amount if role.input_line_ids.filtered(
+                        lambda x: x.code == 'MOVILIZ') else 0.00,  # MAEQ
                     # Egresos
                     'payment_advance': role.input_line_ids_2.filtered(lambda x: x.code == 'ADQ')[
                         0].amount if role.input_line_ids_2.filtered(

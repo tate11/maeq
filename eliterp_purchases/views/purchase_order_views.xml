@@ -14,6 +14,18 @@
                             class="oe_highlight"
                             groups="base.group_user"/>
                 </xpath>
+                <xpath expr="//div[@class='oe_title']/label" position="replace"/><!--Label: Solicitud de presupuesto -->
+                <xpath expr="//field[@name='date_order']" position="after"><!--Fecha del Pedido-->
+                    <field name="reference" placeholder="p.e Voucher de compra"/>
+                </xpath>
+                <!--Productos-->
+                <xpath expr="//field[@name='order_line']//tree" position="attributes">
+                    <attribute name="class">eliterp_order_line</attribute>
+                </xpath>
+                <xpath expr="//field[@name='order_line']//tree//field[@name='date_planned']"
+                       position="attributes"><!--Fecha programada-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
                 <xpath expr="//field[@name='incoterm_id']" position="replace"/><!--Incoterm-->
                 <xpath expr="//field[@name='fiscal_position_id']" position="replace"/><!--Tipos de Contribuyentes-->
             </field>

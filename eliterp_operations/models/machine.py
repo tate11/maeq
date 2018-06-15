@@ -84,10 +84,36 @@ class LinesHistoryMachine(models.Model):
     machine_id = fields.Many2one('eliterp.machine', 'Máquina')
 
 
+class AccountInvoiceLine(models.Model):
+    _inherit = 'account.invoice.line'
+
+    machine_ids = fields.Many2many('eliterp.machine', 'eliterp_invoice_line_machine', 'invoice_line_id', 'machine_id',
+                                   string='Máquinas')
+
+
+class AccountAssetAsset(models.Model):
+    _inherit = 'account.asset.asset'
+    machine_id = fields.Many2one('eliterp.machine', 'Máquina')
+
+
 class Machine(models.Model):
     _name = 'eliterp.machine'
     _description = 'Máquinas'
     _inherit = ['mail.thread']
+
+    @api.one
+    def _get_total_charged(self):
+        """
+        Obtenemos el total facturado por línea y hacemos prorrateo dependiendo de cada máquina
+        """
+        object_invoice_line = self.env['account.invoice.line']
+        for machine in self:
+            amount = 0.00
+            invoice_lines = object_invoice_line.search([('machine_ids', 'in', machine.id)])
+            for line in invoice_lines.filtered(lambda x: x.invoice_id.state in ['open', 'paid']):
+                machines = len(line.machine_ids)
+                amount += line.price_subtotal / machines
+            self.total_charged = round(amount, 2)
 
     @api.depends('cmc_ids', 'horometro_initial')
     @api.one
@@ -153,6 +179,10 @@ class Machine(models.Model):
     cmc_ids = fields.One2many('eliterp.cmc', 'machine_id', string="Listado de CMC's")
     count_cmc = fields.Integer("'Nº de CMC's", compute='_get_count_cmc')
     lines_history = fields.One2many('eliterp.lines.history.machine', 'machine_id', string="Historial de la máquinas")
+    # Resumén de facturado por máquina en cada línea
+    total_charged = fields.Float(compute='_get_total_charged', string='Total facturado')
+    invoice_ids = fields.Many2many("account.invoice", string='Facturas', compute="_get_total_charged", readonly=True,
+                                   copy=False)
 
     _sql_constraints = [
         ('name_uinque', 'unique (machines_brand_id, name, active)', 'El Nombre debe ser único por marca y estado.')

@@ -51,6 +51,9 @@
                                     string="Aplicar"/>
                         </div>
                     </xpath>
+                    <xpath expr="//field[@name='partner_id']" position="attributes">
+                        <attribute name="domain">[('is_contact', '=', False), ('customer','=',True)]</attribute>
+                    </xpath>
                     <xpath expr="//field[@name='user_id']" position="attributes"><!--Comercial-->
                         <attribute name="invisible">1</attribute>
                     </xpath>
@@ -77,19 +80,19 @@
                             <field name="account_id"
                                    invisible="1"
                                    groups="account.group_account_user"
-                                   domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]"/><!--Modificado-->
+                                   domain="[('company_id', '=', parent.company_id), ('internal_type', '=', 'other')]"/><!--CM-->
                             <field name="account_analytic_id"
                                    invisible="1" groups="analytic.group_analytic_accounting"
-                                   domain="[('company_id', '=', parent.company_id)]"/><!--Modificado-->
+                                   domain="[('company_id', '=', parent.company_id)]"/><!--CM-->
                             <field name="analytic_tag_ids" groups="analytic.group_analytic_accounting"
-                                   widget="many2many_tags" options="{'color_field': 'color'}"/>
+                                   invisible="1" widget="many2many_tags" options="{'color_field': 'color'}"/>
                             <field name="quantity"/>
-                            <field name="uom_id" groups="product.group_uom" invisible="1"/><!--Modificado-->
+                            <field name="uom_id" groups="product.group_uom" invisible="1"/><!--CM-->
                             <field name="price_unit"/>
                             <field name="discount" groups="base.group_no_one"/>
                             <field name="invoice_line_tax_ids" widget="many2many_tags"
                                    options="{'no_create': True}" context="{'type':parent.type}"
-                                   domain="[('type_tax_use','=','sale'), ('tax_type','=','iva'), ('company_id', '=', parent.company_id)]"/><!--Modificado-->
+                                   domain="[('type_tax_use','=','sale'), ('tax_type','=','iva'), ('company_id', '=', parent.company_id)]"/><!--CM-->
                             <field name="price_subtotal" string="Subtotal"/>
                             <field name="currency_id" invisible="1"/>
                         </tree>

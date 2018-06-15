@@ -18,7 +18,9 @@
         'hr',
         'eliterp_hr',
         'stock',
-        'sale'
+        'sale',
+        'account',
+        'account_asset'
     ],
     'data': [
         'data/sequences.xml',

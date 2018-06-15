@@ -92,7 +92,7 @@
             <field name="code">MOVILIZ</field>
             <field name="account_id" ref="eliterp_accounting.1_eliterp_account_52218"/>
             <field name="condition_select">python</field>
-            <field name="condition_python">result = employee.mobilization
+            <field name="condition_python">result = employee.mobilization / 2
             </field>
             <field name="amount_select">fix</field>
         </record>

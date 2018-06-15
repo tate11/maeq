@@ -564,7 +564,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <strong>Emisión:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                             </div>
                             <table class="table table-condensed">
@@ -695,7 +695,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <strong>Emisión:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                             </div>
                             <table class="table table-condensed">
@@ -844,7 +844,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <strong>Emisión:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                             </div>
                             <table class="table table-condensed">
@@ -925,7 +925,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <strong>Emisión:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                             </div>
                             <table class="table table-condensed">
@@ -1006,7 +1006,7 @@
                                 </div>
                                 <div class="col-xs-4">
                                     <strong>Emisión:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                             </div>
                             <table class="table table-condensed">

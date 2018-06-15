@@ -44,7 +44,7 @@
                     <field name="antiquity"/>
                     <field name="is_trial"/>
                     <field name="date_start"/>
-                    <field name="date_end"/>
+                    <field name="departure_date"/>
                     <field name="state_customize"/>
                     <field name="message_needaction" invisible="1"/>
                 </tree>
@@ -89,6 +89,7 @@
                                 <field name="date_start" string="Fecha de ingreso"/>
                                 <field name="type_id" string="Tipo de contrato"/>
                                 <field name="resource_calendar_id" string="Jornada de trabajo"/>
+                                <field name="departure_date" attrs="{'invisible':[('departure_date', '=', False)]}"/>
                             </group>
                             <notebook>
                                 <page name="contract_information" string="Información">

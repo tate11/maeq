@@ -109,8 +109,6 @@ class Contract(models.Model):
         if time:
             days = int("".join([x for x in time if x.isdigit()]))
         self.antiquity = days
-        if self.date_end:
-            self.write({'state_customize': 'finalized'})
 
     @api.one
     def _get_days_for_trial(self):
@@ -178,9 +176,9 @@ class Contract(models.Model):
             res['context'] = "{'default_contract_id': " + str(self.id) + "}"
         return res
 
-    name = fields.Char('Referencia de contrato', required=False, copy=False)  # CM
+    name = fields.Char('Nº de documento', required=False, copy=False)  # CM
     count_functions = fields.Integer(compute='_get_count_functions', string="Funciones")
-    test_days = fields.Integer('Días de prueba')  # Configuración
+    test_days = fields.Integer('Días de prueba')  # Configuración RRHH
     antiquity = fields.Integer('Antiguedad (días)', compute='_get_antiquity')
     is_trial = fields.Boolean('Es período de prueba?')
     end_trial = fields.Boolean(compute='_get_end_trial', string='Finalizó prueba?', default=False)
@@ -191,3 +189,4 @@ class Contract(models.Model):
         ('active', 'Activo'),
         ('finalized', 'Finalizado')
     ], 'Estado', default='draft')
+    departure_date = fields.Date(related='employee_id.departure_date', string='Fecha de salida', store=True)

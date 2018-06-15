@@ -49,9 +49,10 @@
             <field name="view_type">form</field>
             <field name="view_mode">kanban,tree,form</field>
             <field name="domain"></field>
+            <field name="context">{'default_type': 'rented'}</field>
             <field name="help" type="html">
                 <p class="oe_view_nocontent_create">
-                    Clic para registrar una nueva máquina.
+                    Clic para registrar una nueva máquina alquilada.
                 </p>
             </field>
         </record>

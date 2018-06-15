@@ -100,6 +100,13 @@
                     </header>
                     <sheet>
                         <div class="oe_button_box" name="button_box">
+                            <button name="open_invoice"
+                                    type="object"
+                                    class="oe_stat_button"
+                                    icon="fa-pencil-square-o"
+                                    attrs="{'invisible': [('total_charged', '&lt;=', 0)]}">
+                                <field name="total_charged" widget="statinfo" string="Facturado"/>
+                            </button>
                             <button class="oe_stat_button"
                                     icon="fa-tachometer">
                                 <div class="o_field_widget o_stat_info">
@@ -136,7 +143,6 @@
                                     <field name="serie"/>
                                     <field name="registration"/>
                                     <field name="acquisition_date"/>
-                                    <field name="type"/>
                                     <label for="horometro_initial"/>
                                     <div class="o_row">
                                         <field name="horometro_initial"
@@ -227,6 +233,34 @@
                     <field name="horometro_real"/>
                     <field name="state"/>
                 </tree>
+            </field>
+        </record>
+        <!--Vistas del menú Activos-->
+        <record id="eliterp_view_form_asset_machine" model="ir.ui.view">
+            <field name="name">eliterp_view_form_asset_machine</field>
+            <field name="model">account.asset.asset</field>
+            <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//div[hasclass('oe_title')]" position="inside">
+                    <label for="machine_id" class="oe_edit_only" string="Máquina"/>
+                    <h1>
+                        <field name="machine_id"
+                               context="{'default_type': 'own'}"
+                               placeholder="p.e CAT001"/>
+                    </h1>
+                </xpath>
+            </field>
+        </record>
+        <!--Facturas de cliente-->
+        <record id="eliterp_view_form_account_invoice_machine" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_invoice_machine</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='invoice_line_ids']/tree/field[@name='name']" position="after">
+                    <field name="machine_ids" widget="many2many_tags"
+                           options="{'no_create': True}"/><!--options="{'color_field': 'color'}"-->
+                </xpath>
             </field>
         </record>
         <!--Vistas del menú Modelo de máquinas-->

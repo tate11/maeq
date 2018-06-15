@@ -30,7 +30,7 @@ class LinesAdvancePayment(models.Model):
     admission_date = fields.Date(related='employee_id.admission_date', store=True, string='Fecha ingreso')
     account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
     amount_advance = fields.Float('Monto de anticipo', default=0.00)
-    mobilization = fields.Float(related='employee_id.mobilization', store=True, string='Movilización')
+    mobilization = fields.Float(string='Movilización')
     antiquity = fields.Integer('Días')
     amount_total = fields.Float('Total', compute='_get_total')
     advanced_id = fields.Many2one('eliterp.advance.payment', 'Anticipo')
@@ -98,6 +98,7 @@ class AdvancePayment(models.Model):
                 'employee_id': employee.id,
                 'account_id': employee.account_advance_payment.id,
                 'antiquity': antiquity,
+                'mobilization': round(employee.mobilization / 2, 2),
                 'amount_advance': amount_advance,
             }])
         return self.write({'lines_advance': list_employees})

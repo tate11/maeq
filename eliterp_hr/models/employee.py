@@ -46,6 +46,8 @@ class LinesHistoryEmployee(models.Model):
     comment = fields.Text('Comentarios')
     date_validity = fields.Date('Fecha de vigencia')
     employee_id = fields.Many2one('hr.employee', string='Empleado')
+    adjunt = fields.Binary('Documento')
+    adjunt_name = fields.Char('Nombre')
 
 
 class LinesEmployeeDocuments(models.Model):
@@ -219,6 +221,16 @@ class Employee(models.Model):
             self.extra_hours = round((self.wage / 240) * 2, 2)
             self.additional_hours = round((self.wage / 240) * 1.5, 2)
 
+    @api.onchange('departure_date')
+    def _onchange_departure_date(self):
+        """
+        Desactivamos empleado y actualizamos contrato
+        """
+        if self.departure_date:
+            if self.contract_id:
+                self.contract_id.write({'state_customize': 'finalized'})
+            self.write({'active': False})
+
     names = fields.Char('Nombres', required=True)
     surnames = fields.Char('Apellidos', required=True)
     education_level = fields.Selection([
@@ -261,3 +273,5 @@ class Employee(models.Model):
     additional_hours = fields.Float('Monto HE 50%', compute='_get_amount_hours', store=True)
     mobilization = fields.Float('Movilización',
                                 help='Será dado al empleado la mitad en ADQ y la otra mitad en Rol consolidado.')
+    departure_date = fields.Date('Fecha de salida',
+                                 help="Si se registra este campo se anulará el contrato del empleado relacionado.")

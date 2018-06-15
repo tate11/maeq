@@ -55,7 +55,7 @@ class EliterpProject(models.Model):
     name = fields.Char('Nombre de proyecto', required=True)
     code = fields.Char('Código', required=True)
     reference = fields.Char('Referencia')
-    customer = fields.Many2one('res.partner', string="Cliente", domain=[('customer', '=', True)])
+    customer = fields.Many2one('res.partner', string="Cliente", domain=[('is_contact', '=', False), ('customer','=',True)])
     account_analytic_id = fields.Many2one('account.analytic.account', string="Centro de costo", required=True)
     lines_location = fields.One2many('eliterp.location', 'project_id', string='Ubicaciones')
 

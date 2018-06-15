@@ -112,6 +112,7 @@
                         <field name="admission_date"/>
                         <field name="worked_days"/>
                         <field name="wage" sum="Total"/>
+                        <field name="mobilization" sum="Total"/><!--MAEQ-->
                         <field name="extra_hours" sum="Total"/>
                         <!--TODO: VIEW                            <
                             <field name="additional_hours" sum="Total"/>

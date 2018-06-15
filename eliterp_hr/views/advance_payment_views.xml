@@ -113,7 +113,7 @@
                                 <field name="antiquity"/>
                                 <field name="amount_advance" sum="Total"/>
                                 <field name="mobilization" sum="Total"/>
-                                <field name="amount_total" sum="Total"/>
+                                <field name="amount_total"/>
                             </tree>
                         </field>
                     </group>

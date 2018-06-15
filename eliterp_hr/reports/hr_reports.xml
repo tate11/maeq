@@ -90,7 +90,7 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <strong>Fecha documento:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
 
                                 </div>
                                 <div class="col-xs-6">
@@ -102,10 +102,13 @@
                             <table class="table table-condensed">
                                 <thead>
                                     <tr>
-                                        <th class="text-center col-xs-5">Empleado</th>
-                                        <th class="text-center col-xs-3">Cargo</th>
-                                        <th class="text-center col-xs-2">Fecha ingreso</th>
-                                        <th class="text-right col-xs-2">Monto</th>
+                                        <th class="text-center">Empleado</th>
+                                        <th class="text-center">Cargo</th>
+                                        <th class="text-center">Fecha ingreso</th>
+                                        <th class="text-center">Días</th>
+                                        <th class="text-right">Monto anticipo</th>
+                                        <th class="text-right">Movilización</th>
+                                        <th class="text-right">Total</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -119,7 +122,16 @@
                                         <td>
                                             <span t-field="line.admission_date"/>
                                         </td>
-                                        <td class="text-right">
+                                        <td>
+                                            <span t-field="line.antiquity"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="'%.2f' % line.amount_advance"/>
+                                        </td>
+                                        <td>
+                                            <span t-esc="'%.2f' % line.mobilization"/>
+                                        </td>
+                                        <td>
                                             <span t-esc="'%.2f' % line.amount_total"/>
                                         </td>
                                     </tr>
@@ -306,7 +318,7 @@
                             <div class="row">
                                 <div class="col-xs-6">
                                     <strong>Fecha documento:</strong>
-                                    <p t-field="doc.create_date"/>
+                                    <p t-field="doc.create_date" t-options='{"format": "dd/MM/yyyy"}'/>
                                 </div>
                                 <div class="col-xs-6">
                                     <strong>Período:</strong>

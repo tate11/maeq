@@ -674,6 +674,7 @@ class AccountVoucher(models.Model):
             if self.type_egress == 'bank':
                 check_number = self.bank_id.sequence_id.number_next_actual
                 self.check_number = check_number
+                self.account_id = self.bank_id.account_id
             else:
                 self.check_number = False
         else:
