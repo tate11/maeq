@@ -125,13 +125,13 @@
                                         <td>
                                             <span t-field="line.antiquity"/>
                                         </td>
-                                        <td>
+                                        <td class="text-right">
                                             <span t-esc="'%.2f' % line.amount_advance"/>
                                         </td>
-                                        <td>
+                                        <td class="text-right">
                                             <span t-esc="'%.2f' % line.mobilization"/>
                                         </td>
-                                        <td>
+                                        <td class="text-right">
                                             <span t-esc="'%.2f' % line.amount_total"/>
                                         </td>
                                     </tr>
