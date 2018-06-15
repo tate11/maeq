@@ -46,6 +46,30 @@
                 </form>
             </field>
         </record>
+        <record id="eliterp_view_form_sale_order_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_sale_order_project</field>
+            <field name="model">sale.order</field>
+            <field name="inherit_id" ref="sale.view_order_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="after"><!--Cliente-->
+                    <field name="project_id"
+                           domain="[('customer', '=', partner_id)]"
+                           options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
+        <record id="eliterp_view_form_account_invoice_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_invoice_project</field>
+            <field name="model">account.invoice</field>
+            <field name="inherit_id" ref="account.invoice_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='payment_term_id']" position="after"><!--Plazos de pago-->
+                    <field name="project_id"
+                           domain="[('customer', '=', partner_id)]"
+                           options="{'no_create': True}"/>
+                </xpath>
+            </field>
+        </record>
         <record id="eliterp_view_form_account_invoice_supplier_project" model="ir.ui.view">
             <field name="name">eliterp_view_form_account_invoice_supplier_project</field>
             <field name="model">account.invoice</field>
