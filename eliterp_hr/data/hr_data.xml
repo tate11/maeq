@@ -51,7 +51,8 @@
             <field name="category_id" ref="eliterp_income"/>
             <field name="code">HESU</field>
             <field name="account_id" ref="eliterp_accounting.1_eliterp_account_5222"/>
-            <field name="condition_select">none</field>
+            <field name="condition_select">python</field>
+            <field name="condition_python">result = additional_hours</field>
             <field name="amount_select">fix</field>
         </record>
         <record id="eliterp_hr_rule_5" model="hr.salary.rule">
@@ -97,7 +98,7 @@
             <field name="amount_select">fix</field>
         </record>
         <!--Reglas salariales, EGRESOS-->
-        <record id="eliterp_hr_rule_8" model="hr.salary.rule">
+        <record id="eliterp_hr_rule_8" model="hr.salary.rule"><!--Regla pendiente de revisar: MAEQ-->
             <field name="name">ANTICIPO DE QUINCENA</field>
             <field name="category_id" ref="eliterp_expenses"/>
             <field name="code">ADQ</field>
@@ -114,7 +115,8 @@
             <field name="code">IESS_9.45%</field>
             <field name="account_id" ref="eliterp_accounting.1_eliterp_account_21516"/>
             <field name="condition_select">python</field>
-            <field name="condition_python">result = ((float(employee.wage)*payslip.worked_days)/30.00)*0.0945</field>
+            <field name="condition_python">total = employee.wage + additional_hours
+                result = ((float(total)*payslip.worked_days)/30.00)*0.0945</field>
             <field name="amount_select">fix</field>
         </record>
         <!--TODO: Pendiente de revisar-->

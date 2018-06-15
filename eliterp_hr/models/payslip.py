@@ -131,6 +131,10 @@ class Payslip(models.Model):
             'contract': employee_id.contract_id,  # Último contrato de empleado
             'employee': employee_id,
             'payslip': role if role else self,
+            'additional_hours': employee_id._get_additional_hours_period(
+                self.date_from,
+                self.date_to
+            ),
             'result': 0.00
         }
 

@@ -115,7 +115,7 @@
                                 </div>
                                 <field name="struct_id" required="1"/>
                                 <field name="worked_days"/>
-                                <field name="number_absences"/><!--TODO-->
+                                <!--TODO: Pendiente<field name="number_absences"/>-->
                                 <field name="number" invisible="1"/>
                                 <!--TODO: Revisar los contratos-->
                                 <field name="contract_id"

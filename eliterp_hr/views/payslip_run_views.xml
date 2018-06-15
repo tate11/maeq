@@ -113,10 +113,8 @@
                         <field name="worked_days"/>
                         <field name="wage" sum="Total"/>
                         <field name="mobilization" sum="Total"/><!--MAEQ-->
-                        <field name="extra_hours" sum="Total"/>
-                        <!--TODO: VIEW                            <
-                            <field name="additional_hours" sum="Total"/>
-                        -->
+                        <!--<field name="extra_hours" sum="Total"/>-->
+                        <field name="additional_hours" sum="Total"/>
                         <field name="reserve_funds"/>
                         <field name="tenth_3"/>
                         <field name="tenth_4"/>
