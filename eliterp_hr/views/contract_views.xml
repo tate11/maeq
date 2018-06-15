@@ -51,6 +51,7 @@
             </tree>
         </field>
     </record>
+
     <record id="eliterp_view_form_contract" model="ir.ui.view">
         <field name="name">eliterp_view_form_contract</field>
         <field name="model">hr.contract</field>
@@ -64,6 +65,11 @@
                                     string="Activar contrato"
                                     type="object"
                                     attrs="{'invisible':[('state_customize', '!=', 'draft')]}"
+                                    class="oe_highlight"/>
+                            <button name="imprimir_contrato"
+                                    string="Imprimir contrato"
+                                    type="object"
+                                    attrs="{'invisible':[('state_customize', '!=', 'active')]}"
                                     class="oe_highlight"/>
                             <field name="state_customize" widget="statusbar"
                                    modifiers="{'readonly': true}"/>

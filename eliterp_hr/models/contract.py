@@ -60,6 +60,28 @@ class ContractFunctions(models.Model):
 class Contract(models.Model):
     _inherit = 'hr.contract'
 
+    @api.model
+    def _get_wage_letters(self):
+        """
+        Obtenemos el monto en letras
+        """
+        currency = self.env['res.currency'].search([('name', '=', 'USD')], limit=1)
+        text = currency[0].amount_to_text(self.wage).replace('Dollars', 'Dólares')  # Dollars, Cents
+        text = text.replace('Cents', 'Centavos')
+        return text.upper()
+
+    @api.model
+    def _get_date_format(self):
+        return self.env['eliterp.global.functions'].get_date_format_invoice(self.date_start)
+
+    @api.multi
+    def imprimir_contrato(self):
+        """
+        Imprimimo contrato
+        """
+        self.ensure_one()
+        return self.env.ref('eliterp_hr.eliterp_action_report_employee_contract').report_action(self)
+
     @api.constrains('employee_id')
     def _check_employee_id(self):
         """
