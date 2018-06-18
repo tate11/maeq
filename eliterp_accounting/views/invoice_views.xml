@@ -170,10 +170,12 @@
                 <xpath expr="//field[@name='date_due']" position="after"><!--Fecha vencimiento-->
                     <field name="have_credit_note" invisible="1"/>
                 </xpath>
+                <!--TODO: Pagos adelantados a proveedor-->
                 <xpath expr="//field[@name='outstanding_credits_debits_widget']"
-                       position="replace"><!--Créditos pendientes-->
-                    <field name="outstanding_credits_debits_widget" invisible="1"/>
+                       position="replace">
+                    <field name="outstanding_credits_debits_widget" string="Anticipo de pagos"/>
                 </xpath>
+
             </field>
         </record>
     </data>

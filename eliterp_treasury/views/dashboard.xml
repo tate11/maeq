@@ -11,6 +11,17 @@
             <field name="context">{'default_voucher_type': 'sale', 'voucher_type': 'sale'}</field>
             <field name="search_view_id" ref="account_voucher.view_voucher_filter_sale"/>
         </record>
+        <!--
+        <record id="eliterp_action_payment_advance_supplier" model="ir.actions.act_window">
+            <field name="name">Pago de anticipo proveedor</field>
+            <field name="res_model">account.payment</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">tree,form</field>
+            <field name="context">{'default_payment_type': 'inbound', 'default_payment_type_customize': 'supplier'}
+            </field>
+            <field name="domain">[('payment_type_customize', '=', 'supplier')]</field>
+        </record>
+        -->
         <record id="eliterp_action_voucher_purchase" model="ir.actions.act_window">
             <field name="name">Pagos</field>
             <field name="res_model">account.voucher</field>
@@ -147,6 +158,21 @@
             <field name="act_window_id" ref="eliterp_action_voucher_purchase"/>
         </record>
 
+        <!--
+        <record model="ir.actions.act_window.view" id="eliterp_action_tree_payment_advance_supplier">
+            <field eval="0" name="sequence"/>
+            <field name="view_mode">tree</field>
+            <field name="view_id" ref="eliterp_treasury.eliterp_view_tree_payment_advance_supplier"/>
+            <field name="act_window_id" ref="eliterp_action_payment_advance_supplier"/>
+        </record>
+        <record model="ir.actions.act_window.view" id="eliterp_action_form_payment_advance_supplier">
+            <field eval="1" name="sequence"/>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_treasury.eliterp_view_form_payment_advance_supplier"/>
+            <field name="act_window_id" ref="eliterp_action_payment_advance_supplier"/>
+        </record>
+        -->
+
 
         <record id="eliterp_action_accounts_receivable_report" model="ir.actions.act_window">
             <field name="name">Reporte de cuentas a cobrar</field>
@@ -235,7 +261,6 @@
                   sequence="5"/>
 
 
-
         <menuitem id="eliterp_menu_accounts_receivable"
                   name="Cuentas a cobrar"
                   parent="eliterp_menu_treasury"
@@ -261,21 +286,27 @@
                   name="Cuentas a pagar"
                   parent="eliterp_menu_treasury"
                   sequence="2"/>
+        <!--TODO: Pendiente de revisar-->
+        <menuitem id="eliterp_menu_payment_advance_supplier"
+                  name="Pago de anticipo proveedor"
+                  action="account.action_account_payments_payable"
+                  parent="eliterp_menu_accounts_payable"
+                  sequence="1"/>
         <menuitem id="eliterp_menu_in_invoice"
                   name="Facturas de proveedor"
                   action="account.action_invoice_tree2"
                   parent="eliterp_menu_accounts_payable"
-                  sequence="1"/>
+                  sequence="2"/>
         <menuitem id="eliterp_menu_voucher_purchase"
                   name="Pagos"
                   parent="eliterp_menu_accounts_payable"
                   action="eliterp_action_voucher_purchase"
-                  sequence="2"/>
+                  sequence="3"/>
         <menuitem id="eliterp_menu_withhold_purchase"
                   name="Retenciones de proveedor"
                   action="eliterp_action_withhold_purchase"
                   parent="eliterp_menu_accounts_payable"
-                  sequence="3"/>
+                  sequence="4"/>
 
 
         <menuitem id="eliterp_menu_transactions"
@@ -330,7 +361,7 @@
 
 
         <menuitem id="eliterp_menu_treasury_reports"
-                  name="Reports"
+                  name="Reportes"
                   parent="eliterp_menu_treasury"
                   sequence="5"/>
 

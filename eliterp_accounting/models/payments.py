@@ -88,10 +88,8 @@ class AccountPayment(models.Model):
         self.ensure_one()
         if self.payment_type_customize == 'deposit':  # Depósito
             return self.env.ref('eliterp_accounting.eliterp_action_report_account_payment').report_action(self)
-        else: # Transferencia
+        else:  # Transferencia
             return self.env.ref('eliterp_accounting.eliterp_action_report_account_payment_tr').report_action(self)
-
-
 
     @api.multi
     def open_reason_cancel_payment(self):
@@ -252,6 +250,8 @@ class AccountPayment(models.Model):
         """
         MM: Definimos diario por defecto
         """
+        if self._context['default_payment_type_customize'] == 'supplier':  # Por defecto en efectivo pago a proveedor
+            return self.env['account.journal'].search([('name', '=', 'Efectivo')], limit=1)[0].id
         if self._context['default_payment_type_customize'] == 'deposit':
             return self.env['account.journal'].search([('name', '=', 'Depósito bancario')], limit=1)[0].id
         if self._context['default_payment_type_customize'] == 'transfer':
@@ -308,7 +308,8 @@ class AccountPayment(models.Model):
     payment_type_customize = fields.Selection([
         ('deposit', 'Depósito'),
         ('payment', 'Pago'),
-        ('transfer', 'Transferencia')
+        ('transfer', 'Transferencia'),
+        ('supplier', 'Proveedor')
     ])
     # CM
     journal_id = fields.Many2one('account.journal', 'Diario',
