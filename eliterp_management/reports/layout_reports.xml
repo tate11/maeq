@@ -74,7 +74,8 @@
                     </div>
                     <div class="col-xs-3 text-center">
                         <p>
-                            <span t-esc="user.name"/>
+                            <span t-if="'reviewed_user' not in doc" t-esc="user.name"/>
+                            <span t-if="'reviewed_user' in doc" t-field="doc.reviewed_user"/><!--MAEQ-->
                         </p>
                         <p>
                             <strong>REVISADO</strong>

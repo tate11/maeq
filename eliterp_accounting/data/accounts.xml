@@ -1180,7 +1180,7 @@
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
         <record model="account.account.template" id="eliterp_account_21522">
-            <field name="name">EXTENSION SALUD CONYUGE</field>
+            <field name="name">EXTENSIÓN CONYUGE</field>
             <field name="code">2.1.5.22</field>
             <field name="reconcile" eval="True"/>
             <field name="account_type">movement</field>

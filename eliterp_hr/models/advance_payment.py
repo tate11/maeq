@@ -121,6 +121,16 @@ class AdvancePayment(models.Model):
         self.update({'state': 'to_approve'})
 
     @api.multi
+    def reviewed(self):
+        """
+        Revisado
+        """
+        self.update({
+            'state': 'reviewed',
+            'reviewed_user': self._uid
+        })
+
+    @api.multi
     def approve(self):
         """
         Aprobar anticipo de quincena
@@ -229,10 +239,12 @@ class AdvancePayment(models.Model):
     state = fields.Selection([
         ('draft', 'Borrador'),
         ('to_approve', 'A aprobar'),
+        ('reviewed', 'Revisado'),  # MAEQ
         ('approve', 'Aprobado'),
         ('posted', 'Contabilizado'),
         ('deny', 'Negado')], string="Estado", default='draft')
     approval_user = fields.Many2one('res.users', string='Aprobado por')
+    reviewed_user = fields.Many2one('res.users', string='Revisado por')  # MAEQ
     reason_deny = fields.Text('Negado por')
     count_lines = fields.Integer('Nº de empleados', compute='_get_count_lines')
     comment = fields.Text('Notas y comentarios')

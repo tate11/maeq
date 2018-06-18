@@ -149,6 +149,7 @@
                                 </group>
                                 <group string="Adicionales">
                                     <field name="mobilization"/>
+                                    <field name="spouses"/>
                                 </group>
                             </group>
 
