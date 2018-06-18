@@ -30,6 +30,7 @@
         'views/small_box_views.xml',
         'views/travel_expenses_views.xml',
         'views/voucher_views.xml',
+        'views/payment_advance_supplier_views.xml',
         'views/setting_views.xml',
         'reports/reports_views.xml',
         'reports/treasury_reports.xml',
