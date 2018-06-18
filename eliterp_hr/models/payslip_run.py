@@ -17,6 +17,7 @@ class LinesPayslipRun(models.Model):
     name = fields.Char('Empleado')
     departament = fields.Char('Departamento')
     admission_date = fields.Date('Fecha de ingreso')
+    identification_id = fields.Char('No. identificación')
     worked_days = fields.Integer('Días trabajados')
     # Ingresos
     wage = fields.Float('Sueldo')
@@ -329,6 +330,7 @@ class PayslipRun(models.Model):
                     'name': role.employee_id.name,
                     'departament': role.employee_id.department_id.name,
                     'admission_date': role.employee_id.admission_date,
+                    'identification_id': role.employee_id.identification_id,
                     'worked_days': role.worked_days,
                     # Ingresos
                     'wage': role.input_line_ids.filtered(lambda x: x.code == 'SUE')[0].amount,

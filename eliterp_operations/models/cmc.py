@@ -142,13 +142,20 @@ class CMC(models.Model):
             cmc_picking.message_post(body=message)
             for line in cmc.supplies.filtered(lambda l: not float_is_zero(l.product_quantity,
                                                                           precision_rounding=l.product_uom_id.rounding)):
+                quant_uom = line.product_id.uom_id
+                get_param = self.env['ir.config_parameter'].sudo().get_param
+                if line.product_uom_id.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
+                    product_qty = line.product_uom_id._compute_quantity(line.product_quantity, quant_uom,
+                                                                     rounding_method='HALF-UP')
+                else:
+                    product_qty = line.product_quantity
                 moves |= Move.create({
                     'name': line.name,
-                    'product_uom': line.product_uom_id.id,
+                    'product_uom': quant_uom.id,
                     'picking_id': cmc_picking.id,
                     'picking_type_id': picking_type.id,
                     'product_id': line.product_id.id,
-                    'product_uom_qty': abs(line.product_quantity),
+                    'product_uom_qty': abs(product_qty),
                     'state': 'draft',
                     'location_id': location_id,
                     'location_dest_id': destination_id,

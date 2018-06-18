@@ -334,12 +334,13 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">NOMBRE</th>
-                                        <th class="text-center">FECHA DE INGRESO</th>
+                                        <th class="text-center">NO. IDEN.</th>
                                         <th class="text-center">DÍAS</th>
                                         <th class="text-center">SUELDO</th>
                                         <th class="text-center">FR</th>
                                         <th class="text-center">13º</th>
                                         <th class="text-center">14º</th>
+                                        <th class="text-center">Movil.</th>
                                         <th class="text-center">Otros ING.</th>
                                         <th class="text-center">TOTAL ING.</th>
                                         <th class="text-center">AQ</th>
@@ -348,12 +349,13 @@
                                         <th class="text-right">PAQ</th>
                                         <th class="text-right">PQ</th>
                                         <th class="text-right">PH</th>
-                                        <th class="text-right">MULTAS</th>
-                                        <th class="text-right">Faltas/Atrasos</th>
+                                        <th class="text-right">EXT. CON.</th>
+                                        <th class="text-right">MUL.</th>
+                                        <th class="text-right">FAL./ATRA.</th>
                                         <th class="text-right">CELULAR</th>
                                         <th class="text-right">OTROS EGR.</th>
                                         <th class="text-right">TOTAL EGR.</th>
-                                        <th class="text-right">NETO RECIBIR</th>
+                                        <th class="text-right">NETO REC.</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -362,7 +364,7 @@
                                             <span t-field="line.name"/>
                                         </td>
                                         <td>
-                                            <span t-field="line.admission_date"/>
+                                            <span t-field="line.identification_id"/>
                                         </td>
                                         <td class="text-center">
                                             <span t-field="line.worked_days"/>
@@ -378,6 +380,9 @@
                                         </td>
                                         <td class="text-right">
                                             <span t-field="line.tenth_4"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.mobilization"/>
                                         </td>
                                         <td class="text-right">
                                             <span t-field="line.other_income"/>
@@ -402,6 +407,9 @@
                                         </td>
                                         <td class="text-right">
                                             <span t-field="line.loan_mortgage"/>
+                                        </td>
+                                        <td class="text-right">
+                                            <span t-field="line.spouses_extension"/>
                                         </td>
                                         <td class="text-right">
                                             <span t-field="line.penalty"/>

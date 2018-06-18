@@ -132,8 +132,8 @@ class Payslip(models.Model):
             'employee': employee_id,
             'payslip': role if role else self,
             'additional_hours': employee_id._get_additional_hours_period(
-                self.date_from,
-                self.date_to
+                role.date_from if role else self.date_from,
+                role.date_to if role else self.date_to
             ),
             'result': 0.00
         }
