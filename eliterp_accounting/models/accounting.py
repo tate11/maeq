@@ -21,6 +21,15 @@ YEARS = [
 ]
 
 
+class AccountTemplate(models.Model):
+    _inherit = 'account.account.template'
+
+    account_type = fields.Selection([
+        ('view', 'Vista'),
+        ('movement', 'Movimiento'),
+    ], 'Tipo de cuenta', required=True, default='movement')
+
+
 class LinesAccountPeriod(models.Model):
     _name = 'eliterp.lines.account.period'
 
