@@ -140,13 +140,13 @@ class Employee(models.Model):
     @api.model_cr_context
     def _init_column(self, column_name):
         """
-        Actualizamos columna wage en empleados creados por defecto (Test)
+        Actualizamos columnas vacías
         :param column_name:
-        :return:
         """
-        query = """UPDATE hr_employee SET names='Sin nombres', surnames='Sin apellidos', wage=386
-                    WHERE wage is NULL AND names is NULL AND surnames is NULL
-                        """
+        query = """UPDATE %(table_name)s
+                             SET %(column_name)s = md5(md5(random()::varchar || id::varchar) || clock_timestamp()::varchar)::uuid::varchar
+                           WHERE %(column_name)s IS NULL
+                       """ % {'table_name': self._table, 'column_name': column_name}
         self.env.cr.execute(query)
 
     @api.onchange('names', 'surnames')
