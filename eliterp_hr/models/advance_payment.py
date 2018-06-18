@@ -29,7 +29,7 @@ class LinesAdvancePayment(models.Model):
     job_id = fields.Many2one('hr.job', string='Cargo', related='employee_id.job_id', store=True)
     admission_date = fields.Date(related='employee_id.admission_date', store=True, string='Fecha ingreso')
     account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
-    amount_advance = fields.Float('Monto de anticipo', default=0.00)
+    amount_advance = fields.Float('Monto', default=0.00)
     mobilization = fields.Float(string='Movilización')
     antiquity = fields.Integer('Días')
     amount_total = fields.Float('Total', compute='_get_total')
