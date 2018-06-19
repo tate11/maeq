@@ -19,7 +19,7 @@
             <field name="amount">12</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_2151"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_sale_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -30,7 +30,7 @@
             <field name="amount">0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_21523"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -40,7 +40,7 @@
             <field name="amount">0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_21523"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -50,7 +50,7 @@
             <field name="amount">0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_21523"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -60,7 +60,7 @@
             <field name="amount">0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_21523"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -70,7 +70,7 @@
             <field name="amount">0</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_21523"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -82,7 +82,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -94,7 +94,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -106,7 +106,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -118,7 +118,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -130,7 +130,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -142,7 +142,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -154,7 +154,7 @@
             <field name="description">12%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11311"/>
             <field name="tag_ids" eval="[(6,0,[ref('eliterp_tag_purchase_12')])]"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
@@ -164,7 +164,7 @@
             <field name="name">IVA PAGADO 0% POR REEMBOLSO DE GASTOS</field>
             <field name="amount">0</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11313"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -173,7 +173,7 @@
             <field name="name">IVA PAGADO 0% EN SERVICIOS LOCALES</field>
             <field name="amount">0</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11313"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -182,7 +182,7 @@
             <field name="name">IVA PAGADO 0% EN BIENES LOCALES</field>
             <field name="amount">0</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11313"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -191,7 +191,7 @@
             <field name="name">IVA PAGADO 0% EN ACTIVOS FIJOS</field>
             <field name="amount">0</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_11313"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -203,7 +203,7 @@
             <field name="description">15%</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">iva</field>
+            <field eval="'iva'" name="tax_type"/>
             <field name="account_id" ref="eliterp_account_21525"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -213,12 +213,12 @@
             <field name="name">
                 HONORARIOS PROFESIONALES Y DEMÁS PAGOS POR SERVICIOS RELACIONADOS CON EL TÍTULO PROFESIONAL
             </field>
-            <field name="code">303</field>
+            <field eval="303" name="code"/>
             <field name="amount">10</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">retention</field>
-            <field name="retention_type">rent</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'rent'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_21512"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -227,12 +227,12 @@
             <field name="name">
                 RETENCIÓN DEL 30% DEL IVA COBRADO
             </field>
-            <field name="code">725</field>
+            <field eval="725" name="code"/>
             <field name="amount">30</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">retention</field>
-            <field name="retention_type">iva</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'iva'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_2159"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -241,12 +241,12 @@
             <field name="name">
                 RETENCIÓN DEL 70% DEL IVA COBRADO
             </field>
-            <field name="code">727</field>
+            <field eval="727" name="code"/>
             <field name="amount">70</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">retention</field>
-            <field name="retention_type">iva</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'iva'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_21510"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -255,12 +255,12 @@
             <field name="name">
                 RETENCIÓN DEL 100% DEL IVA COBRADO
             </field>
-            <field name="code">729</field>
+            <field eval="729" name="code"/>
             <field name="amount">100</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">retention</field>
-            <field name="retention_type">iva</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'iva'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_21511"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -269,11 +269,11 @@
             <field name="name">
                 OTRAS COMPRAS DE BIENES Y SERVICIOS NO SUJETAS A RETENCIÓN (0%)
             </field>
-            <field name="code">729</field>
+            <field eval="729" name="code"/>
             <field name="amount">0</field>
             <field name="type_tax_use">purchase</field>
-            <field name="tax_type">retention</field>
-            <field name="retention_type">rent</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'rent'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_21512"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
@@ -283,12 +283,12 @@
             <field name="name">
                 OTRAS RETENCIONES APLICABLES EL 2%
             </field>
-            <field name="code">344</field>
+            <field eval="344" name="code"/>
             <field name="amount">2</field>
             <field name="amount_type">percent</field>
             <field name="type_tax_use">sale</field>
-            <field name="tax_type">retention</field>
-            <field name="retention_type">rent</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'rent'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_11321"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
