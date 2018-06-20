@@ -40,6 +40,7 @@
         'views/credit_debit_notes_views.xml',
         'views/bank_reconciliation_views.xml',
         'reports/accounting_reports.xml',
+        'reports/reports_views.xml',
         'views/menus.xml',
         'views/dashboard.xml',
     ],
