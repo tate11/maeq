@@ -65,6 +65,17 @@
                 </xpath>
             </field>
         </record>
+        <!--Formulario: Plan contable (Plantilla)-->
+        <record model="ir.ui.view" id="eliterp_view_form_account_template">
+            <field name="name">eliterp_view_form_account_template</field>
+            <field name="model">account.account.template</field>
+            <field name="inherit_id" ref="account.view_account_template_form"/>
+            <field name="arch" type="xml">
+                <field name="user_type_id" position="after">
+                    <field name="account_type"/>
+                </field>
+            </field>
+        </record>
         <record id="eliterp_view_form_account_account" model="ir.ui.view">
             <field name="name">eliterp_view_form_account_account</field>
             <field name="model">account.account</field>

@@ -17,6 +17,7 @@ class LinesPayslipRun(models.Model):
     name = fields.Char('Empleado')
     departament = fields.Char('Departamento')
     admission_date = fields.Date('Fecha de ingreso')
+    identification_id = fields.Char('No. identificación')
     worked_days = fields.Integer('Días trabajados')
     # Ingresos
     wage = fields.Float('Sueldo')
@@ -35,6 +36,7 @@ class LinesPayslipRun(models.Model):
     loan_payment_advance = fields.Float('Préstamo de quincena')
     loan_unsecured = fields.Float('Préstamo quirografário')
     loan_mortgage = fields.Float('Préstamo hipotecario')
+    spouses_extension = fields.Float('Extensión conyuges')  # MAEQ
     penalty = fields.Float('Multas')
     absence = fields.Float('Faltas y atrasos')
     cellular_plan = fields.Float('Plan celular')
@@ -182,8 +184,8 @@ class PayslipRun(models.Model):
         tenth_3 = 0.00
         tenth_4 = 0.00
         reserve_funds = 0.00
-        extra_hours = 0.00  # TODO
-        additional_hours = 0.00  # TODO
+        extra_hours = 0.00  # TODO: Pendiente de revisar
+        additional_hours = 0.00
         other_income = 0.00
         mobilization = 0.00  # MAEQ
         total_income = 0.00
@@ -193,6 +195,7 @@ class PayslipRun(models.Model):
         iess_personal = 0.00
         loan_unsecured = 0.00
         loan_mortgage = 0.00
+        spouses_extension = 0.00  # maeq
         penalty = 0.00
         absence = 0.00
         cellular_plan = 0.00
@@ -208,13 +211,15 @@ class PayslipRun(models.Model):
         flag_benefits = False  # Bandera para acumular beneficios
         for role in self.lines_payslip_run:  # Comenzamos a sumar los roles individuales para creación del consolidado
             wage += round(role.wage, 3)
-            mobilization += round(role.mobilization, 3)  # MAEQ
+            mobilization += round(role.mobilization, 3)
+            additional_hours += round(role.additional_hours, 3)  # MAEQ
             other_income += round(role.other_income, 3)
             iess_personal += round(role.iess_personal, 3)
             iess_patronal += round(role.iess_patronal, 3)
             loan_payment_advance += round(role.loan_payment_advance, 3)
             loan_unsecured += round(role.loan_unsecured, 3)
             loan_mortgage += round(role.loan_mortgage, 3)
+            spouses_extension += round(role.spouses_extension, 3)
             advances.append(
                 {
                     'employee': role.role_id.employee_id.name,
@@ -267,6 +272,7 @@ class PayslipRun(models.Model):
         self._create_line_expenses('FALT_ATRA', move_id, absence)  # Faltas y atrasos
         self._create_line_expenses('PLAN', move_id, cellular_plan)  # Plan celular
         self._create_line_expenses('PRES_ANTIC', move_id, loan_payment_advance)  # Préstamo anticipo quincena
+        self._create_line_expenses('EXT_IESS', move_id, spouses_extension)  # Extensión conyuges
         self._create_line_expenses('IESS_17.60%', move_id, iess_patronal)  # IEES 17.60%
         self._create_line_expenses('OEG', move_id, other_expenses)  # Otros egresos
 
@@ -290,7 +296,8 @@ class PayslipRun(models.Model):
         self._create_line_income('DC_MENSUAL', move_id, amount_tenth_4, False)  # Décimo cuarto mensual
         self._create_line_income('FR_MENSUAL', move_id, reserve_funds, False)  # Fondos de reserva mensual
         # self._create_line_income('HEEX', move_id, extra_hours, False)  # Horas extras
-        # self._create_line_income('HESU', move_id, additional_hours, False)  # Horas suplementarias
+        self._create_line_income('HESU', move_id, additional_hours,
+                                 False)  # Horas suplementarias (Sumatoria de horas de CMC's)
         self._create_line_income('OIN', move_id, other_income, False)  # Otros ingresos
         self._create_line_income('MOVILIZ', move_id, mobilization, False)  # MAEQ: Movilización
         self._create_line_income('SUE', move_id, wage, True)  # Sueldo
@@ -323,6 +330,7 @@ class PayslipRun(models.Model):
                     'name': role.employee_id.name,
                     'departament': role.employee_id.department_id.name,
                     'admission_date': role.employee_id.admission_date,
+                    'identification_id': role.employee_id.identification_id,
                     'worked_days': role.worked_days,
                     # Ingresos
                     'wage': role.input_line_ids.filtered(lambda x: x.code == 'SUE')[0].amount,
@@ -346,7 +354,7 @@ class PayslipRun(models.Model):
                         lambda x: x.code == 'OIN') else 0.00,
                     'total_income': sum(line.amount for line in role.input_line_ids),
                     'mobilization': role.input_line_ids.filtered(lambda x: x.code == 'MOVILIZ')[
-                                        0].amount if role.input_line_ids.filtered(
+                        0].amount if role.input_line_ids.filtered(
                         lambda x: x.code == 'MOVILIZ') else 0.00,  # MAEQ
                     # Egresos
                     'payment_advance': role.input_line_ids_2.filtered(lambda x: x.code == 'ADQ')[
@@ -364,6 +372,9 @@ class PayslipRun(models.Model):
                     'loan_unsecured': role.input_line_ids_2.filtered(lambda x: x.code == 'PRES_QUIRO')[
                         0].amount if role.input_line_ids_2.filtered(
                         lambda x: x.code == 'PRES_QUIRO') else 0.00,
+                    'spouses_extension': role.input_line_ids_2.filtered(lambda x: x.code == 'EXT_IESS')[
+                        0].amount if role.input_line_ids_2.filtered(
+                        lambda x: x.code == 'EXT_IESS') else 0.00,  # MAEQ
                     'loan_mortgage': role.input_line_ids_2.filtered(lambda x: x.code == 'PRES_HIPO')[
                         0].amount if role.input_line_ids_2.filtered(
                         lambda x: x.code == 'PRES_HIPO') else 0.00,
@@ -410,6 +421,16 @@ class PayslipRun(models.Model):
         if self.date_start:
             month = self.env['eliterp.global.functions']._get_month_name(int(self.date_start[5:7]))
             self.name = "%s [%s]" % (month, self.date_start[:4])
+
+    @api.multi
+    def reviewed(self):
+        """
+        Revisado
+        """
+        self.update({
+            'state': 'reviewed',
+            'reviewed_user': self._uid
+        })
 
     @api.multi
     def duplicate(self):
@@ -474,6 +495,7 @@ class PayslipRun(models.Model):
     state = fields.Selection([
         ('draft', 'Borrador'),
         ('to_approve', 'A aprobar'),
+        ('reviewed', 'Revisado'),  # MAEQ
         ('approve', 'Aprobado'),
         ('closed', 'Contabilizado'),
         ('deny', 'Negado')
@@ -485,4 +507,5 @@ class PayslipRun(models.Model):
     total = fields.Float('Total de rol', compute='_get_total', store=True)
     count_employees = fields.Integer('No. Empleados', compute='_get_count_employees')
     approval_user = fields.Many2one('res.users', 'Aprobado por', copy=False)
+    reviewed_user = fields.Many2one('res.users', string='Revisado por', copy=False)  # MAEQ
     comment = fields.Text('Notas y comentarios', readonly=True, states={'draft': [('readonly', False)]})

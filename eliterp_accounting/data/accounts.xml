@@ -9,7 +9,7 @@
         </record>
 
         <record id="eliterp_chart_template" model="account.chart.template">
-            <field name="name">Tabla de plan contable - Ecuador</field>
+            <field name="name">Plan contable (Personalizado)</field>
             <field name="currency_id" ref="base.USD"/>
             <field name="transfer_account_id" ref="transfer_account_id"/>
             <field name="cash_account_code_prefix">1.1.1</field>
@@ -43,7 +43,7 @@
             <field name="name">ACTIVO</field>
             <field name="code">1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -51,7 +51,7 @@
             <field name="name">ACTIVO CORRIENTE</field>
             <field name="code">1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -59,7 +59,7 @@
             <field name="name">EFECTIVO Y EQUIVALENTES AL EFECTIVO</field>
             <field name="code">1.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -67,7 +67,7 @@
             <field name="name">CAJA CHICA</field>
             <field name="code">1.1.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_liquidity" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -75,7 +75,7 @@
             <field name="name">BANCOS</field>
             <field name="code">1.1.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_bank" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -83,7 +83,7 @@
             <field name="name">ACTIVOS FINANCIEROS</field>
             <field name="code">1.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -91,7 +91,7 @@
             <field name="name">CUENTAS POR COBRAR</field>
             <field name="code">1.1.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="account.data_account_type_receivable" name="user_type_id"/><!--A cobrar-->
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -99,7 +99,7 @@
             <field name="name">CUENTAS POR COBRAR CLIENTES NO RELACIONADOS</field>
             <field name="code">1.1.2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -107,7 +107,7 @@
             <field name="name">CUENTAS POR COBRAR CLIENTES RELACIONADOS</field>
             <field name="code">1.1.2.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -115,7 +115,7 @@
             <field name="name">DOCUMENTOS POR COBRAR</field>
             <field name="code">1.1.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -123,7 +123,7 @@
             <field name="name">DOCUMENTOS POR COBRAR CLIENTES NO RELACIONADOS</field>
             <field name="code">1.1.2.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -131,7 +131,7 @@
             <field name="name">DOCUMENTOS POR COBRAR CLIENTES RELACIONADOS</field>
             <field name="code">1.1.2.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -139,7 +139,7 @@
             <field name="name">OTRAS CUENTAS POR COBRAR</field>
             <field name="code">1.1.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -147,7 +147,7 @@
             <field name="name">OTRAS CUENTAS POR COBRAR RELACIONADOS Y NO RELACIONADOS</field>
             <field name="code">1.1.2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -155,7 +155,7 @@
             <field name="name">OTROS DOCUMENTOS POR COBRAR RELACIONADOS Y NO RELACIONADOS</field>
             <field name="code">1.1.2.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -163,7 +163,7 @@
             <field name="name">CUENTAS POR COBRAR EMPLEADOS</field>
             <field name="code">1.1.2.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -171,7 +171,7 @@
             <field name="name">CUENTAS POR COBRAR ACCIONISTAS</field>
             <field name="code">1.1.2.3.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -179,7 +179,7 @@
             <field name="name">CHEQUES POSFECHADOS</field>
             <field name="code">1.1.2.3.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -187,7 +187,7 @@
             <field name="name">CHEQUES PROTESTADOS/DEVUELTOS</field>
             <field name="code">1.1.2.3.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -195,7 +195,7 @@
             <field name="name">CUENTAS INCOBRABLES</field>
             <field name="code">1.1.2.3.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -203,7 +203,7 @@
             <field name="name">(-) PROVISIÓN POR CUENTAS INCOBRABLES Y DETERIORO</field>
             <field name="code">1.1.2.3.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -211,7 +211,7 @@
             <field name="name">INVENTARIOS</field>
             <field name="code">1.1.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -219,7 +219,7 @@
             <field name="name">INVENTARIOS DE MATERIA PRIMA</field>
             <field name="code">1.1.2.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -227,7 +227,7 @@
             <field name="name">INVENTARIOS DE PRODUCTOS EN PROCESO</field>
             <field name="code">1.1.2.4.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -236,7 +236,7 @@
             </field>
             <field name="code">1.1.2.4.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -245,7 +245,7 @@
             </field>
             <field name="code">1.1.2.4.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -253,7 +253,7 @@
             <field name="name">INVENTARIOS DE PROD. TERM. Y MERCAD. EN ALMACÉN - PRODUCIDO POR LA COMPAÑIA</field>
             <field name="code">1.1.2.4.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -261,7 +261,7 @@
             <field name="name">INVENTARIOS DE PROD. TERM. Y MERCAD. EN ALMACÉN - COMPRADO A TERCEROS</field>
             <field name="code">1.1.2.4.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -269,7 +269,7 @@
             <field name="name">MERCADERÍAS EN TRÁNSITO</field>
             <field name="code">1.1.2.4.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -277,7 +277,7 @@
             <field name="name">IMPORTACIONES EN TRÁNSITO</field>
             <field name="code">1.1.2.4.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -285,7 +285,7 @@
             <field name="name">OBRAS EN CONSTRUCCIÓN</field>
             <field name="code">1.1.2.4.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -293,7 +293,7 @@
             <field name="name">OBRAS TERMINADAS</field>
             <field name="code">1.1.2.4.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -301,7 +301,7 @@
             <field name="name">MATERIALES O BIENES PARA LA CONSTRUCCIÓN</field>
             <field name="code">1.1.2.4.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -309,7 +309,7 @@
             <field name="name">INVENTARIOS REPUESTOS, HERRAMIENTAS Y ACCESORIOS</field>
             <field name="code">1.1.2.4.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -317,7 +317,7 @@
             <field name="name">OTROS INVENTARIOS</field>
             <field name="code">1.1.2.4.13</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -325,7 +325,7 @@
             <field name="name">(-) PROVISION POR VALOR NETO DE REALIZACIÓN</field>
             <field name="code">1.1.2.4.14</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -333,7 +333,7 @@
             <field name="name">(-) PROVISION DETERIORO FISICO U OTRAS PERDIDAS EN INVENTARIO</field>
             <field name="code">1.1.2.4.15</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -341,7 +341,7 @@
             <field name="name">SERVICIOS Y OTROS PAGOS ANTICIPADOS</field>
             <field name="code">1.1.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -349,7 +349,7 @@
             <field name="name">SEGUROS PAGADOS POR ANTICIPADO</field>
             <field name="code">1.1.2.5.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -357,7 +357,7 @@
             <field name="name">ARRIENDOS PAGADOS POR ANTICIPADO</field>
             <field name="code">1.1.2.5.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -365,7 +365,7 @@
             <field name="name">ANTICIPOS A PROVEEDORES</field>
             <field name="code">1.1.2.5.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -373,7 +373,7 @@
             <field name="name">ANTICIPO EMPLEADOS</field>
             <field name="code">1.1.2.5.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -381,7 +381,7 @@
             <field name="name">ANTICIPO A TERCEROS</field>
             <field name="code">1.1.2.5.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -389,7 +389,7 @@
             <field name="name">GARANTÍA FACTORING</field>
             <field name="code">1.1.2.5.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -397,7 +397,7 @@
             <field name="name">ACTIVOS POR IMPUESTOS CORRIENTES</field>
             <field name="code">1.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -405,7 +405,7 @@
             <field name="name">CRÉDITO TRIBUTARIO A FAVOR DE LA EMPRESA(IVA)</field>
             <field name="code">1.1.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -413,7 +413,7 @@
             <field name="name">IMPUESTO AL VALOR AGREGADO PAGADO (IVA)</field>
             <field name="code">1.1.3.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -421,7 +421,7 @@
             <field name="name">CRÉDITO TRIBUTARIO A FAVOR POR RETENCIONES DE IVA</field>
             <field name="code">1.1.3.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -429,7 +429,7 @@
             <field name="name">IMPUESTO AL VALOR AGREGADO 0%</field>
             <field name="code">1.1.3.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -437,7 +437,7 @@
             <field name="name">CRÉDITO TRIBUTARIO A FAVOR DE LA EMPRESA(I.R.)</field>
             <field name="code">1.1.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -445,7 +445,7 @@
             <field name="name">RETENCIONES EN LA FUENTE</field>
             <field name="code">1.1.3.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -453,7 +453,7 @@
             <field name="name">CRÉDITO TRIBUTARIO A FAVOR DEL IMPUESTO A LA RENTA (IR)</field>
             <field name="code">1.1.3.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -461,7 +461,7 @@
             <field name="name">RETENCIONES ANTICIPOS DIVIDENDOS</field>
             <field name="code">1.1.3.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -469,7 +469,7 @@
             <field name="name">ANTICIPO DE IMPUESTO A LA RENTA</field>
             <field name="code">1.1.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -477,7 +477,7 @@
             <field name="name">ANTICIPO DE IMPUESTO A LA RENTA</field>
             <field name="code">1.1.3.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -485,7 +485,7 @@
             <field name="name">OTROS ACTIVOS CORRIENTES</field>
             <field name="code">1.1.3.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -493,7 +493,7 @@
             <field name="name">DEPÓSITOS EN GARANTIA</field>
             <field name="code">1.1.3.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -501,7 +501,7 @@
             <field name="name">GARANTÍA FACTORING</field>
             <field name="code">1.1.3.4.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -509,7 +509,7 @@
             <field name="name">OTROS ACTIVOS CORRIENTES</field>
             <field name="code">1.1.3.4.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -517,7 +517,7 @@
             <field name="name">ACTIVO NO CORRIENTE</field>
             <field name="code">1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -525,7 +525,7 @@
             <field name="name">PROPIEDADES, PLANTA Y EQUIPO</field>
             <field name="code">1.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -533,7 +533,7 @@
             <field name="name">TERRENOS</field>
             <field name="code">1.2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -541,7 +541,7 @@
             <field name="name">EDIFICIOS</field>
             <field name="code">1.2.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -549,7 +549,7 @@
             <field name="name">REVALORIZACIÓN DE OFICINA Y PARQUEO</field>
             <field name="code">1.2.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -557,7 +557,7 @@
             <field name="name">CONTRUCCIONES EN CURSO</field>
             <field name="code">1.2.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -565,7 +565,7 @@
             <field name="name">INSTALACIONES</field>
             <field name="code">1.2.1.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -573,7 +573,7 @@
             <field name="name">MUEBLES Y ENSERES</field>
             <field name="code">1.2.1.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -581,7 +581,7 @@
             <field name="name">MAQUINARIA Y EQUIPO</field>
             <field name="code">1.2.1.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -589,7 +589,7 @@
             <field name="name">EQUIPO DE OFICIO</field>
             <field name="code">1.2.1.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -597,7 +597,7 @@
             <field name="name">EQUIPO DE COMPUTACIÓN</field>
             <field name="code">1.2.1.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -605,7 +605,7 @@
             <field name="name">SISTEMA DE SOFTWARE</field>
             <field name="code">1.2.1.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -613,7 +613,7 @@
             <field name="name">VEHÍCULOS, EQUIPOS DE TRANSPORTE Y EQUIPO CAMINERO MÓVIL</field>
             <field name="code">1.2.1.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -621,7 +621,7 @@
             <field name="name">OTROS PROPIEDADES, PLANTA Y EQUIPO</field>
             <field name="code">1.2.1.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -629,7 +629,7 @@
             <field name="name">REPUESTOS Y HERRAMIENTAS</field>
             <field name="code">1.2.1.13</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -637,7 +637,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA PROPIEDADES, PLANTA Y EQUIPO</field>
             <field name="code">1.2.1.14</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -645,7 +645,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA TERRENOS</field>
             <field name="code">1.2.1.15</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -653,7 +653,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA EDIFICIOS</field>
             <field name="code">1.2.1.16</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -661,7 +661,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA CONSTRUCCIONES EN CURSO</field>
             <field name="code">1.2.1.17</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -669,7 +669,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA INSTALACIONES</field>
             <field name="code">1.2.1.18</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -677,7 +677,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA MUEBLES Y ENSERES</field>
             <field name="code">1.2.1.19</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -685,7 +685,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA MAQUINARIA Y EQUIPO</field>
             <field name="code">1.2.1.20</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -693,7 +693,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA EQUIPO DE COMPUTACIÓN</field>
             <field name="code">1.2.1.21</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -702,7 +702,7 @@
             </field>
             <field name="code">1.2.1.22</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -710,7 +710,7 @@
             <field name="name">(-) DEPRECIACIÓN ACUMULADA OTRAS PROPIEDADES, PLANTA Y EQUIPOS</field>
             <field name="code">1.2.1.23</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -718,7 +718,7 @@
             <field name="name">PROPIEDADES</field>
             <field name="code">1.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -727,7 +727,7 @@
             <field name="name">ACTIVO INTANGIBLE</field>
             <field name="code">1.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -735,7 +735,7 @@
             <field name="name">PLUSVALÍAS</field>
             <field name="code">1.2.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -743,7 +743,7 @@
             <field name="name">MARCAS, PATENTES, DERECHOS DE LLAVE , CUOTAS PATRIMONIALES Y OTROS SIMILARES</field>
             <field name="code">1.2.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -751,7 +751,7 @@
             <field name="name">(-) AMORTIZACIÓN ACUMULADA DE ACTIVOS INTANGIBLE</field>
             <field name="code">1.2.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -759,7 +759,7 @@
             <field name="name">(-) DETERIORO ACUMULADO DE ACTIVO INTANGIBLE</field>
             <field name="code">1.2.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -767,7 +767,7 @@
             <field name="name">OTROS INTANGIBLES</field>
             <field name="code">1.2.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -775,7 +775,7 @@
             <field name="name">ACTIVOS FINANCIEROS NO CORRIENTES</field>
             <field name="code">1.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -783,7 +783,7 @@
             <field name="name">ANTICIPOS PROVEEDORES L/P</field>
             <field name="code">1.2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -791,7 +791,7 @@
             <field name="name">INVERSIONES ASOCIADAS</field>
             <field name="code">1.2.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -799,7 +799,7 @@
             <field name="name">INVERSIONES SUBSIDIARIAS</field>
             <field name="code">1.2.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -807,7 +807,7 @@
             <field name="name">INVERSIONES NEGOCIOS CONJUNTOS</field>
             <field name="code">1.2.3.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -815,7 +815,7 @@
             <field name="name">INVERSIONES OTROS</field>
             <field name="code">1.2.3.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -823,7 +823,7 @@
             <field name="name">ANTICIPOS EMPLEADOS L/P</field>
             <field name="code">1.2.3.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -831,7 +831,7 @@
             <field name="name">OTROS ACTIVOS NO CORRIENTES</field>
             <field name="code">1.2.3.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -839,7 +839,7 @@
             <field name="name">PASIVO</field>
             <field name="code">2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -847,7 +847,7 @@
             <field name="name">PASIVO CORRIENTE</field>
             <field name="code">2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -855,7 +855,7 @@
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR</field>
             <field name="code">2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -863,7 +863,7 @@
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR LOCALES</field>
             <field name="code">2.1.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -871,7 +871,7 @@
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR RELACIONADAS</field>
             <field name="code">2.1.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -879,7 +879,7 @@
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR DEL EXTERIOR</field>
             <field name="code">2.1.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -887,7 +887,7 @@
             <field name="name">CUENTAS POR PAGAR DEL EXTERIOR</field>
             <field name="code">2.1.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -895,7 +895,7 @@
             <field name="name">OBLIGACIONES CON INSTITUCIONES FINANCIERAS</field>
             <field name="code">2.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -903,7 +903,7 @@
             <field name="name">SOBREGIRO</field>
             <field name="code">2.1.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -911,7 +911,7 @@
             <field name="name">PRESTAMO BANCO (CAPITAL) L/P</field>
             <field name="code">2.1.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -919,7 +919,7 @@
             <field name="name">PRESTAMO BANCO (INTERES)</field>
             <field name="code">2.1.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -927,7 +927,7 @@
             <field name="name">TARJETAS DE CRÉDITO</field>
             <field name="code">2.1.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -935,7 +935,7 @@
             <field name="name">PRESTAMO BANCO DEL EXTERIOR (CAPITAL)</field>
             <field name="code">2.1.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -943,7 +943,7 @@
             <field name="name">PROVISIONES</field>
             <field name="code">2.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -951,7 +951,7 @@
             <field name="name">PROVISIÓN AGUA</field>
             <field name="code">2.1.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -959,7 +959,7 @@
             <field name="name">PROVISIÓN ENERGIA ELECTRICA</field>
             <field name="code">2.1.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -967,7 +967,7 @@
             <field name="name">PROVISIÓN CONSUMO CELULAR</field>
             <field name="code">2.1.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -975,7 +975,7 @@
             <field name="name">PROVISIÓN TELEFONO</field>
             <field name="code">2.1.3.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -983,7 +983,7 @@
             <field name="name">PROVISIÓN DEL EXTERIOR</field>
             <field name="code">2.1.3.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -991,7 +991,7 @@
             <field name="name">PORCIÓN CORRIENTE DE OBLIGACIONES EMITIDAS</field>
             <field name="code">2.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -999,7 +999,7 @@
             <field name="name">OBLIGACIONES EMITIDAS A CORTO PLAZO</field>
             <field name="code">2.1.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1007,7 +1007,7 @@
             <field name="name">OTRAS OBLIGACIONES CORRIENTES CON LA ADMINISTRACIÓN TRUBUTARIA</field>
             <field name="code">2.1.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1015,7 +1015,7 @@
             <field name="name">IMPUESTO AL VALOR AGREGADO COBRADO (IVA)</field>
             <field name="code">2.1.5.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1023,7 +1023,7 @@
             <field name="name">RETENCIÓN RENTA EMPLEADOS</field>
             <field name="code">2.1.5.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1031,7 +1031,7 @@
             <field name="name">RETENCIÓN RENTA DIVIDENDOS</field>
             <field name="code">2.1.5.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1039,7 +1039,7 @@
             <field name="name">RETENCIÓN EN LA FUENTE IMPUESTO A LA RENTA 1% POR PAGAR</field>
             <field name="code">2.1.5.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1047,7 +1047,7 @@
             <field name="name">RETENCIÓN EN LA FUENTE IMPUESTO A LA RENTA 1% SEGUROS POR PAGAR</field>
             <field name="code">2.1.5.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1055,7 +1055,7 @@
             <field name="name">RETENCIÓN EN LA FUENTE IMPUESTO A LA RENTA 2% POR PAGAR</field>
             <field name="code">2.1.5.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1063,7 +1063,7 @@
             <field name="name">RETENCIÓN EN LA FUENTE IMPUESTO A LA RENTA 8% POR PAGAR</field>
             <field name="code">2.1.5.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1071,7 +1071,7 @@
             <field name="name">RETENCIÓN EN LA FUENTE IMPUESTO A LA RENTA 10% POR PAGAR</field>
             <field name="code">2.1.5.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1079,7 +1079,7 @@
             <field name="name">30% RETENCIÓN IMPUESTO AL VALOR AGREGADO</field>
             <field name="code">2.1.5.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1087,7 +1087,7 @@
             <field name="name">70% RETENCIÓN IMPUESTO AL VALOR AGREGADO</field>
             <field name="code">2.1.5.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1095,7 +1095,7 @@
             <field name="name">100% RETENCIÓN IMPUESTO AL VALOR AGREGADO</field>
             <field name="code">2.1.5.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1103,7 +1103,7 @@
             <field name="name">NO SUJETAS A RETENCIÓN</field>
             <field name="code">2.1.5.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1111,7 +1111,7 @@
             <field name="name">IMPUESTO CAUSADO SRI POR PAGAR</field>
             <field name="code">2.1.5.13</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1119,7 +1119,7 @@
             <field name="name">IMPUESTO A LA RENTA SRI POR PAGAR</field>
             <field name="code">2.1.5.14</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1127,7 +1127,7 @@
             <field name="name">IMPUESTO A LA RENTA POR PAGAR DEL EJERCICIO</field>
             <field name="code">2.1.5.15</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1135,7 +1135,7 @@
             <field name="name">APORTE IESS 9,45%</field>
             <field name="code">2.1.5.16</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1143,7 +1143,7 @@
             <field name="name">APORTE PATRONAL AL IESS</field>
             <field name="code">2.1.5.17</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1151,7 +1151,7 @@
             <field name="name">PRESTAMO QUIROGRAFARIO IESS</field>
             <field name="code">2.1.5.18</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1159,7 +1159,7 @@
             <field name="name">PRESTAMO HIPOTECARIO IESS</field>
             <field name="code">2.1.5.19</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1167,7 +1167,7 @@
             <field name="name">IESS POR PAGAR</field>
             <field name="code">2.1.5.20</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1175,15 +1175,15 @@
             <field name="name">FONDO DE RESERVA POR PAGAR AL IESS</field>
             <field name="code">2.1.5.21</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
         <record model="account.account.template" id="eliterp_account_21522">
-            <field name="name">EXTENSION SALUD CONYUGE</field>
+            <field name="name">EXTENSIÓN CONYUGE</field>
             <field name="code">2.1.5.22</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1191,7 +1191,7 @@
             <field name="name">IMPUESTO AL VALOR AGREGADO COBRADO (IVA 0%)</field>
             <field name="code">2.1.5.23</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="account.data_account_type_current_liabilities" name="user_type_id"/><!--Pasivo actual-->
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1199,7 +1199,7 @@
             <field name="name">APORTE IESS 17.60%</field>
             <field name="code">2.1.5.24</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1207,7 +1207,7 @@
             <field name="name">ICE 15%</field>
             <field name="code">2.1.5.25</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="account.data_account_type_payable" name="user_type_id"/><!--A pagar-->
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1215,7 +1215,7 @@
             <field name="name">OTRAS OBLIGACIONES CORRIENTES POR BENEFICIOS DE LEY A EMPLEADOS</field>
             <field name="code">2.1.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1224,7 +1224,7 @@
             <field name="name">NÓMINA POR PAGAR</field>
             <field name="code">2.1.6.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1232,7 +1232,7 @@
             <field name="name">LIQUIDACIÓN DE HABERES POR PAGAR</field>
             <field name="code">2.1.6.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1240,7 +1240,7 @@
             <field name="name">VIATICOS POR PAGAR</field>
             <field name="code">2.1.6.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1248,7 +1248,7 @@
             <field name="name">PARTICIPACIÓN TRABAJADORES POR PAGAR DEL EJERCICIO</field>
             <field name="code">2.1.6.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1256,7 +1256,7 @@
             <field name="name">UTILIDAD 15 % TRABAJADORES POR PAGAR</field>
             <field name="code">2.1.6.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1264,7 +1264,7 @@
             <field name="name">DIVIDENDOS POR PAGAR</field>
             <field name="code">2.1.6.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1272,7 +1272,7 @@
             <field name="name">CUENTAS POR PAGAR DIVERSAS/RELACIONADAS</field>
             <field name="code">2.1.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1280,7 +1280,7 @@
             <field name="name">OTRAS CUENTAS POR PAGAR RELACIONADAS</field>
             <field name="code">2.1.7.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1288,7 +1288,7 @@
             <field name="name">OTRAS CUENTAS POR PAGAR ACCIONISTAS</field>
             <field name="code">2.1.7.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1296,7 +1296,7 @@
             <field name="name">CUENTAS POR PAGAR DIVERSAS/RELACIONADAS</field>
             <field name="code">2.1.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1304,7 +1304,7 @@
             <field name="name">ANTICIPOS DE CLIENTES</field>
             <field name="code">2.1.8.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1312,7 +1312,7 @@
             <field name="name">ANTICIPO A PROVEEDORES</field>
             <field name="code">2.1.8.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1320,7 +1320,7 @@
             <field name="name">ANTICIPOS VENTA ACTIVO FIJO</field>
             <field name="code">2.1.8.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1328,7 +1328,7 @@
             <field name="name">ANTICIPO DEPOSITO EN GARANTIA</field>
             <field name="code">2.1.8.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1336,7 +1336,7 @@
             <field name="name">ANTICIPO DE CLIENTES FACTORING</field>
             <field name="code">2.1.8.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1344,7 +1344,7 @@
             <field name="name">BENEFICIOS SOCIALES</field>
             <field name="code">2.1.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1352,7 +1352,7 @@
             <field name="name">DECIMO TERCER SUELDO</field>
             <field name="code">2.1.9.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1360,7 +1360,7 @@
             <field name="name">DECIMO CUARTO SUELDO</field>
             <field name="code">2.1.9.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1368,7 +1368,7 @@
             <field name="name">VACACIONES</field>
             <field name="code">2.1.9.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1376,7 +1376,7 @@
             <field name="name">FONDO DE RESERVA</field>
             <field name="code">2.1.9.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1384,7 +1384,7 @@
             <field name="name">JUBILACIÓN PATRONAL</field>
             <field name="code">2.1.9.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1392,7 +1392,7 @@
             <field name="name">BONIFICACIÓN POR DESAHUCIO</field>
             <field name="code">2.1.9.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1400,7 +1400,7 @@
             <field name="name">OTROS PASIVOS CORRIENTES</field>
             <field name="code">2.1.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1408,7 +1408,7 @@
             <field name="name">PRESTAMOS ACREEDORES</field>
             <field name="code">2.1.10.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1416,7 +1416,7 @@
             <field name="name">OTRAS CUENTAS POR EMLEADOS</field>
             <field name="code">2.1.10.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1424,7 +1424,7 @@
             <field name="name">ACREEDORES FACTORING</field>
             <field name="code">2.1.10.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1432,7 +1432,7 @@
             <field name="name">PASIVO NO CORRIENTE</field>
             <field name="code">2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1440,7 +1440,7 @@
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR</field>
             <field name="code">2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1448,7 +1448,7 @@
             <field name="name">CUENTAS POR PAGAR (L/P)</field>
             <field name="code">2.2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="account.data_account_type_payable" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1456,7 +1456,7 @@
             <field name="name">PROVEEDORES LOCALES (L/P)</field>
             <field name="code">2.2.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1464,7 +1464,7 @@
             <field name="name">PROVEEDORES RELACIONADOS (L/P)</field>
             <field name="code">2.2.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1472,7 +1472,7 @@
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR DEL EXTERIOR</field>
             <field name="code">2.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1480,7 +1480,7 @@
             <field name="name">CUENTAS POR PAGAR DEL EXTERIOR (L/P)</field>
             <field name="code">2.2.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1488,7 +1488,7 @@
             <field name="name">CUENTAS POR PAGAR DEL EXTERIOR RELACIONADAS (L/P)</field>
             <field name="code">2.2.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1496,7 +1496,7 @@
             <field name="name">OBLIGACIONES CON INSTITUCIONES FINANCIERAS</field>
             <field name="code">2.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1504,7 +1504,7 @@
             <field name="name">PRESTAMO BANCO (CAPITAL) L/P -</field>
             <field name="code">2.2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1512,7 +1512,7 @@
             <field name="name">PRESTAMO BANCO (INTERES) L/P</field>
             <field name="code">2.2.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1520,7 +1520,7 @@
             <field name="name">OBLIGACIONES CON INSTITUCIONES FINANCIERAS DEL EXTERIOR</field>
             <field name="code">2.2.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1528,7 +1528,7 @@
             <field name="name">CUENTAS POR PAGAR DIVERSAS/RELACIONADAS</field>
             <field name="code">2.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1536,7 +1536,7 @@
             <field name="name">OTRAS CUENTAS POR PAGAR ACCIONISTAS L/P</field>
             <field name="code">2.2.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1544,7 +1544,7 @@
             <field name="name">OTRAS CUENTAS POR PAGAR RELACIONADAS L/P</field>
             <field name="code">2.2.4.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1552,7 +1552,7 @@
             <field name="name">CUENTAS POR PAGAR DIVERSAS/RELACIONADAS DEL EXTERIOR</field>
             <field name="code">2.2.4.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1560,7 +1560,7 @@
             <field name="name">OTRAS PROVISIONES</field>
             <field name="code">2.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1568,7 +1568,7 @@
             <field name="name">OTROS PASIVOS NO CORRIENTES</field>
             <field name="code">2.2.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1576,7 +1576,7 @@
             <field name="name">PASIVOS EN GARANTIA</field>
             <field name="code">2.2.6.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1584,7 +1584,7 @@
             <field name="name">GARANTIA ARRIENDO - PASIVOS</field>
             <field name="code">2.2.6.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1592,7 +1592,7 @@
             <field name="name">PASIVO DIFERIDO</field>
             <field name="code">2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1600,7 +1600,7 @@
             <field name="name">INGRESOS DIFERIDOS</field>
             <field name="code">2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1608,7 +1608,7 @@
             <field name="name">INGRESOS ANTICIPADOS</field>
             <field name="code">2.3.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1616,7 +1616,7 @@
             <field name="name">PASIVOS POR IMPUESTOS DIFERIDOS</field>
             <field name="code">2.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1624,7 +1624,7 @@
             <field name="name">INTERESES BANCO</field>
             <field name="code">2.3.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1632,7 +1632,7 @@
             <field name="name">PATRIMONIO NETO</field>
             <field name="code">3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1640,7 +1640,7 @@
             <field name="name">CAPITAL</field>
             <field name="code">3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1648,7 +1648,7 @@
             <field name="name">CAPITAL SUSCRITO o ASIGNADO</field>
             <field name="code">3.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1656,7 +1656,7 @@
             <field name="name">CAPITAL SUSCRITO O ASIGNADO</field>
             <field name="code">3.1.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1664,7 +1664,7 @@
             <field name="name">(-) CAPITAL SUSCRITO NO PAGADO, ACCIONES EN TESORERÍA</field>
             <field name="code">3.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1672,7 +1672,7 @@
             <field name="name">(-) CAPITAL SUSCRITO NO PAGADO, ACCIONES EN TESORERÍA</field>
             <field name="code">3.1.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1680,7 +1680,7 @@
             <field name="name">APORTES DE SOCIOS O ACCIONISTAS PARA FUTURA CAPITALIZACIÓN</field>
             <field name="code">3.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1688,7 +1688,7 @@
             <field name="name">APORTE PARA FUTURA CAPITALIZACIÓN</field>
             <field name="code">3.1.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1696,7 +1696,7 @@
             <field name="name">RESERVAS</field>
             <field name="code">3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1704,7 +1704,7 @@
             <field name="name">RESERVA LEGAL</field>
             <field name="code">3.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1712,7 +1712,7 @@
             <field name="name">RESERVA LEGAL</field>
             <field name="code">3.2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1720,7 +1720,7 @@
             <field name="name">RESERVAS FACULTATIVA Y ESTATUTARIA</field>
             <field name="code">3.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1728,7 +1728,7 @@
             <field name="name">RESERVAS FACULTATIVA Y ESTATUTARIA</field>
             <field name="code">3.2.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1736,7 +1736,7 @@
             <field name="name">GANANCIAS ACUMULADAS</field>
             <field name="code">3.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1744,7 +1744,7 @@
             <field name="name">GANANCIAS ACUMULADAS DE AÑOS ANTERIORES</field>
             <field name="code">3.2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1752,7 +1752,7 @@
             <field name="name">(-) PÉRDIDAS ACUMULADAS</field>
             <field name="code">3.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1760,7 +1760,7 @@
             <field name="name">(-) PÉRDIDAS ACUMULADAS DE AÑOS ANTERIORES</field>
             <field name="code">3.2.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1768,7 +1768,7 @@
             <field name="name">RESULTADOS ACUMULADOS PROVENIENTES DE LA ADOPCION POR PRIMERA VEZ DE LAS NIIF</field>
             <field name="code">3.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1776,7 +1776,7 @@
             <field name="name">RESERVA DE CAPITAL</field>
             <field name="code">3.2.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1784,7 +1784,7 @@
             <field name="name">RESERVA DE CAPITAL</field>
             <field name="code">3.2.6.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1792,7 +1792,7 @@
             <field name="name">RESERVA POR DONACIONES</field>
             <field name="code">3.2.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1800,7 +1800,7 @@
             <field name="name">RESERVA POR DONACIONES</field>
             <field name="code">3.2.7.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1808,7 +1808,7 @@
             <field name="name">RESERVA POR VALUACION</field>
             <field name="code">3.2.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1816,7 +1816,7 @@
             <field name="name">RESERVA POR VALUACION</field>
             <field name="code">3.2.8.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1824,7 +1824,7 @@
             <field name="name">SUPERAVIT POR REVALUACIÓN DE INVERSIONES</field>
             <field name="code">3.2.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1832,7 +1832,7 @@
             <field name="name">SUPERAVIT POR REVALUACIÓN DE INVERSIONES</field>
             <field name="code">3.2.9.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1840,7 +1840,7 @@
             <field name="name">RESULTADOS DEL EJERCICIO</field>
             <field name="code">3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1848,7 +1848,7 @@
             <field name="name">GANANCIA NETA DEL PERIODO</field>
             <field name="code">3.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1856,7 +1856,7 @@
             <field name="name">GANANCIA NETA DEL PERIODO</field>
             <field name="code">3.3.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1864,7 +1864,7 @@
             <field name="name">(-) PÉRDIDA NETA DEL PERIODO</field>
             <field name="code">3.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1872,7 +1872,7 @@
             <field name="name">(-) PÉRDIDA NETA DEL PERIODO</field>
             <field name="code">3.3.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1880,7 +1880,7 @@
             <field name="name">INGRESOS</field>
             <field name="code">4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1888,7 +1888,7 @@
             <field name="name">INGRESOS OPERACIONALES</field>
             <field name="code">4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1896,7 +1896,7 @@
             <field name="name">INGRESOS DE ACTIVIDADES ORDINARIAS</field>
             <field name="code">4.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1904,7 +1904,7 @@
             <field name="name">VENTA DE BIENES</field>
             <field name="code">4.1.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1912,7 +1912,7 @@
             <field name="name">VENTA PRESTACION DE SERVICIOS</field>
             <field name="code">4.1.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1920,7 +1920,7 @@
             <field name="name">CONTRATO DE CONSTRUCCIÓN</field>
             <field name="code">4.1.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1928,7 +1928,7 @@
             <field name="name">SUBVENCIONES DE GOBIERNO</field>
             <field name="code">4.1.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1936,7 +1936,7 @@
             <field name="name">DESCUENTA VENTA BIENES</field>
             <field name="code">4.1.1.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1944,7 +1944,7 @@
             <field name="name">DESCUENTOS PRESTACION DE SERVICIOS</field>
             <field name="code">4.1.1.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1952,7 +1952,7 @@
             <field name="name">DESCUENTO DE CONSTRUCCIÓN</field>
             <field name="code">4.1.1.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1960,7 +1960,7 @@
             <field name="name">DESCUENTOS SUBVENCIONES DE GOBIERNO</field>
             <field name="code">4.1.1.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1968,7 +1968,7 @@
             <field name="name">VENTA BIENES 0% IVA</field>
             <field name="code">4.1.1.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1976,7 +1976,7 @@
             <field name="name">VENTA PRESTACION DE SERVICIOS 0% IVA</field>
             <field name="code">4.1.1.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1984,7 +1984,7 @@
             <field name="name">DESCUENTO DE BIENES 0% IVA</field>
             <field name="code">4.1.1.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -1992,7 +1992,7 @@
             <field name="name">DESCUENTO PRESTACION DE SERVICIOS 0% IVA</field>
             <field name="code">4.1.1.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2000,7 +2000,7 @@
             <field name="name">INGRESOS NO OPERACIONALES</field>
             <field name="code">4.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2008,7 +2008,7 @@
             <field name="name">OTROS INGRESOS NO ORDINARIOS</field>
             <field name="code">4.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2016,7 +2016,7 @@
             <field name="name">EXPORTACIONES NETAS</field>
             <field name="code">4.2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2024,7 +2024,7 @@
             <field name="name">GANACIAS EN INV. ASOCIADAS / SUBSIDIARIAS Y OTRAS</field>
             <field name="code">4.2.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2032,7 +2032,7 @@
             <field name="name">OTRAS RENTAS - INDEMNIZACION DE SINIESTRO</field>
             <field name="code">4.2.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2040,7 +2040,7 @@
             <field name="name">OTRAS RENTAS - FALTAS Y MULTAS EMPLEADOS</field>
             <field name="code">4.2.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2048,7 +2048,7 @@
             <field name="name">OTRAS RENTAS - OTROS INGRESOS NO OPERACIONALES</field>
             <field name="code">4.2.1.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2056,7 +2056,7 @@
             <field name="name">COSTOS Y GASTOS</field>
             <field name="code">5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2064,7 +2064,7 @@
             <field name="name">COSTO DE VENTAS Y PRODUCCIÓN</field>
             <field name="code">5.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2072,7 +2072,7 @@
             <field name="name">MATERIALES UTILIZADOS O PRODUCTOS VENDIDOS</field>
             <field name="code">5.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2080,7 +2080,7 @@
             <field name="name">CONSUMO DE MATERIA PRIMA</field>
             <field name="code">5.1.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2088,7 +2088,7 @@
             <field name="name">CONSUMO MATERIALES DIRECTOS</field>
             <field name="code">5.1.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2096,7 +2096,7 @@
             <field name="name">CONSUMO MATERIALES INDIRECTOS</field>
             <field name="code">5.1.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2104,7 +2104,7 @@
             <field name="name">COSTO PRODUCTO TERMINADO</field>
             <field name="code">5.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2112,7 +2112,7 @@
             <field name="name">COSTO DE VENTA DEL PRODUCTO FABRICADO</field>
             <field name="code">5.1.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2120,7 +2120,7 @@
             <field name="name">COSTO DE VENTA DE PRODUCTOS PARA LA REVENTA</field>
             <field name="code">5.1.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2128,7 +2128,7 @@
             <field name="name">MANO DE OBRA DIRECTA</field>
             <field name="code">5.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2136,7 +2136,7 @@
             <field name="name">MOD - SUELDOS</field>
             <field name="code">5.1.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2144,7 +2144,7 @@
             <field name="name">MOD - HORAS EXTRAS</field>
             <field name="code">5.1.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2152,7 +2152,7 @@
             <field name="name">MOD - BONIFICACIÓN</field>
             <field name="code">5.1.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2160,7 +2160,7 @@
             <field name="name">MOD - ALIMENTACIÓN ROL</field>
             <field name="code">5.1.3.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2168,7 +2168,7 @@
             <field name="name">MOD - TRANSPORTE ROL</field>
             <field name="code">5.1.3.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2176,7 +2176,7 @@
             <field name="name">MOD - APORTE PATRONAL IESS</field>
             <field name="code">5.1.3.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2184,7 +2184,7 @@
             <field name="name">MOD - APORTE IESS ASUMIDO POR LA CIA.</field>
             <field name="code">5.1.3.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2192,7 +2192,7 @@
             <field name="name">MOD - DECIMO TERCER SUELDO</field>
             <field name="code">5.1.3.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2200,7 +2200,7 @@
             <field name="name">MOD - DECIMO CUARTO SUELDO</field>
             <field name="code">5.1.3.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2208,7 +2208,7 @@
             <field name="name">MOD - FONDO DE RESERVA</field>
             <field name="code">5.1.3.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2216,7 +2216,7 @@
             <field name="name">MOD - VACACIONES</field>
             <field name="code">5.1.3.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2224,7 +2224,7 @@
             <field name="name">MOD - OTRAS REMUNERACIONES</field>
             <field name="code">5.1.3.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2232,7 +2232,7 @@
             <field name="name">MANO DE OBRA DIRECTA</field>
             <field name="code">5.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2240,7 +2240,7 @@
             <field name="name">MOI- SUELDOS</field>
             <field name="code">5.1.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2248,7 +2248,7 @@
             <field name="name">MOI- HORAS EXTRAS</field>
             <field name="code">5.1.4.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2256,7 +2256,7 @@
             <field name="name">MOI- BONIFICACIÓN</field>
             <field name="code">5.1.4.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2264,7 +2264,7 @@
             <field name="name">MOI- ALIMENTACIÓN ROL</field>
             <field name="code">5.1.4.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2272,7 +2272,7 @@
             <field name="name">MOI- TRANSPORTE ROL</field>
             <field name="code">5.1.4.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2280,7 +2280,7 @@
             <field name="name">MOI- VACACIONES</field>
             <field name="code">5.1.4.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2288,7 +2288,7 @@
             <field name="name">MOI- APORTE PATRONAL IESS</field>
             <field name="code">5.1.4.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2296,7 +2296,7 @@
             <field name="name">MOI- APORTE IESS ASUMIDO POR LA CIA.</field>
             <field name="code">5.1.4.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2304,7 +2304,7 @@
             <field name="name">MOI- FONDO DE RESERVA</field>
             <field name="code">5.1.4.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2312,7 +2312,7 @@
             <field name="name">MOI- DECIMO TERCER SUELDO</field>
             <field name="code">5.1.4.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2320,7 +2320,7 @@
             <field name="name">MOI- DECIMO CUARTO SUELDO</field>
             <field name="code">5.1.4.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2328,7 +2328,7 @@
             <field name="name">MOI - COMISIÓN EN VENTAS</field>
             <field name="code">5.1.4.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2336,7 +2336,7 @@
             <field name="name">MOI- OTRAS REMUNERACIONES</field>
             <field name="code">5.1.4.13</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2344,7 +2344,7 @@
             <field name="name">OTROS COSTOS INDIRECTOS DE FABRICACIÓN</field>
             <field name="code">5.1.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2352,7 +2352,7 @@
             <field name="name">DEPRECIACIÓN PROPIEDADES, PLANTA Y EQUIPO - CIF</field>
             <field name="code">5.1.5.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2360,7 +2360,7 @@
             <field name="name">OTROS COSTOS DE PRODUCCIÓN - CIF</field>
             <field name="code">5.1.5.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2368,7 +2368,7 @@
             <field name="name">GASTOS</field>
             <field name="code">5.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2376,7 +2376,7 @@
             <field name="name">GASTOS DE VENTAS</field>
             <field name="code">5.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2384,7 +2384,7 @@
             <field name="name">VTA - SUELDOS, SALARIOS Y DEMÁS REMUNERACIONES</field>
             <field name="code">5.2.1.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2392,7 +2392,7 @@
             <field name="name">VTA - APORTE PATRONAL IESS</field>
             <field name="code">5.2.1.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2400,7 +2400,7 @@
             <field name="name">VTA - APORTE IESS ASUMIDO POR LA CIA.</field>
             <field name="code">5.2.1.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2408,7 +2408,7 @@
             <field name="name">VTA - FONDO DE RESERVA</field>
             <field name="code">5.2.1.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2416,7 +2416,7 @@
             <field name="name">VTA - DECIMO TERCER SUELDO</field>
             <field name="code">5.2.1.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2424,7 +2424,7 @@
             <field name="name">VTA - DECIMO CUARTO SUELDO</field>
             <field name="code">5.2.1.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2432,7 +2432,7 @@
             <field name="name">VTA - SERVICIOS PRESTADOS</field>
             <field name="code">5.2.1.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2440,7 +2440,7 @@
             <field name="name">VTA - COMBUSTIBLE</field>
             <field name="code">5.2.1.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2448,7 +2448,7 @@
             <field name="name">VTA - VIÁTICOS</field>
             <field name="code">5.2.1.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2456,7 +2456,7 @@
             <field name="name">VTA - CAPACITACIÓN</field>
             <field name="code">5.2.1.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2464,7 +2464,7 @@
             <field name="name">VTA - UNIFORMES</field>
             <field name="code">5.2.1.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2472,7 +2472,7 @@
             <field name="name">VTA - ALIMENTACIÓN DEL PERSONAL</field>
             <field name="code">5.2.1.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2480,7 +2480,7 @@
             <field name="name">VTA - OTRAS BONIFICACIONES</field>
             <field name="code">5.2.1.13</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2488,7 +2488,7 @@
             <field name="name">VTA - OTROS GASTOS DEL PERSONAL</field>
             <field name="code">5.2.1.14</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2496,7 +2496,7 @@
             <field name="name">GASTOS ADMINISTRATIVOS</field>
             <field name="code">5.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2504,7 +2504,7 @@
             <field name="name">ADM - SUELDOS, SALARIOS Y DEMAS REMUNERACIONES</field>
             <field name="code">5.2.2.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2512,7 +2512,7 @@
             <field name="name">ADM - HORAS EXTRAS</field>
             <field name="code">5.2.2.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2520,7 +2520,7 @@
             <field name="name">ADM - COMISIONES</field>
             <field name="code">5.2.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2528,7 +2528,7 @@
             <field name="name">ADM - BONIFICACIÓN</field>
             <field name="code">5.2.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2536,7 +2536,7 @@
             <field name="name">ADM - ALIMENTACIÓN ROL</field>
             <field name="code">5.2.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2544,7 +2544,7 @@
             <field name="name">ADM - TRANSPORTE ROL</field>
             <field name="code">5.2.2.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2552,7 +2552,7 @@
             <field name="name">ADM - VACACIONES</field>
             <field name="code">5.2.2.7</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2560,7 +2560,7 @@
             <field name="name">ADM - OTRAS REMUNERACIONES</field>
             <field name="code">5.2.2.8</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2568,7 +2568,7 @@
             <field name="name">ADM - APORTE PATRONAL IESS</field>
             <field name="code">5.2.2.9</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2576,7 +2576,7 @@
             <field name="name">ADM - APORTE IESS ASUMIDO POR LA CIA.</field>
             <field name="code">5.2.2.10</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2584,7 +2584,7 @@
             <field name="name">ADM - FONDO DE RESERVA</field>
             <field name="code">5.2.2.11</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2592,7 +2592,7 @@
             <field name="name">ADM - DECIMO TERCER SUELDO</field>
             <field name="code">5.2.2.12</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2600,7 +2600,7 @@
             <field name="name">ADM - DECIMO CUARTO SUELDO</field>
             <field name="code">5.2.2.13</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2608,7 +2608,7 @@
             <field name="name">ADM - INDEMNIZACION POR DESPIDO INTEMPESTIVO</field>
             <field name="code">5.2.2.14</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2616,7 +2616,7 @@
             <field name="name">ADM - HONORARIOS PROFESIONALES</field>
             <field name="code">5.2.2.15</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2624,7 +2624,7 @@
             <field name="name">ADM - SERVICIOS PRESTADOS</field>
             <field name="code">5.2.2.16</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2632,7 +2632,7 @@
             <field name="name">ADM - COMBUSTIBLE</field>
             <field name="code">5.2.2.17</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2640,7 +2640,7 @@
             <field name="name">ADM - MOVILIZACIÓN</field>
             <field name="code">5.2.2.18</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2648,7 +2648,7 @@
             <field name="name">ADM - GASTO DE VIAJE Y HOSPEDAJE</field>
             <field name="code">5.2.2.19</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2656,7 +2656,7 @@
             <field name="name">ADM - UNIFORMES</field>
             <field name="code">5.2.2.20</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2664,7 +2664,7 @@
             <field name="name">ADM - OTRAS BONIFICACIONES</field>
             <field name="code">5.2.2.21</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2672,7 +2672,7 @@
             <field name="name">ADM - OTROS GASTOS DEL PERSONAL</field>
             <field name="code">5.2.2.22</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2680,7 +2680,7 @@
             <field name="name">OTROS GASTOS</field>
             <field name="code">5.2.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2688,7 +2688,7 @@
             <field name="name">SUMINISTROS Y MATERIALES</field>
             <field name="code">5.2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2696,7 +2696,7 @@
             <field name="name">SUMINISTROS CAFETERÍA</field>
             <field name="code">5.2.3.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2704,7 +2704,7 @@
             <field name="name">SUMINISTROS DE OFICINA</field>
             <field name="code">5.2.3.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2712,7 +2712,7 @@
             <field name="name">CAPACITACIONES</field>
             <field name="code">5.2.3.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2720,7 +2720,7 @@
             <field name="name">DECORACIÓN Y MANTENIMIENTO</field>
             <field name="code">5.2.3.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2728,7 +2728,7 @@
             <field name="name">GASTOS FINANCIEROS</field>
             <field name="code">5.2.4</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2736,7 +2736,7 @@
             <field name="name">INTERÉS BANCARIOS</field>
             <field name="code">5.2.4.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2744,7 +2744,7 @@
             <field name="name">INTERÉS SOBREGIRO BANCARIO</field>
             <field name="code">5.2.4.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2752,7 +2752,7 @@
             <field name="name">INTERÉS TARJETA DE CREDITO</field>
             <field name="code">5.2.4.3</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2760,7 +2760,7 @@
             <field name="name">OTROS GASTOS FINANCIEROS</field>
             <field name="code">5.2.5</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2768,7 +2768,7 @@
             <field name="name">OTROS GASTOS FINANCIEROS</field>
             <field name="code">5.2.5.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2776,7 +2776,7 @@
             <field name="name">DESCUENTO EN CARTERA</field>
             <field name="code">5.2.5.2</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2784,7 +2784,7 @@
             <field name="name">OTROS</field>
             <field name="code">5.2.6</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">view</field>
+            <field eval="'view'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
@@ -2792,7 +2792,7 @@
             <field name="name">OTROS EGRESOS NO OPERACIONALES</field>
             <field name="code">5.2.6.1</field>
             <field name="reconcile" eval="True"/>
-            <field name="account_type">movement</field>
+            <field eval="'movement'" name="account_type"/>
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>

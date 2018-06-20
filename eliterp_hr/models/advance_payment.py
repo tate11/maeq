@@ -29,7 +29,7 @@ class LinesAdvancePayment(models.Model):
     job_id = fields.Many2one('hr.job', string='Cargo', related='employee_id.job_id', store=True)
     admission_date = fields.Date(related='employee_id.admission_date', store=True, string='Fecha ingreso')
     account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
-    amount_advance = fields.Float('Monto de anticipo', default=0.00)
+    amount_advance = fields.Float('Monto', default=0.00)
     mobilization = fields.Float(string='Movilización')
     antiquity = fields.Integer('Días')
     amount_total = fields.Float('Total', compute='_get_total')
@@ -119,6 +119,16 @@ class AdvancePayment(models.Model):
         if not self.lines_advance:
             raise UserError("No hay líneas de anticipo creadas.")
         self.update({'state': 'to_approve'})
+
+    @api.multi
+    def reviewed(self):
+        """
+        Revisado
+        """
+        self.update({
+            'state': 'reviewed',
+            'reviewed_user': self._uid
+        })
 
     @api.multi
     def approve(self):
@@ -229,10 +239,12 @@ class AdvancePayment(models.Model):
     state = fields.Selection([
         ('draft', 'Borrador'),
         ('to_approve', 'A aprobar'),
+        ('reviewed', 'Revisado'),  # MAEQ
         ('approve', 'Aprobado'),
         ('posted', 'Contabilizado'),
         ('deny', 'Negado')], string="Estado", default='draft')
     approval_user = fields.Many2one('res.users', string='Aprobado por')
+    reviewed_user = fields.Many2one('res.users', string='Revisado por')  # MAEQ
     reason_deny = fields.Text('Negado por')
     count_lines = fields.Integer('Nº de empleados', compute='_get_count_lines')
     comment = fields.Text('Notas y comentarios')

@@ -51,7 +51,7 @@
                             <field name="assistant" options="{'no_create': True, 'no_open': True}"/>
                             <field name="project_id"/>
                             <field name="customer" readonly="1"/>
-                            <field name="ubication_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="ubication_id" domain="[('project_id', '=', project_id)]"  options="{'no_create': True, 'no_open': True}"/>
                             <field name="gang_id" options="{'no_create': True, 'no_open': True}"/>
                             <field name="work_id"/>
                             <field name="block"/>
@@ -84,7 +84,7 @@
                             <field name="picking_id" attrs="{'invisible': [['picking_id', '=', False]]}"/>
                         </group>
                         <group>
-                            <field name="supplies" nolabel="1">
+                            <field name="supplies" nolabel="1" attrs="{'invisible': [['picking_type_id', '=', False]]}">
                                 <tree editable="bottom">
                                     <field name="product_id"
                                            options="{'no_open': True, 'no_create': True}"/>

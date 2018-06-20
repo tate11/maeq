@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Vistas del menú SC-->
+        <record id="eliterp_view_form_purchase_requisition" model="ir.ui.view">
+            <field name="name">eliterp_view_form_purchase_requisition</field>
+            <field name="model">purchase.requisition</field>
+            <field name="inherit_id" ref="purchase_requisition.view_purchase_requisition_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='date_end']" position="attributes"><!--Fecha límite-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='origin']" position="attributes"><!--Origen-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <!--Productos-->
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='qty_ordered']"
+                       position="attributes"><!--Cantidades pedidas-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+            </field>
+        </record>
+    </data>
+</odoo>
+

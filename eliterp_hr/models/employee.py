@@ -140,14 +140,19 @@ class Employee(models.Model):
     @api.model_cr_context
     def _init_column(self, column_name):
         """
-        Actualizamos columna wage en empleados creados por defecto (Test)
+        Actualizamos columnas vacías
         :param column_name:
-        :return:
         """
-        query = """UPDATE hr_employee SET names='Sin nombres', surnames='Sin apellidos', wage=386
-                    WHERE wage is NULL AND names is NULL AND surnames is NULL
-                        """
-        self.env.cr.execute(query)
+        field = self._fields[column_name]
+        if field.default:
+            value = field.default(self)
+        else:
+            value = None
+        necessary = (value is not None) if field.type != 'boolean' else value
+        if necessary:
+            query = 'UPDATE "%s" SET "%s"=%s WHERE "%s" IS NULL' % (
+                self._table, column_name, field.column_format, column_name)
+            self._cr.execute(query, (value,))
 
     @api.onchange('names', 'surnames')
     def _onchange_names(self):
@@ -273,5 +278,6 @@ class Employee(models.Model):
     additional_hours = fields.Float('Monto HE 50%', compute='_get_amount_hours', store=True)
     mobilization = fields.Float('Movilización',
                                 help='Será dado al empleado la mitad en ADQ y la otra mitad en Rol consolidado.')
+    spouses = fields.Boolean('Ext. conyugues', default=False)
     departure_date = fields.Date('Fecha de salida',
                                  help="Si se registra este campo se anulará el contrato del empleado relacionado.")

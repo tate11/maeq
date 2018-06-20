@@ -5,6 +5,20 @@
 from odoo import fields, models, api
 
 
+class TaxTemplate(models.Model):
+    _inherit = 'account.tax.template'
+
+    code = fields.Char('Código')
+    tax_type = fields.Selection([
+        ('iva', 'IVA'),
+        ('retention', 'Retención')
+    ], string='Tipo de impuesto', default='iva', required=True)
+    retention_type = fields.Selection([
+        ('rent', 'Renta'),
+        ('iva', 'IVA')
+    ], string='Tipo de retención', default='rent')
+
+
 class AccountTax(models.Model):
     _inherit = 'account.tax'
 
