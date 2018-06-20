@@ -53,14 +53,6 @@
                 action = model.setting_opening_move_action()
             </field>
         </record>
-        <!--TODO
-        <record id="eliterp_action_account_account_type" model="ir.actions.act_window">
-            <field name="name">Tipos cuenta contable</field>
-            <field name="res_model">account.account.type</field>
-            <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
-        </record>
-        -->
         <record id="eliterp_action_bank" model="ir.actions.act_window">
             <field name="name">Bancos</field>
             <field name="res_model">res.bank</field>
@@ -159,14 +151,26 @@
             <field name="view_type">form</field>
             <field name="view_mode">tree,form</field>
         </record>
-        <!--TODO
-        <record id="eliterp_action_analytic_account" model="ir.actions.act_window">
-            <field name="name">Centro de costos</field>
-            <field name="res_model">account.analytic.account</field>
+        <!--Acciones de reportes
+        <record id="eliterp_action_financial_situation_report" model="ir.actions.act_window">
+            <field name="name">Reporte de situación financiera</field>
+            <field name="res_model">eliterp.financial.situation.report</field>
+            <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
-            <field name="view_mode">tree,form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_accounting.eliterp_view_form_financial_situation_report_wizard"/>
+            <field name="target">new</field>
         </record>
         -->
+        <record id="eliterp_action_general_ledger_report" model="ir.actions.act_window">
+            <field name="name">Reporte de libro mayor</field>
+            <field name="res_model">eliterp.general.ledger.report</field>
+            <field name="type">ir.actions.act_window</field>
+            <field name="view_type">form</field>
+            <field name="view_mode">form</field>
+            <field name="view_id" ref="eliterp_accounting.eliterp_view_form_general_ledger_report_wizard"/>
+            <field name="target">new</field>
+        </record>
         <!--Acciones/Vistas-->
         <record model="ir.actions.act_window.view" id="action_tree_depositos">
             <field eval="0" name="sequence"/>
@@ -300,12 +304,6 @@
                   action="eliterp_action_bank_conciliation"
                   sequence="2"/>
 
-        <menuitem id="eliterp_menu_assets"
-                  name="Activos"
-                  parent="account.menu_finance"
-                  groups="account.group_account_user,account.group_account_manager"
-                  sequence="8"/>
-
         <menuitem id="eliterp_menu_bank_records"
                   name="Registros bancarios"
                   parent="account.menu_finance"
@@ -332,19 +330,36 @@
                   parent="eliterp_menu_bank_records"
                   sequence="4"/>
 
+        <menuitem id="eliterp_menu_assets"
+                  name="Activos"
+                  parent="account.menu_finance"
+                  groups="account.group_account_user,account.group_account_manager"
+                  sequence="7"/>
+
+        <menuitem id="eliterp_menu_accounting_reports"
+                  name="Reportes"
+                  parent="account.menu_finance"
+                  groups="account.group_account_manager"
+                  sequence='7'/>
+        <menuitem id="eliterp_menu_accountig_general_ledger_report"
+                  name="Libro mayor"
+                  action="eliterp_action_general_ledger_report"
+                  parent="eliterp_menu_accounting_reports"
+                  sequence="1"/>
+        <!--
+        <menuitem id="eliterp_menu_accountig_financial_situation_report"
+                  name="Situación financiera"
+                  action="eliterp_action_financial_situation_report"
+                  parent="eliterp_menu_accounting_reports"
+                  sequence="2"/>
+        -->
+
+
         <menuitem id="eliterp_accounting_menu_initial_balance"
                   name="Saldos iniciales"
                   action="eliterp_action_server_initial_balance"
                   parent="account.account_account_menu"
                   sequence="1"/>
-        <!--TODO: Oculto por el momento
-        <menuitem id="eliterp_accounting_menu_account_account_type"
-                  name="Tipos cuenta contable"
-                  action="eliterp_action_account_account_type"
-                  parent="account.account_account_menu"
-                  groups="account.group_account_manager"
-                  sequence="2"/>
-        -->
         <menuitem id="eliterp_accounting_menu_bank"
                   name="Bancos"
                   action="eliterp_action_bank"
@@ -408,20 +423,5 @@
                   parent="eliterp_menu_accounting_rise"
                   sequence="3"/>
 
-        <!--TODO
-        <menuitem id="eliterp_menu_accounting_analytic_account"
-                  name="Centro de costos"
-                  action="eliterp_action_analytic_account"
-                  parent="account.account_management_menu"
-                  groups="account.group_account_manager"
-                  sequence="1"/>
-
-        <menuitem id="eliterp_menu_accounting_projects"
-                  name="Proyectos"
-                  action="project.open_view_project_all_config"
-                  parent="account.account_management_menu"
-                  groups="account.group_account_manager"
-                  sequence="2"/>
-        -->
     </data>
 </odoo>

@@ -96,7 +96,7 @@ class Attendance(models.Model):
         self.write({'state': 'validate'})
 
     name = fields.Char('Nombre', compute='_compute_name', store=True)
-    responsable = fields.Many2one('hr.employee', string='Empleado', required=True,
+    responsable = fields.Many2one('hr.employee', string='Responsable', required=True,
                                   readonly=True, states={'draft': [('readonly', False)]})
     date = fields.Date('Fecha registro', default=fields.Date.context_today, required=True,
                        readonly=True, states={'draft': [('readonly', False)]})

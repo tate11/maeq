@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <data>
+        <!--Ventana emergente Reporte de libro mayor-->
+        <record id="eliterp_view_form_general_ledger_report_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_general_ledger_report_wizard</field>
+            <field name="model">eliterp.general.ledger.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="type"
+                               widget="radio"
+                               options="{'horizontal': true}"/>
+                        <field name="account_id"
+                               attrs="{'invisible':[('type', '!=', 'one')], 'required':[('type','=','one')]}"
+                               options="{'no_create': True, 'no_open': True}"/>
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <footer>
+                        <button name="print_report_pdf"
+                                type="object"
+                                class="oe_highlight"
+                                string="PDF"/>
+                        <button string="Descartar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        <!--Ventana emergente Reporte situación financiera
+        <record id="eliterp_view_form_financial_situation_report_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_financial_situation_report_wizard</field>
+            <field name="model">eliterp.financial.situation.report</field>
+            <field name="arch" type="xml">
+                <form>
+                    <group col="4">
+                        <field name="start_date"/>
+                        <field name="end_date"/>
+                    </group>
+                    <footer>
+                        <button name="print_report_pdf"
+                                type="object"
+                                class="oe_highlight"
+                                string="PDF"/>
+                        <button string="Descartar" special="cancel"/>
+                    </footer>
+                </form>
+            </field>
+        </record>
+        -->
+    </data>
+</odoo>
