@@ -330,7 +330,7 @@
 
 
         <menuitem id="eliterp_menu_treasury_reports"
-                  name="Reports"
+                  name="Reportes"
                   parent="eliterp_menu_treasury"
                   sequence="5"/>
 

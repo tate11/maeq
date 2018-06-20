@@ -458,7 +458,7 @@
                                     Comparecen, ante el señor Inspector del Trabajo, para la suscripción del presente
                                     Contrato,
                                     por una parte, el Señor <b>CARLOS JULIO RIVADENEIRA AGUILAR</b> como representante
-                                    de <b>MAEQ MAQUINAS Y EQUIPOS S.A.</b> , en su calidad de <b>EMPLEADOR</b>, parte a
+                                    de <b>MAEQ MAQUINAS Y EQUIPOS S.A.</b>, en su calidad de <b>EMPLEADOR</b>, parte a
                                     la cual se la podrá denominar simplemente “EL EMPLEADOR”; y, por otra parte el(la)
                                     Sr.(a) &amp;nbsp;
                                     <strong>
@@ -488,15 +488,10 @@
                                     maquinaria y equipos de construcción.
                                     <br/>
                                     1.2. Por la naturaleza de las actividades el EMPLEADOR requiere contratar los
-                                    servicios lícitos y personales a plazo
-                                    indefinido por jornada completa permanente de EL/LA TRABAJADOR/A,
-                                    <strong>
-                                        <span t-field="doc.employee_id"/>
-                                    </strong>
-                                    ,
+                                    servicios lícitos y personales a plazo indefinido por jornada completa permanente de EL/LA TRABAJADOR/A,
+                                    <strong><span t-field="doc.employee_id"/></strong>,
                                     conforme lo señala el Art. 82 del Código del Trabajo y el Art. 2 del Mandato
-                                    Constituyente No. 8, para que desempeñe
-                                    las funciones de
+                                    Constituyente No. 8, para que desempeñe las funciones de
                                     <font style="text-transform: uppercase;">
                                         <strong>
                                             <span t-field="doc.job_id"/>
@@ -556,16 +551,14 @@
                                     <br/>3.5. Funciones de EL/LA TRABAJADOR/A
                                     <strong>
                                         <span t-field="doc.employee_id"/>
-                                    </strong>
+                                    </strong>.
                                     <br/>
                                     <br/>
                                     <b>4. DERECHOS DE EL/LA TRABAJADOR/A.-</b>
                                     <br/>EL TRABAJADOR, tendrá todos los derechos consagrados en la Constitución de la
                                     República del Ecuador, el Código de Trabajo, el Reglamento
                                     Interno de Trabajo y este contrato.
-                                    <br/>
-                                    <br/>
-                                        <br/>
+                                    <p style="page-break-before:always;">
                                     <b>5. JORNADA COMPLETA PERMANENTE DE TRABAJO.-</b>
                                     <br/>EL/LA TRABAJADOR/A se obliga y acepta laborar la jornada completa permanente de
                                     trabajo, conforme lo señala el Art. 82 del Código del
@@ -664,9 +657,7 @@
                                     que no estuviere especificado, a las
                                     normas del Código de Trabajo, Ley de Seguridad Social así como al Reglamento Interno
                                     de Trabajo y a los correspondientes
-                                    manuales o procedimientos determinados por el EMPLEADOR.
-                                    <br/>
-                                    <br/>
+                                    manuales o procedimientos determinados por el EMPLEADOR.</p>
                                     <b>12. JURISDICCIÓN.-</b>
                                     <br/>
                                     En caso de suscitarse discrepancias en la interpretación, cumplimiento y ejecución
