@@ -104,24 +104,36 @@ class AttendanceReportPdf(models.AbstractModel):
         :param doc:
         :return: list
         """
+        data_base = []
         data = []
         arg = []
         arg.append(('date', '>=', doc.start_date))
         arg.append(('date', '<=', doc.end_date))
         arg.append(('state', '=', 'validate'))
         attendances = self.env['eliterp.attendance'].search(arg)
+        for attendance_ in attendances:
+            for attendance in attendance_.lines_employee:
+                data_base.append({
+                    'employee_id': attendance.employee_id.id,
+                    'employee': attendance.employee_id.name,
+                    'date': attendance.attendance_id.date,
+                    'in': self.float_to_time(attendance.check_in_am),
+                    'out': self.float_to_time(attendance.check_out_pm),
+                    'comments': attendance.news
+                })
         if not doc.type_employees == 'all':
-            attendances_ = attendances.lines_employee.filtered(lambda l: l.employee_id == doc.employee_id)
-        else:
-            attendances_ = attendances.lines_employee
-        for line in attendances_:
+            data_base = filter(lambda x: x['employee_id'] == doc.employee_id.id, data_base)
+        data_base = sorted(data_base,
+                      key=lambda x: (x['employee'], x['date']))  # Ordenamos por empleado y fecha de inicio
+        for line in data_base:
             data.append({
-                'employee': line.employee_id.name,
-                'date': line.attendance_id.date,
-                'in': self.float_to_time(line.check_in_am),
-                'out': self.float_to_time(line.check_out_pm),
-                'comments': line.news
+                'employee': line['employee'],
+                'date': line['date'],
+                'in': line['in'],
+                'out': line['out'],
+                'comments': line['comments']
             })
+
         return data
 
     @api.model
@@ -133,6 +145,7 @@ class AttendanceReportPdf(models.AbstractModel):
             'get_lines': self._get_lines,
             'data': data,
         }
+
 
 class AttendanceReport(models.TransientModel):
     _name = 'eliterp.attendance.report'
