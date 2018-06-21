@@ -103,11 +103,12 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">Empleado</th>
+                                        <th class="text-center">No. Ident.</th>
                                         <th class="text-center">Cargo</th>
                                         <th class="text-center">Fecha ingreso</th>
                                         <th class="text-center">Días</th>
-                                        <th class="text-right">Monto anticipo</th>
-                                        <th class="text-right">Movilización</th>
+                                        <th class="text-right">Monto</th>
+                                        <th class="text-right">Moviliz.</th>
                                         <th class="text-right">Total</th>
                                     </tr>
                                 </thead>
@@ -115,6 +116,9 @@
                                     <tr t-foreach="doc.lines_advance" t-as="line">
                                         <td>
                                             <span t-field="line.employee_id.name"/>
+                                        </td>
+                                        <td>
+                                            <span t-field="line.employee_id.identification_id"/>
                                         </td>
                                         <td>
                                             <span t-field="line.job_id"/>
@@ -125,13 +129,13 @@
                                         <td>
                                             <span t-field="line.antiquity"/>
                                         </td>
-                                        <td>
+                                        <td class="text-right">
                                             <span t-esc="'%.2f' % line.amount_advance"/>
                                         </td>
-                                        <td>
+                                        <td class="text-right">
                                             <span t-esc="'%.2f' % line.mobilization"/>
                                         </td>
-                                        <td>
+                                        <td class="text-right">
                                             <span t-esc="'%.2f' % line.amount_total"/>
                                         </td>
                                     </tr>
