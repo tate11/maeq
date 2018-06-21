@@ -4,7 +4,7 @@
 
 from odoo import api, fields, models
 from odoo.exceptions import UserError
-
+from datetime import datetime
 
 class Employee(models.Model):
     _inherit = 'hr.employee'
@@ -64,7 +64,7 @@ class AdvancePayment(models.Model):
     @api.model
     def _default_account(self):
         """
-        TODO: Cuenta por defecto de nómina en empleado
+        Cuenta por defecto de nómina en empleado
         """
         account = self.env['account.account'].search([('name', '=', 'NÓMINA POR PAGAR')], limit=1)
         return account[0].id if account else False
@@ -76,6 +76,20 @@ class AdvancePayment(models.Model):
         """
         self.ensure_one()
         return self.env.ref('eliterp_hr.eliterp_action_report_advance_payment').report_action(self)
+
+    def _get_antiquity(self, employee):
+        """
+        Obtener días de antiguedad con fecha de documento
+        :param employee:
+        :return: integer
+        """
+        start_date = datetime.strptime(employee.admission_date, '%Y-%m-%d')
+        end_date = datetime.strptime(self.date, '%Y-%m-%d')
+        time = (str(end_date - start_date)).strip(', 0:00:00')
+        days = 0
+        if time:
+            days = int("".join([x for x in time if x.isdigit()]))
+        return days
 
     def load_employees(self):
         """
@@ -89,7 +103,7 @@ class AdvancePayment(models.Model):
             ('contract_id', '!=', False)
         ]):
             amount_advance = 0.0  # Para MAEQ se trabajará así por el momento la variable está configurada en Ajustes RRHH
-            antiquity = employee.contract_id.antiquity
+            antiquity = self._get_antiquity(employee)
             if antiquity >= self.advance_days:
                 amount_advance = round(float((employee.wage * 40) / 100), 2)
             else:

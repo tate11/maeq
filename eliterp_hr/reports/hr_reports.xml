@@ -877,11 +877,80 @@
                 file="eliterp_hr.eliterp_report_employee_report"
                 paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
         />
+        <!--Reporte de asistencias-->
+        <template id="eliterp_report_attendance_report">
+            <t t-call="web.html_container">
+                <t t-foreach="docs" t-as="doc">
+                    <t t-set="report_code">REPO-RRHH-002-V1</t>
+                    <t t-set="report_title">REPORTE DE ASISTENCIAS</t>
+                    <t t-set="is_report" t-value="True"/>
+                    <t t-call="web.external_layout">
+                        <div class="page">
+                            <div class="row">
+                                <div class="col-xs-4">
+                                    <strong>Fecha inicio:</strong>
+                                    <p t-field="doc.start_date"/>
+                                </div>
+                                <div class="col-xs-4">
+                                    <strong>Fecha fin:</strong>
+                                    <p t-field="doc.end_date"/>
+                                </div>
+                                <div class="col-xs-4" t-if="doc.type_employees == 'all'">
+                                    <strong>Tipo:</strong>
+                                    <p>Todos</p>
+                                </div>
+                            </div>
+                            <table class="table table-condensed">
+                                <thead>
+                                    <tr>
+                                        <th class="text-center col-xs-5">Empleado</th>
+                                        <th class="text-center col-xs-2">Fecha</th>
+                                        <th class="text-center col-xs-1">Entrada</th>
+                                        <th class="text-center col-xs-1">Salida</th>
+                                        <th class="text-center col-xs-3">Novedad</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <t t-foreach="get_lines(doc)" t-as="line">
+                                        <tr>
+                                            <td>
+                                                <span t-esc="line['employee']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['date']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['in']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['out']"/>
+                                            </td>
+                                            <td>
+                                                <span t-esc="line['comments']"/>
+                                            </td>
+                                        </tr>
+                                    </t>
+                                </tbody>
+                            </table>
+                        </div>
+                    </t>
+                </t>
+            </t>
+        </template>
+        <report
+                id="eliterp_action_report_attendance_report"
+                model="eliterp.attendance.report"
+                string="Reporte de asistencias"
+                report_type="qweb-pdf"
+                name="eliterp_hr.eliterp_report_attendance_report"
+                file="eliterp_hr.eliterp_report_attendance_report"
+                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+        />
         <!--Reporte de ausencias-->
         <template id="eliterp_report_report_absences">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
-                    <t t-set="report_code">REPO-RRHH-002-V1</t>
+                    <t t-set="report_code">REPO-RRHH-003-V1</t>
                     <t t-set="report_title">REPORTE DE AUSENCIAS</t>
                     <t t-set="is_report" t-value="True"/>
                     <t t-call="web.external_layout">
@@ -904,15 +973,15 @@
                                     <p t-field="doc.employee_id"/>
                                 </div>
                             </div>
-                            <table class="table table-condensed">
+                            <table class="table table-condensed table_general_ledger">
                                 <thead>
                                     <tr>
-                                        <th class="text-center col-xs-4">Empleado</th>
+                                        <th class="text-center col-xs-3">Empleado</th>
                                         <th class="text-center col-xs-2">Tipo de ausencia</th>
                                         <th class="text-center col-xs-1">Fecha de inicio</th>
                                         <th class="text-center col-xs-1">Fecha final</th>
                                         <th class="text-center col-xs-1">Día(s)</th>
-                                        <th class="text-center col-xs-3">Notas</th>
+                                        <th class="text-center col-xs-4">Notas</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -921,8 +990,8 @@
                                             <td>
                                                 <span t-esc="line['employee']"/>
                                             </td>
-                                            <td>
-                                                <span t-esc="line['holiday']"/>
+                                            <td t-att-style="'background-color:' + line['color']">
+                                                <span style="color: white;" t-esc="line['holiday']"/>
                                             </td>
                                             <td>
                                                 <span t-esc="line['date_from']"/>
@@ -933,7 +1002,7 @@
                                             <td>
                                                 <span t-esc="line['days']"/>
                                             </td>
-                                            <td>
+                                            <td style="font-size: 9px;">
                                                 <span t-esc="line['report_note']"/>
                                             </td>
                                         </tr>
