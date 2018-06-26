@@ -393,7 +393,7 @@ class PurchaseOrder(models.Model):
     ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
-    lines_pay_order = fields.One2many('eliterp.pay.order', 'advance_payment_id', string='Órdenes de pago')
+    lines_pay_order = fields.One2many('eliterp.pay.order', 'purchase_order_id', string='Órdenes de pago')
     flag_change = fields.Boolean('Bandera de cambio?')
 
 
@@ -513,7 +513,7 @@ class PayslipRun(models.Model):
     ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
-    lines_pay_order = fields.One2many('eliterp.pay.order', 'advance_payment_id', string='Órdenes de pago')
+    lines_pay_order = fields.One2many('eliterp.pay.order', 'payslip_run_id', string='Órdenes de pago')
     flag_change = fields.Boolean('Bandera de cambio?')
 
 
