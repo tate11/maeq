@@ -6,5 +6,7 @@ from . import programmed_payment
 from . import withhold
 from . import small_box
 from . import travel_expenses
+from . import payment_request
+from . import pay_order
 from . import account_voucher
 from . import settings

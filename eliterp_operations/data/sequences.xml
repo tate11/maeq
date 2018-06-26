@@ -4,7 +4,13 @@
         <record model="ir.sequence" id="eliterp_sequence_preventive_maintenance">
             <field name="name">Mantenimiento preventivo</field>
             <field name="code">preventive.maintenance</field>
-            <field name="prefix">MMP-%(year)s-%(month)s-</field>
+            <field name="prefix">INFO-PREV-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_corrective_maintenance">
+            <field name="name">Mantenimiento correctivo</field>
+            <field name="code">corrective.maintenance</field>
+            <field name="prefix">INFO-CORR-</field>
             <field name="padding">5</field>
         </record>
     </data>

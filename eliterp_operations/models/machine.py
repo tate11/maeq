@@ -156,7 +156,7 @@ class Machine(models.Model):
     horometro_real = fields.Float('Horómetro actual', compute='_get_horometro_real')
     type = fields.Selection([('own', 'Propia'), ('rented', 'Alquilada')], default='own', string="Tipo de activo")
     serie = fields.Char("Serie")
-    registration = fields.Char("Matrícula", required=True)
+    registration = fields.Char("Matrícula")
     acquisition_date = fields.Date('Fecha de adquisición', required=True)
 
     catalog_value = fields.Monetary('Valor de catálogo', currency_field='currency_id')

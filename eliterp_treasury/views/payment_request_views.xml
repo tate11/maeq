@@ -1,0 +1,85 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<odoo>
+    <!--Vistas del menú Solicitudes de pago-->
+    <record id="eliterp_view_tree_payment_request" model="ir.ui.view">
+        <field name="name">eliterp_view_tree_payment_request</field>
+        <field name="model">eliterp.payment.request</field>
+        <field name="arch" type="xml">
+            <tree
+                    decoration-info="state == 'draft'"
+                    decoration-success="state == 'paid'"
+                    decoration-muted="state == 'deny'"
+                    default_order='application_date desc'>
+                <field name="name"/>
+                <field name="application_date"/>
+                <field name="payment_date"/>
+                <field name="beneficiary"/>
+                <field name="total"/>
+                <field name="state"/>
+            </tree>
+        </field>
+    </record>
+    <record id="eliterp_view_form_payment_request" model="ir.ui.view">
+        <field name="name">eliterp_view_form_payment_request</field>
+        <field name="model">eliterp.payment.request</field>
+        <field name="arch" type="xml">
+            <form>
+                <header>
+                    <field name="state"
+                           statusbar_visible="draft,approve"
+                           widget="statusbar"
+                           modifiers="{'readonly': true}"/>
+                    <button name="print_request" type="object"
+                            class="oe_highlight" string="Imprimir solicitud"/>
+                    <button name="to_approve"
+                            states="draft"
+                            string="Solicitar aprobación"
+                            type="object"
+                            class="oe_highlight"/>
+                    <button name="approve"
+                            states="to_approve"
+                            string="Aprobar"
+                            groups="eliterp_treasury.eliterp_group_approve_payment_request"
+                            type="object"
+                            class="oe_highlight"/>
+                    <button name="deny"
+                            states="to_approve"
+                            string="Negar"
+                            groups="eliterp_treasury.eliterp_group_deny_payment_request"
+                            type="object"/>
+                </header>
+                <sheet>
+                    <div class="oe_title">
+                        <h1>
+                            <field name="name" readonly="1"/>
+                        </h1>
+                    </div>
+                    <group col="4">
+                        <field name="application_date"/>
+                        <field name="payment_date"/>
+                        <field name="beneficiary"/>
+                        <field name="document"
+                               filename="document_name"
+                               widget="binary"/>
+                        <field name="total"/>
+                        <field name="approval_user" attrs="{'invisible':[('state', 'not in', ('approve', 'paid'))]}"/>
+                        <field name="document_name" invisible="1"/>
+                    </group>
+                    <group>
+                        <group string="Notas y comentarios">
+                            <field name="comments" nolabel="1" placeholder="p.e Colocar información relevante"/>
+                        </group>
+                        <group string="Líneas de solicitud" col="1">
+                            <field name="lines_request" nolabel="1">
+                                <tree editable="bottom">
+                                    <field name="detail"/>
+                                    <field name="amount"/>
+                                </tree>
+                            </field>
+                        </group>
+                    </group>
+                </sheet>
+            </form>
+        </field>
+    </record>
+</odoo>

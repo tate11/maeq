@@ -130,12 +130,12 @@
                 </xpath>
                 <xpath expr="//field[@name='reference']" position="replace"><!--Referencia de proveedor-->
                     <label for="emission_point" string="No. Factura"/>
-                    <div class="address_format">
-                        <field name="establishment" required="1" style="width: 31%"/>
-                        -
-                        <field name="emission_point" required="1" style="width: 31%"/>
-                        -
-                        <field name="reference" required="1" style="width: 32%"/>
+                    <div>
+                        <field name="establishment" class="oe_inline" required="1" style="width: 31%"/>
+                        <label string="-" class="oe_inline"/>
+                        <field name="emission_point" class="oe_inline" required="1" style="width: 31%"/>
+                        <label string="-" class="oe_inline"/>
+                        <field name="reference" class="oe_inline" required="1" style="width: 32%"/>
                     </div>
                 </xpath>
             </field>
