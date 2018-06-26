@@ -76,13 +76,15 @@ class ProductTemplate(models.Model):
         line, subline = False, False
         if vals.get('line_product_id'):
             line = self.env['eliterp.line.product'].browse(vals['line_product_id']).name
-        if vals.get('sub_line_product_id'):
-            subline = self.env['eliterp.sub.line.product'].browse(vals['sub_line_product_id']).name
+        subline = "-"
+        # Se comento para que no este la subline en codigo generado
+        # if vals.get('sub_line_product_id'):
+        #     subline = self.env['eliterp.sub.line.product'].browse(vals['sub_line_product_id']).name
         if line and subline:  # Si existe las dos se crea, esto por motivos de data DEMO
-            name_code = (category[:3]).upper() + "-" + (line[:3]).upper() + "-" + (subline[:3]).upper()
+            name_code = (category[:3]).upper() + "-" + (line[:3]).upper() + (subline[:3]).upper()
             product_code = self.env['eliterp.product.code'].search([('name', '=', name_code)])
             if len(product_code._ids) != 0:  # Si existe código se actualiza siguiente número
-                sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + "." + (subline[:3]).upper()
+                sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + (subline[:3]).upper()
                 object_sequence = self.env['ir.sequence']
                 sequence = object_sequence.next_by_code(sequence_code)
                 vals.update({
@@ -90,7 +92,7 @@ class ProductTemplate(models.Model):
                     'product_code_id': product_code.id
                 })
             else:
-                sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + "." + (subline[:3]).upper()
+                sequence_code = (category[:3]).upper() + "." + (line[:3]).upper() + (subline[:3]).upper()
                 new_sequence = self.env['ir.sequence'].create({
                     'name': "Código de producto " + name_code,
                     'code': sequence_code,
@@ -110,6 +112,6 @@ class ProductTemplate(models.Model):
         return super(ProductTemplate, self).create(vals)
 
     line_product_id = fields.Many2one('eliterp.line.product', 'Línea', required=True)
-    sub_line_product_id = fields.Many2one('eliterp.sub.line.product', 'SubLínea', required=True)
+    sub_line_product_id = fields.Many2one('eliterp.sub.line.product', 'SubLínea')
     product_code_id = fields.Many2one('eliterp.product.code', 'Código interno')
     measure = fields.Text('Medida del producto')
