@@ -5,6 +5,7 @@
 
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError, ValidationError
+from datetime import datetime
 
 
 class BalanceVoucherPayment(models.Model):
@@ -183,7 +184,7 @@ class AccountVoucher(models.Model):
     @api.multi
     def _get_total_invoices(self):
         """
-        Total de las líneas de factura
+        VENTAS: Total de las líneas de factura
         """
         for voucher in self:
             total = 0.00
@@ -193,7 +194,7 @@ class AccountVoucher(models.Model):
 
     def move_voucher_sale(self, name, voucher, credit, debit, account_credit, account_debit, balance):
         """
-        Creamos movmiento para comprobante de ingreso
+        VENTAS: Creamos movmiento para comprobante de ingreso
         :param name:
         :param voucher:
         :param credit:
@@ -242,7 +243,7 @@ class AccountVoucher(models.Model):
 
     def _get_names(self, type, bank=None):
         """
-        Obtenemos el nombre del asiento y del registro
+        COMPRAS: Obtenemos el nombre del asiento y del registro
         :param type:
         :param data:
         """
@@ -250,42 +251,24 @@ class AccountVoucher(models.Model):
         if bank:
             check = bank.sequence_id.next_by_id()
         if type == 'bank':
-            new_name = "Cheque No. " + check
             move_name = 'Egreso/Cheque No. ' + check
         elif type == 'cash':
             sequence = self.env['ir.sequence'].next_by_code('account.voucher.purchase.cash')
-            new_name = 'Efectivo No. ' + sequence
             move_name = 'Egreso/Efectivo No. ' + sequence
         else:
             sequence = self.env['ir.sequence'].next_by_code('account.voucher.purchase.transfer')
-            new_name = 'Transferencia No. ' + sequence
             move_name = 'Egreso/Transferencia No. ' + sequence
-        return new_name, move_name, check
+        return move_name, check
 
     @api.multi
     def validate_voucher(self):
         # Validar comprobante de egreso
         if self.voucher_type == 'purchase':
-            account = False
-            if self.type_egress == 'cash' and self.receipt_for == 'supplier':
-                account = self.partner_id.property_account_payable_id
-            elif self.receipt_for == 'viaticum':
-                account = self.expenses_pay
-                if not account:
-                    raise UserError('No ha definido una cuenta para el pago de viáticos.')
-            else:
-                account = self.account_id
-            for line in self.lines_invoice_purchases:
-                if line.amount_payable == 0.00:
-                    raise ValidationError("Debe eliminar las líneas def acturas con monto a pagar igual a 0")
-            if self.receipt_for == 'supplier':  # Soló para proveedores se realiza está validación
-                if round((sum(line.amount_payable for line in self.lines_invoice_purchases)), 2) != round(((
-                        self.lines_account.filtered(
-                            lambda
-                                    x: x.account_id == account))).amount,
-                                                                                                          2):
-                    raise ValidationError("Revise los montos de las líneas de cuenta.")
-            new_name, move_name, check = self._get_names(self.type_egress, self.bank_id)
+            for line in self.lines_account:
+                if not line.amount > 0:
+                    raise ValidationError("Debe eliminar las líneas con monto menor a 0")
+            # Creamos movimiento
+            move_name, check = self._get_names(self.type_egress, self.bank_id)
             if self.type_egress == 'bank':  # Soló con cheques generamos el consecutivo
                 self.env['eliterp.checks'].create({
                     'partner_id': self.partner_id.id,
@@ -308,8 +291,8 @@ class AccountVoucher(models.Model):
             self.env['account.move.line'].with_context(check_move_validity=False).create({
                 'name': self.concept,
                 'journal_id': self.journal_id.id,
-                'partner_id': self.partner_id.id,
-                'account_id': self.bank_id.account_id.id if self.type_egress != 'cash' else self.account_id.id,
+                'partner_id': self.partner_id.id if self.type_pay in ('fap', 'oc') else False,
+                'account_id': self.account_id.id,
                 'move_id': move_id.id,
                 'debit': 0.0,
                 'credit': self.amount_cancel,
@@ -322,77 +305,45 @@ class AccountVoucher(models.Model):
                     self.env['account.move.line'].with_context(check_move_validity=True).create({
                         'name': self.concept,
                         'journal_id': self.journal_id.id,
-                        'partner_id': self.partner_id.id,
+                        'partner_id': self.partner_id.id if self.type_pay in ('fap', 'oc') else False,
                         'account_id': line.account_id.id,
                         'move_id': move_id.id,
                         'credit': 0.0,
                         'debit': line.amount,
-                        'date': self.date
+                        'date': self.date,
                     })
                 else:
                     self.env['account.move.line'].with_context(check_move_validity=False).create({
                         'name': self.concept,
                         'journal_id': self.journal_id.id,
-                        'partner_id': self.partner_id.id,
+                        'partner_id': self.partner_id.id if self.type_pay in ('fap', 'oc') else False,
                         'account_id': line.account_id.id,
                         'move_id': move_id.id,
                         'credit': 0.0,
                         'debit': line.amount,
-                        'date': self.date
+                        'date': self.date,
                     })
-            if self.receipt_for == 'supplier':
-                for line_note in self.lines_note_credit:
-                    line_move_invoice = line_note.invoices_affect.invoice_id.move_id.line_ids.filtered(
-                        lambda x: x.account_id == account)
-                    line_move_note = line_note.invoice_id.move_id.line_ids.filtered(
-                        lambda x: x.account_id == account)
-                    (line_move_invoice + line_move_note).reconcile()
+            # Factura
+            if self.type_pay == 'fap':
+                account = self.partner_id.property_account_payable_id
                 line_move_voucher = move_id.line_ids.filtered(lambda x: x.account_id == account)
                 for line_invoice in self.lines_invoice_purchases:
-                    total = line_invoice.amount_payable  # Total a pagar por factura
                     line_move_invoice = line_invoice.invoice_id.move_id.line_ids.filtered(
                         lambda x: x.account_id == account)
                     (line_move_invoice + line_move_voucher).reconcile()
-                    #  Pagos programados (Actualizamos las líneas de pagos)
-                    payments = line_invoice.invoice_id.programmed_payment_ids.sorted(lambda x: x.amount_reference)
-                    for payment in payments:
-                        if total == 0.00:
-                            continue
-                        if payment.amount_reference <= total:
-                            total = total - payment.amount_reference
-                            payment.update({
-                                'amount_reference': 0,
-                                'state': 'paid'
-                            })
-                        else:
-                            payment.update({
-                                'amount_reference': payment.amount_reference - total
-                            })
-                            total = 0.00
-            if self.receipt_for == 'viaticum':
-                self.env['account.move.line'].with_context(check_move_validity=True).create({
-                    'name': self.viaticum_id.name,
-                    'journal_id': self.journal_id.id,
-                    'partner_id': False,
-                    'account_id': account.id,
-                    'move_id': move_id.id,
-                    'credit': 0.0,
-                    'debit': self.amount_cancel,
-                    'date': self.date
-                })
-            if self.receipt_for == 'small_box':
+            # Caja chica
+            if self.type_pay == 'cajc':
                 for line in self.custodian_id.replacement_small_box_id.lines_voucher:
                     if line.check_reposition:
                         line.update({'state_reposition': 'paid'})
                 self.custodian_id.replacement_small_box_id.update({'replacement_date': self.date})
-
-            if self.receipt_for == 'viaticum':
-                self.viaticum_id.update({
-                    'state': 'managed'
-                })
-
             move_id.write({'ref': move_name})
+            new_name = self.journal_id.sequence_id.next_by_id()
             move_id.with_context(eliterp_moves=True, move_name=new_name).post()
+            # OC
+            if self.type_pay == 'oc':
+                self.movement_voucher() # Generamos Asiento diario por anticipo
+            self.pay_order_id.update({'state': 'paid'}) # Cambiamos estado de la OP
             return self.write({
                 'state': 'posted',
                 'name': new_name,
@@ -534,23 +485,10 @@ class AccountVoucher(models.Model):
                         'journal_id': journal_id
                     })
                     total = 0.00
-        # Cargar montos de comprobante de egreso
-        else:
-            self.amount_cancel = sum(line.amount for line in self.lines_account)
-            if self.type_egress == 'cash' and self.receipt_for == 'supplier':
-                total = self.lines_account.filtered(
-                    lambda x: x.account_id == self.partner_id.property_account_payable_id).amount
-            else:
-                total = self.lines_account.filtered(lambda x: x.account_id == self.account_id).amount
+        else:  # Soló cargamos el Diario
             for invoice in self.lines_invoice_purchases:
-                if total == 0.00:
-                    continue
-                if invoice.amount_programmed <= total:  # Monto programado
-                    invoice.update({'amount_payable': invoice.amount_programmed, 'journal_id': journal_id})
-                    total = total - invoice.amount_total
-                else:
-                    invoice.update({'amount_payable': total, 'journal_id': journal_id})
-                    total = 0.00
+                invoice.update({'journal_id': journal_id})
+
         return
 
     def apply_notes(self):
@@ -564,13 +502,11 @@ class AccountVoucher(models.Model):
 
     def load_data(self):
         """
-        Cargamos la información necesaria
+        Cargamos la información necesaria (Soló para ventas)
         """
         if not self.partner_id:
             if self.voucher_type == 'sale':
                 raise UserError("Necesita seleccionar al Cliente.")
-            else:
-                raise UserError("Necesita seleccionar al Proveedor.")
         else:
             if self.voucher_type == 'sale':
                 self.lines_invoice_sales.unlink()  # Limpiamos líneas anteriores
@@ -578,12 +514,8 @@ class AccountVoucher(models.Model):
                     ('partner_id', '=', self.partner_id.id), ('state', '=', 'open')
                 ])
             else:
-                # Cargamos facturas de proveedor
-                invoices_list = self.env['account.invoice'].search([
-                    ('partner_id', '=', self.partner_id.id),
-                    ('state', '=', 'open'),
-                    ('approval_status', '!=', 'pending')
-                ])
+                # Cargamos factura de proveedor
+                invoices_list = self.invoice_id
                 # Cargamos notas de crédito
                 notes_list = self.env['account.invoice'].search([
                     ('partner_id', '=', self.partner_id.id),
@@ -596,14 +528,11 @@ class AccountVoucher(models.Model):
                     'invoice_id': invoice.id,
                     'date_due_invoice': invoice.date_due,
                     'amount_invoice': invoice.amount_total,
-                    'amount_programmed': invoice.amount_programmed,
+                    'amount_payable': self.amount_cancel,
                     'amount_total': invoice.residual
                 }])
             list_notes = []
-            list_account = []
             if self.voucher_type == 'purchase':
-                self.lines_invoice_purchases.unlink()  # Limpiamos líneas anteriores
-                self.lines_account.unlink()
                 self.lines_note_credit.unlink()
                 if notes_list:
                     list_notes = []
@@ -613,13 +542,8 @@ class AccountVoucher(models.Model):
                             'date_due_invoice': note.date_due,
                             'amount_note': -1 * note.amount_total
                         }])
-                list_account.append([0, 0, {'amount': 0.00,
-                                            'account_id': self.account_id.id if not self.type_egress == 'cash'
-                                                                                and not self.receipt_for == 'supplier'
-                                            else self.partner_id.property_account_payable_id.id}])
                 return self.update({
                     'lines_invoice_purchases': list_invoices,
-                    'lines_account': list_account,
                     'lines_note_credit': list_notes
                 })
             return self.update({'lines_invoice_sales': list_invoices})
@@ -627,7 +551,7 @@ class AccountVoucher(models.Model):
     @api.onchange('partner_id', 'pay_now')
     def _onchange_partner_id(self):
         """
-        MM: TODO: Para que sirve esto?
+        MM: Para que sirve esto?
         """
         if self.pay_now == 'pay_now':
             liq_journal = self.env['account.journal'].search([('type', 'in', ('bank', 'cash'))], limit=1)
@@ -637,15 +561,9 @@ class AccountVoucher(models.Model):
             if self.partner_id:
                 if self.voucher_type == 'sale':
                     self.account_id = self.partner_id.property_account_receivable_id
-                else:
-                    if self.type_egress != 'cash':
-                        self.account_id = self.partner_id.property_account_payable_id
-                    else:
-                        self.account_id = False
             else:
                 self.account_id = self.journal_id.default_debit_account_id \
                     if self.voucher_type == 'sale' else self.journal_id.default_credit_account_id
-        self.beneficiary = self.partner_id.name
 
     @api.model
     def _default_journal(self):
@@ -680,17 +598,6 @@ class AccountVoucher(models.Model):
         else:
             self.check_number = False
 
-    @api.onchange('custodian_id')
-    def _onchange_custodian_id(self):
-        """
-        Al cambiar de custodio
-        """
-        self.beneficiary = self.custodian_id.name
-        if self.type_egress != 'cash':
-            self.account_id = self.custodian_id.account_id.id
-        else:
-            self.account_id = False
-
     def load_small_box(self):
         """
         Cargamos montos de caja chica
@@ -703,60 +610,111 @@ class AccountVoucher(models.Model):
         else:
             return True
 
-    @api.onchange('viaticum_id')
-    def _onchange_viaticum_id(self):
+    @api.onchange('pay_order_id')
+    def _onchange_pay_order_id(self):
         """
-        Al cambiar solicitud de viático
+        Al cambiar la OP
         """
+        if self.invoice_id:
+            self.beneficiary = self.invoice_id.partner_id.name
+            self.partner_id = self.invoice_id.partner_id.id
+            self.load_data()
+            self.load_amount()  # Soló para el diario
+        if self.purchase_order_id:
+            self.beneficiary = self.purchase_order_id.partner_id.name
+            self.partner_id = self.purchase_order_id.partner_id.id
+        if self.custodian_id:
+            self.beneficiary = self.custodian_id.name
+            self.load_small_box()
         if self.viaticum_id:
-            self.amount_cancel = self.viaticum_id.amount_total
             self.beneficiary = self.viaticum_id.beneficiary.name
-            self.concept = self.viaticum_id.reason
+        if self.payment_request_id:
+            self.beneficiary = self.payment_request_id.beneficiary
 
-    lines_payment = fields.One2many('eliterp.lines.payment', 'voucher_id', string='Líneas de cobro')
-    lines_invoice_sales = fields.One2many('eliterp.lines.invoice', 'voucher_id',
-                                          string='Líneas de factura en ventas')
+    @api.multi
+    def movement_voucher(self):
+        """
+        Generamos asiento de cuadre para proveedor
+        """
+        journal = self.env['account.journal'].search(
+            [('name', '=', 'Anticipos de proveedor')]).id
+        date = fields.Date.to_string(datetime.today().date())
+        move_id = self.env['account.move'].create({'journal_id': journal,
+                                                   'date': date,
+                                                   })
+        account = self.lines_account[0].account_id  # Cuenta anticipo a proveedores
+        self.env['account.move.line'].with_context(check_move_validity=False).create({
+            'name': self.concept,
+            'journal_id': journal,
+            'partner_id': self.partner_id.id,
+            'account_id': account.id,
+            'move_id': move_id.id,
+            'debit': 0.0,
+            'credit': self.amount_cancel,
+            'date': date
+        })
+        self.env['account.move.line'].with_context(check_move_validity=True).create({
+            'name': self.concept,
+            'journal_id': journal,
+            'partner_id': self.partner_id.id,
+            'account_id': self.partner_id.property_account_payable_id.id,
+            'move_id': move_id.id,
+            'debit': self.amount_cancel,
+            'credit': 0.00,
+            'date': date,
+            'is_advanced': True
+        })
+        move_id.post()
+        move_id.write({'ref': 'De: %s' % self.purchase_order_id.name})
+
     lines_invoice_purchases = fields.One2many('eliterp.lines.invoice', 'voucher_id',
                                               string='Líneas de factura en compras')
     lines_note_credit = fields.One2many('eliterp.lines.credit.notes', 'voucher_id',
                                         string='Líneas de nota de crédito')
-    lines_account = fields.One2many('eliterp.lines.account', 'voucher_id', string='Líneas de cuenta')
+    lines_account = fields.One2many('eliterp.lines.account', 'voucher_id', string='Líneas de cuenta', readonly=True,
+                                    states={'draft': [('readonly', False)]})
     # CM
     journal_id = fields.Many2one('account.journal', 'Journal',
                                  required=True, readonly=True, states={'draft': [('readonly', False)]},
                                  default=_default_journal)
 
     type_egress = fields.Selection([
-        ('bank', 'Cheque'),
         ('cash', 'Efectivo'),
+        ('bank', 'Cheque'),
         ('transfer', 'Transferencia')
-    ], string='Forma de pago', default='bank', required=True)
-    receipt_for = fields.Selection([
-        ('supplier', 'Proveedor'),
-        ('small_box', 'Caja chica'),
-        ('viaticum', 'Solicitud de viático'),
-        ('several', 'Varios')
-    ], string="Tipo de comprobante", default='supplier', required=True)
-    beneficiary = fields.Char('Beneficiario')
-    check_number = fields.Char('No. Cheque')
-    check_date = fields.Date('Fecha Cheque/Transferencia')
-    bank_id = fields.Many2one('res.bank', string="Banco")
-    amount_cancel = fields.Float('Monto a cancelar')
+    ], string='Forma de pago', default='cash', required=True, readonly=True, states={'draft': [('readonly', False)]})
+    beneficiary = fields.Char('Beneficiario', readonly=True, states={'draft': [('readonly', False)]})
+    check_number = fields.Char('No. Cheque', readonly=True, states={'draft': [('readonly', False)]})
+    check_date = fields.Date('Fecha Cheque/Transferencia', readonly=True, states={'draft': [('readonly', False)]})
+    bank_id = fields.Many2one('res.bank', string="Banco", readonly=True, states={'draft': [('readonly', False)]})
+    amount_cancel = fields.Float('Monto a cancelar', readonly=True, states={'draft': [('readonly', False)]})
     total_payments = fields.Monetary('Total de cobros', compute='_get_total_payments')
     total_invoices = fields.Monetary('Total facturas', compute='_get_total_invoices')
     # CM
     account_id = fields.Many2one('account.account', string='Cuenta',
-                                 domain=[('deprecated', '=', False), ('account_type', '=', 'movement')])
+                                 domain=[('deprecated', '=', False), ('account_type', '=', 'movement')], required=False)
     concept = fields.Char('Concepto', required=True, readonly=True, states={'draft': [('readonly', False)]})
-    # TODO: Para que sirven estos campos
+    balance = fields.Float('Saldo')
+    # Factura
+    invoice_id = fields.Many2one('account.invoice', 'Factura')
+    # OC
+    purchase_order_id = fields.Many2one('purchase.order', 'Orden de compra')
+    # Caja chica
+    custodian_id = fields.Many2one('eliterp.custodian.small.box', 'Custodio caja chica')
+    # Viático
+    viaticum_id = fields.Many2one('eliterp.travel.allowance.request', string="Solicitud viático")
+    # Requerimiento de pago
+    payment_request_id = fields.Many2one('eliterp.payment.request', string="Requerimiento de pago")
+    # Orden de pago
+    pay_order_id = fields.Many2one('eliterp.pay.order', string='Orden de pago', readonly=True,
+                                   states={'draft': [('readonly', False)]})
+    movement = fields.Boolean('Cruce?', default=False)
+    type_pay = fields.Selection(related='pay_order_id.type', string="Tipo", store=True)
+    # Comprobantes de ventas
+    lines_invoice_sales = fields.One2many('eliterp.lines.invoice', 'voucher_id',
+                                          string='Líneas de factura en ventas')
+    lines_payment = fields.One2many('eliterp.lines.payment', 'voucher_id', string='Líneas de cobro')
     flag = fields.Boolean('Ya no hay saldo?', default=False)
     show_account = fields.Boolean('Se muestra la cuenta?', default=False)
     balance_account = fields.Many2one('account.account', string="Cuenta saldo",
                                       domain=[('account_type', '=', 'movement')])
-    balance = fields.Float('Saldo')
-    # Caja chica
-    custodian_id = fields.Many2one('eliterp.custodian.small.box', 'Custodio caja chica')
-    # Viático (Soló las qué estén aprobadas)
-    viaticum_id = fields.Many2one('eliterp.travel.allowance.request', string="Solicitud",
-                                  domain=[('state', '=', 'approve')])
-    expenses_pay = fields.Many2one('account.account', string="Cuenta contable")

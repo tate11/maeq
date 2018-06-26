@@ -134,7 +134,9 @@
             <field name="arch" type="xml">
                 <form>
                     <header>
-                        <field name="state" widget="statusbar" modifiers="{'readonly': true}"/>
+                        <field name="state" widget="statusbar"
+                               statusbar_visible="draft,to_approve,liquidated"
+                               modifiers="{'readonly': true}"/>
                         <button name="print_replacement"
                                 type="object"
                                 class="oe_highlight"

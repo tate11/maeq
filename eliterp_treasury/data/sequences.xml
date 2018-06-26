@@ -14,7 +14,6 @@
             <field name="prefix">RTC-%(year)s-%(month)s-</field>
             <field name="padding">5</field>
         </record>
-
         <record model="ir.sequence" id="eliterp_sequence_voucher_small_box">
             <field name="name">Comprobante caja chica</field>
             <field name="code">voucher.small.box</field>
@@ -27,7 +26,6 @@
             <field name="prefix">CJA-%(year)s-%(month)s-</field>
             <field name="padding">5</field>
         </record>
-
         <record model="ir.sequence" id="eliterp_sequence_voucher_sale">
             <field name="name">Comprobante de ingreso</field>
             <field name="code">account.voucher.sale</field>
@@ -38,6 +36,18 @@
             <field name="name">Comprobante de egreso</field>
             <field name="code">account.voucher.purchase</field>
             <field name="prefix">COEG-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_payment_request">
+            <field name="name">Requerimiento de pago</field>
+            <field name="code">payment.request</field>
+            <field name="prefix">RPG-%(year)s-%(month)s-</field>
+            <field name="padding">5</field>
+        </record>
+        <record model="ir.sequence" id="eliterp_sequence_pay_order">
+            <field name="name">Orden de pago</field>
+            <field name="code">pay.order</field>
+            <field name="prefix">ODP-%(year)s-%(month)s-</field>
             <field name="padding">5</field>
         </record>
         <!--Comprobantes de egreso (Efectivo y transferencia)-->
