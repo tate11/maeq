@@ -163,7 +163,7 @@ class TravelAllowanceRequest(models.Model):
     beneficiary = fields.Many2one('hr.employee', string='Beneficiario', required=True,
                                   default=_default_employee)
     destination = fields.Many2one('eliterp.travel.destinations', string='Destino', required=True)
-    account_analytic_id = fields.Many2one('account.analytic.account', string="Centro de costo")
+    account_analytic_id = fields.Many2one('account.analytic.account', domain=[('usage', '=', 'movement')], string="Centro de costo")
     project_id = fields.Many2one('eliterp.project', 'Proyecto')
     reason = fields.Char('Motivo', required=True)
     amount_total = fields.Float(compute='_get_amount_total', string="Monto total", store=True)

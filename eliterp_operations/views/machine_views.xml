@@ -242,12 +242,12 @@
             <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
             <field name="arch" type="xml">
                 <xpath expr="//div[hasclass('oe_title')]" position="inside">
-                    <label for="machine_id" class="oe_edit_only" string="Máquina"/>
-                    <h1>
-                        <field name="machine_id"
-                               context="{'default_type': 'own'}"
-                               placeholder="p.e CAT001"/>
-                    </h1>
+                    <label for="machine_id" class="oe_edit_only"
+                           attrs="{'invisible':[('machine_id','==', False)]}"
+                           string="Máquina creada"/>
+                    <h2>
+                        <field name="machine_id" readonly="1" attrs="{'invisible':[('machine_id','==', False)]}"/>
+                    </h2>
                 </xpath>
             </field>
         </record>

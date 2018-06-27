@@ -25,6 +25,34 @@ class ReasonMoveCancel(models.TransientModel):
         return True
 
 
+class AnalyticAccount(models.Model):
+    _inherit = 'account.analytic.account'
+    _order = 'name asc'
+
+    @api.multi
+    def name_get(self):
+        res = []
+        for analytic in self:
+            if analytic.usage == 'view':
+                if analytic.code:
+                    name = name + '[' + analytic.code + ']'
+                else:
+                    name = analytic.name
+            else:
+                if analytic.code:
+                    name = analytic.account_analytic.name + '/' + analytic.name + '[' + analytic.code + ']'
+                else:
+                    name = analytic.account_analytic.name + '/' + analytic.name
+            res.append((analytic.id, name))
+        return res
+
+    account_analytic = fields.Many2one('account.analytic.account', string="Centro de costo padre")
+    usage = fields.Selection([
+        ('view', 'Vista'),
+        ('movement', 'Movimiento')
+    ], default='movement', string='Tipo', required=True)
+
+
 class AccountMove(models.Model):
     _inherit = 'account.move'
 
@@ -145,3 +173,5 @@ class AccountMove(models.Model):
                               ('cancel', 'Cancelado')],
                              string='Estado', required=True, readonly=True, copy=False, default='draft')
     reversed = fields.Boolean('Reversado?', default=False)
+
+

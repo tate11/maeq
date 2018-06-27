@@ -54,9 +54,7 @@ class ResPartner(models.Model):
         return result
 
     pending_balance = fields.Float(compute='_purchase_invoice_count', string='Saldo')
-
-    tradename = fields.Char('Nombre Comercial')
-
+    tradename = fields.Char('Nombre comercial')
     payment_conditions = fields.Selection([
         ('cash', 'Contado'),
         ('credit', 'Crédito'),

@@ -93,6 +93,7 @@
                 </field>
                 <field name="date" position="attributes"><!--Fecha de factura-->
                     <attribute name="string">Fecha emisión</attribute>
+                    <attribute name="required">1</attribute>
                 </field>
                 <field name="date" position="after">
                     <field name="balance_account" attrs="{'invisible':[('show_account', '==', False)]}"/>

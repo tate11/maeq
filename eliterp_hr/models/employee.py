@@ -32,15 +32,6 @@ class LinesHistoryEmployee(models.Model):
 
     _description = 'Líneas de documentos de empleado'
 
-    @api.constrains('date')
-    def _check_date(self):
-        """
-        Fecha de validez no puede ser menor a la de registro
-        """
-        if self.date > self.date_validity:
-            raise ValidationError("La fecha de vigencia no puede ser menor a la "
-                                  "fecha de registro.")
-
     type = fields.Many2one('eliterp.type.history', 'Tipo', required=True)
     date = fields.Date('Fecha de registro', default=fields.Date.context_today, required=True)
     comment = fields.Text('Comentarios')

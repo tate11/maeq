@@ -165,5 +165,52 @@
                 </xpath>
             </field>
         </record>
+        <!--Vista del menú Centro de costos-->
+        <record id="eliterp_view_tree_analytic_account" model="ir.ui.view">
+            <field name="name">eliterp_view_tree_analytic_account</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_list"/>
+            <field name="arch" type="xml">
+                <tree position="replace">
+                    <tree decoration-info="usage=='view'" decoration-muted="usage=='internal'">
+                        <field name="display_name" string="Nombre"/>
+                        <field name="code"/>
+                        <field name="usage"/>
+                    </tree>
+                </tree>
+            </field>
+        </record>
+        <record id="eliterp_view_form_analytic_account" model="ir.ui.view">
+            <field name="name">eliterp_view_form_analytic_account</field>
+            <field name="model">account.analytic.account</field>
+            <field name="inherit_id" ref="analytic.view_account_analytic_account_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//form" position="replace">
+                    <form>
+                        <sheet>
+                            <div class="oe_title">
+                                <label for="name" class="oe_edit_only"/>
+                                <h1>
+                                    <field name="name" class="oe_inline" placeholder="p.e Administración"/>
+                                </h1>
+                                <label for="account_analytic" class="oe_edit_only"/>
+                                <h2>
+                                    <field name="account_analytic" attrs="{'invisible':[('usage','=','view')],
+                               'required':[('usage','!=','view')]}"/>
+                                </h2>
+                            </div>
+                            <group col="4">
+                                <field name="usage"/>
+                                <field name="code"/>
+                            </group>
+                        </sheet>
+                        <div class="oe_chatter">
+                            <field name="message_follower_ids" widget="mail_followers"/>
+                            <field name="message_ids" widget="mail_thread"/>
+                        </div>
+                    </form>
+                </xpath>
+            </field>
+        </record>
     </data>
 </odoo>

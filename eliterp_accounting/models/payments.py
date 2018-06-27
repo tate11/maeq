@@ -134,7 +134,7 @@ class AccountPayment(models.Model):
              'move_id': move_id.id,
              'debit': 0.0,
              'credit': self.amount_transfer,
-             'date': self.payment_date
+             'date': self.payment_date,
              })
         self.env['account.move.line'].with_context(check_move_validity=True).create(
             {'name': self.concept,
@@ -173,7 +173,9 @@ class AccountPayment(models.Model):
                          'move_id': move_id.id,
                          'debit': 0.0,
                          'credit': line.amount,
-                         'date': self.payment_date
+                         'date': self.payment_date,
+                         'project_id': line.project_id.id,
+                         'analytic_account_id': line.account_analytic_id.id
                          })
                     line.check_id.write({'state': 'deposited'})
                 self.env['account.move.line'].with_context(check_move_validity=True).create(
@@ -183,7 +185,7 @@ class AccountPayment(models.Model):
                      'move_id': move_id.id,
                      'debit': self.amount,
                      'credit': 0.0,
-                     'date': self.payment_date
+                     'date': self.payment_date,
                      })
                 new_name = self.journal_id.sequence_id.next_by_id()
                 move_id.with_context(eliterp_moves=True, move_name=new_name).post()
@@ -202,7 +204,9 @@ class AccountPayment(models.Model):
                          'move_id': move_id.id,
                          'debit': 0.0,
                          'credit': line.amount,
-                         'date': self.payment_date
+                         'date': self.payment_date,
+                         'project_id': line.project_id.id,
+                         'analytic_account_id': line.account_analytic_id.id
                          })
                 self.env['account.move.line'].with_context(check_move_validity=True).create(
                     {'name': self.concept,
@@ -230,7 +234,9 @@ class AccountPayment(models.Model):
                          'move_id': move_id.id,
                          'debit': 0.0,
                          'credit': line.amount,
-                         'date': self.payment_date
+                         'date': self.payment_date,
+                         'project_id': line.project_id.id,
+                         'analytic_account_id': line.account_analytic_id.id
                          })
                 self.env['account.move.line'].with_context(check_move_validity=True).create(
                     {'name': self.concept,

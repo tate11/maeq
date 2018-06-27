@@ -64,11 +64,12 @@
                             </h1>
                         </div>
                         <group col="4">
-                            <field name="deposit_type" attrs="{'readonly':[('state', '==', 'posted')]}"/>
+                            <field name="deposit_type" required="1" attrs="{'readonly':[('state', '==', 'posted')]}"/>
                             <field name="payment_date" string="Fecha de depósito"
                                    attrs="{'readonly':[('state', '==','posted')]}"/>
                             <field name="bank_cash"
                                    options="{'no_create': True}"
+                                   required="1"
                                    attrs="{'readonly':[('state', '==', 'posted')]}"
                                    domain="[('type_use', '=', 'payments')]"/>
                             <field name="concept" attrs="{'readonly':[('state', '==', 'posted')]}"/>
