@@ -10,7 +10,7 @@
                     <group col="4">
                         <field name="start_date"/>
                         <field name="end_date"/>
-                        <field name="active"/>
+                        <field name="type"/>
                     </group>
                     <footer>
                         <!--TODO

@@ -27,6 +27,7 @@ class EmployeeReportPdf(models.AbstractModel):
             return "Viudo(a)"
         if civil_status == 'divorced':
             return "Divorciado(a)"
+        return '-'
 
     def _get_lines(self, doc):
         """
@@ -38,21 +39,25 @@ class EmployeeReportPdf(models.AbstractModel):
         arg = []
         arg.append(('admission_date', '>=', doc.start_date))
         arg.append(('admission_date', '<=', doc.end_date))
+        if doc.type != 'all':
+            arg.append(('active', '=', True if doc.type == 'active' else False))
         employees = self.env['hr.employee'].search(arg)
         count = 0
         for employee in employees:
             count += 1
             data.append({
                 'number': count,
-                'identification_id': employee.identification_id,
                 'name': employee.name,
-                'birthday': employee.birthday,
-                'age': employee.age,
+                'identification_id': employee.identification_id,
+                'birthday': employee.birthday if employee.birthday else '-',
+                'age': employee.age if employee.birthday else '-',
                 'civil_status': self._get_civil_status(employee.marital),
                 'admission_date': employee.admission_date,
+                'departure_date': employee.departure_date if employee.departure_date else '-',
                 'department_id': employee.department_id.name,
                 'job_id': employee.job_id.name,
-                'wage': employee.wage
+                'wage': employee.wage,
+                'status': 'Activo' if employee.active else 'Inactivo'
             })
         return data
 
@@ -82,8 +87,11 @@ class EmployeeReport(models.TransientModel):
 
     start_date = fields.Date('Fecha inicio', required=True)
     end_date = fields.Date('Fecha fin', required=True, default=fields.Date.context_today)
-    active = fields.Boolean('Activos?', default=True, required=True,
-                            help="Si se marca selecciona a todos los empleados activos.")
+    type = fields.Selection([
+        ('all', 'Todos'),
+        ('active', 'Activos'),
+        ('not active', 'Inactivos')
+    ], default='all', string='Tipo', required=True)
 
 
 class AttendanceReportPdf(models.AbstractModel):
@@ -124,7 +132,7 @@ class AttendanceReportPdf(models.AbstractModel):
         if not doc.type_employees == 'all':
             data_base = filter(lambda x: x['employee_id'] == doc.employee_id.id, data_base)
         data_base = sorted(data_base,
-                      key=lambda x: (x['employee'], x['date']))  # Ordenamos por empleado y fecha de inicio
+                           key=lambda x: (x['employee'], x['date']))  # Ordenamos por empleado y fecha de inicio
         for line in data_base:
             data.append({
                 'employee': line['employee'],

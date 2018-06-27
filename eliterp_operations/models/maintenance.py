@@ -5,6 +5,7 @@
 from odoo import models, fields, api, _
 from odoo.addons import decimal_precision as dp
 
+
 class Supplies(models.Model):
     _name = 'eliterp.maintenance.machines.supplies'
     _description = 'Insumos para el mantenimiento de máquinas'
@@ -14,15 +15,34 @@ class Supplies(models.Model):
     product_uom_id = fields.Many2one('product.uom', string='Unidad de medida')
     maintenance_machines_id = fields.Many2one('eliterp.maintenance.machines', string='Mantenimiento')
 
+
 class MaintenanceMachines(models.Model):
     _name = 'eliterp.maintenance.machines'
     _description = 'Mantenimiento de máquinas'
 
+    @api.multi
+    def action_validate(self):
+        """
+        Validamos mantenimiento
+        """
+        object_sequence = self.env['ir.sequence']
+        if self.type == 'preventive':
+            name = object_sequence.next_by_code('preventive.maintenance')
+        else:
+            name = object_sequence.next_by_code('corrective.maintenance')
+        self.write({
+            'name': name,
+            'state': 'validate'
+        })
+
     name = fields.Char('Nombre', default='Nuevo')
     date = fields.Date('Fecha', default=fields.Date.context_today, required=True)
-    machine_id = fields.Many2one('eliterp.machine', string='Máquina', domain=[('state', '!=', 'in maintenance')], required=True)
-    responsable = fields.Selection([('internal', 'Interno'), ('external', 'Externo')], string='Tipo gestor', default='internal')
-    type = fields.Selection([('preventive', 'Preventivo'), ('corrective', 'Correctivo')], string='Tipo de mantenimiento')
+    machine_id = fields.Many2one('eliterp.machine', string='Máquina', domain=[('state', '!=', 'in maintenance')],
+                                 required=True)
+    responsable = fields.Selection([('internal', 'Interno'), ('external', 'Externo')], string='Tipo gestor',
+                                   default='internal')
+    type = fields.Selection([('preventive', 'Preventivo'), ('corrective', 'Correctivo')],
+                            string='Tipo de mantenimiento', default='preventive')
     employee_id = fields.Many2one('hr.employee', string='Responsable')
     customer_id = fields.Many2one('res.partner', string='Responsable', domain=[('supplier', '=', True)])
     horometro_real = fields.Float('Horómetro actual', related='machine_id.horometro_real')

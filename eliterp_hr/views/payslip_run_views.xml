@@ -115,6 +115,7 @@
                         <field name="departament"/>
                         -->
                         <field name="admission_date"/>
+                        <field name="identification_id" invisible="1"/>
                         <field name="worked_days"/>
                         <field name="wage" sum="Total"/>
                         <field name="mobilization" sum="Total"/><!--MAEQ-->
