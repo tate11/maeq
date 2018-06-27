@@ -31,6 +31,14 @@
                 <xpath expr="//field[@name='partner_id']" position="attributes">
                     <attribute name="string">Proveedor/Cliente</attribute>
                 </xpath>
+                <xpath expr="//page[@name='extra']" position="attributes"><!--Información Adicional-->
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//page[@name='extra']//field[@name='picking_type_id']"
+                       position="replace"/>
+                <xpath expr="//field[@name='location_dest_id']" position="after">
+                    <field name="picking_type_id" attrs="{'readonly': [('state', 'in', ['done', 'cancel'])]}"/>
+                </xpath>
             </field>
         </record>
     </data>

@@ -46,40 +46,152 @@
                 </form>
             </field>
         </record>
+        <!--Proyecto en otros documentos-->
+        <record id="eliterp_view_form_account_move_line_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_account_move_line_project</field>
+            <field name="model">account.move</field>
+            <field name="inherit_id" ref="account.view_move_form"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='analytic_tag_ids']"
+                       position="attributes">
+                    <attribute name="invisible">1</attribute>
+                </xpath>
+                <xpath expr="//field[@name='line_ids']//tree//field[@name='analytic_account_id']"
+                       position="replace">
+                    <field name="analytic_account_id"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <!--
         <record id="eliterp_view_form_sale_order_project" model="ir.ui.view">
             <field name="name">eliterp_view_form_sale_order_project</field>
             <field name="model">sale.order</field>
             <field name="inherit_id" ref="sale.view_order_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='partner_id']" position="after"><!--Cliente-->
+                Cliente
+                <xpath expr="//field[@name='partner_id']" position="after">
                     <field name="project_id"
                            domain="[('customer', '=', partner_id)]"
                            options="{'no_create': True}"/>
                 </xpath>
+
             </field>
         </record>
+        -->
+        <!--
+        <record id="eliterp_view_form_purchase_order_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_purchase_order_project</field>
+            <field name="model">purchase.order</field>
+            <field name="inherit_id" ref="purchase.purchase_order_form"/>
+            <field name="arch" type="xml">
+                Fecha del Pedido
+                <xpath expr="//field[@name='date_order']" position="after">
+                    <field name="account_analytic_id"
+                           attrs="{'readonly': [('state', 'in', ('purchase', 'done', 'cancel'))]}"
+                           options="{'no_create': True, 'no_open': True}"/>
+                    <field name="project_id"
+                           attrs="{'readonly': [('state', 'in', ('purchase', 'done', 'cancel'))]}"
+                           options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+        -->
+
         <record id="eliterp_view_form_account_invoice_project" model="ir.ui.view">
             <field name="name">eliterp_view_form_account_invoice_project</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='payment_term_id']" position="after"><!--Plazos de pago-->
-                    <field name="project_id"
-                           domain="[('customer', '=', partner_id)]"
-                           options="{'no_create': True}"/>
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='account_analytic_id']"
+                       position="replace">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
                 </xpath>
             </field>
         </record>
+
         <record id="eliterp_view_form_account_invoice_supplier_project" model="ir.ui.view">
             <field name="name">eliterp_view_form_account_invoice_supplier_project</field>
             <field name="model">account.invoice</field>
             <field name="inherit_id" ref="account.invoice_supplier_form"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='concept']" position="before"><!--Concepto-->
-                    <field name="project_id" options="{'no_create': True}"/>
+                <xpath expr="//field[@name='invoice_line_ids']//tree//field[@name='account_analytic_id']"
+                       position="replace">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
                 </xpath>
             </field>
         </record>
+
+        <record id="eliterp_view_form_payments_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_payments_project</field>
+            <field name="model">account.payment</field>
+            <field name="inherit_id" ref="eliterp_accounting.eliterp_view_form_account_payment_deposits"/>
+            <field name="arch" type="xml">
+                <!--Líneas 1-->
+                <xpath expr="//field[@name='lines_deposits_checks']//tree//field[@name='account_id']"
+                       position="after">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+                <!--Líneas 2-->
+                <xpath expr="//field[@name='lines_deposits_cash']//tree//field[@name='account_id']"
+                       position="after">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+                <!--Líneas 3-->
+                <xpath expr="//field[@name='lines_deposits_checks_external']//tree//field[@name='account_id']"
+                       position="after">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="eliterp_view_form_voucher_sale_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_voucher_sale_project</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="eliterp_treasury.eliterp_view_form_voucher_sale"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lines_payment']//tree//field[@name='account_id']"
+                       position="after">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+
+        <record id="eliterp_view_form_voucher_purchase_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_voucher_purchase_project</field>
+            <field name="model">account.voucher</field>
+            <field name="inherit_id" ref="eliterp_treasury.eliterp_view_form_voucher_purchase"/>
+            <field name="arch" type="xml">
+                <xpath expr="//field[@name='lines_account']//tree//field[@name='account_id']"
+                       position="after">
+                    <field name="account_analytic_id"
+                           options="{'no_create': True, 'no_open': True}"
+                           domain="[('usage', '=', 'movement')]"/>
+                    <field name="project_id" options="{'no_create': True, 'no_open': True}"/>
+                </xpath>
+            </field>
+        </record>
+
         <record id="eliterp_view_form_employee_project" model="ir.ui.view">
             <field name="name">eliterp_view_form_employee_project</field>
             <field name="model">hr.employee</field>
@@ -89,21 +201,6 @@
                     <field name="account_analytic_id"
                            options="{'no_create': True, 'no_open': True}"/>
                     <field name="project_id"
-                           options="{'no_create': True, 'no_open': True}"/>
-                </xpath>
-            </field>
-        </record>
-        <record id="eliterp_view_form_purchase_order_project" model="ir.ui.view">
-            <field name="name">eliterp_view_form_purchase_order_project</field>
-            <field name="model">purchase.order</field>
-            <field name="inherit_id" ref="purchase.purchase_order_form"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='date_order']" position="after"><!--Fecha del Pedido-->
-                    <field name="account_analytic_id"
-                           attrs="{'readonly': [('state', 'in', ('purchase', 'done', 'cancel'))]}"
-                           options="{'no_create': True, 'no_open': True}"/>
-                    <field name="project_id"
-                           attrs="{'readonly': [('state', 'in', ('purchase', 'done', 'cancel'))]}"
                            options="{'no_create': True, 'no_open': True}"/>
                 </xpath>
             </field>

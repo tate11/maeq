@@ -20,12 +20,14 @@
         'stock',
         'sale',
         'account',
-        'account_asset'
+        'account_asset',
+        'eliterp_treasury'
     ],
     'data': [
         'data/sequences.xml',
         'security/operations_security.xml',
         'security/ir.model.access.csv',
+        'views/assets.xml',
         'views/project_views.xml',
         'views/gang_views.xml',
         'views/machine_views.xml',

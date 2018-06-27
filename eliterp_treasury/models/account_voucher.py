@@ -311,6 +311,8 @@ class AccountVoucher(models.Model):
                         'credit': 0.0,
                         'debit': line.amount,
                         'date': self.date,
+                        'project_id': line.project_id.id,
+                        'analytic_account_id': line.account_analytic_id.id
                     })
                 else:
                     self.env['account.move.line'].with_context(check_move_validity=False).create({
@@ -322,6 +324,8 @@ class AccountVoucher(models.Model):
                         'credit': 0.0,
                         'debit': line.amount,
                         'date': self.date,
+                        'project_id': line.project_id.id,
+                        'analytic_account_id': line.account_analytic_id.id
                     })
             # Factura
             if self.type_pay == 'fap':
@@ -391,7 +395,9 @@ class AccountVoucher(models.Model):
                         payment.amount,
                         self.partner_id.property_account_receivable_id.id,
                         payment.account_id.id,
-                        balance
+                        balance,
+                        payment.project_id.id,
+                        payment.account_analytic_id.id
                     )
                     move_id.with_context(eliterp_moves=True, internal_voucher=True).post()
                     payment.write({'move_id': move_id.id})
@@ -411,7 +417,9 @@ class AccountVoucher(models.Model):
                         payment.amount,
                         self.partner_id.property_account_receivable_id.id,
                         payment.account_id.id,
-                        balance
+                        balance,
+                        payment.project_id.id,
+                        payment.account_analytic_id.id
                     )
                     move_id.with_context(eliterp_moves=True, internal_voucher=True).post()
                     payment.write({'move_id': move_id.id})
@@ -431,7 +439,9 @@ class AccountVoucher(models.Model):
                         payment.amount,
                         self.partner_id.property_account_receivable_id.id,
                         payment.account_id.id,
-                        balance
+                        balance,
+                        payment.project_id.id,
+                        payment.account_analytic_id.id
                     )
                     move_id.with_context(eliterp_moves=True, internal_voucher=True).post()
                     payment.write({'move_id': move_id.id})

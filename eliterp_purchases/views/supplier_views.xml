@@ -7,6 +7,10 @@
             <field name="model">res.partner</field>
             <field name="inherit_id" ref="base.view_partner_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='name']" position="after">
+                    <field name="tradename" placeholder="Nombre Comercial"
+                    attrs="{'invisible':[('company_type', '!=', 'company')]}"/>
+                </xpath>
                 <xpath expr="//field[@name='property_supplier_payment_term_id']"
                        position="replace"><!--Términos de Pago-->
                     <field name="payment_conditions"/>
@@ -14,6 +18,7 @@
                            attrs="{'invisible':[('payment_conditions', '!=', 'credit')]}"/>
                     <field name="way_to_pay"/>
                 </xpath>
+
             </field>
         </record>
         <record id="eliterp_view_purchase_account_buttons_pending_balance" model="ir.ui.view">

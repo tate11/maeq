@@ -22,7 +22,7 @@
         <field name="name">eliterp_view_form_pay_order</field>
         <field name="model">eliterp.pay.order</field>
         <field name="arch" type="xml">
-            <form create="false" edit="false" duplicate="false" delete="false">
+            <form create="false" duplicate="false" delete="false">
                 <header>
                     <field name="state"
                            widget="statusbar"

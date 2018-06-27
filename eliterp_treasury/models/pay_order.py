@@ -8,7 +8,7 @@ from odoo.tools import float_is_zero
 import json
 
 
-class PayWizard(models.Model):
+class PayWizard(models.TransientModel):
     _name = 'eliterp.pay.wizard'
 
     _description = 'Ventana para generar pago'
@@ -372,15 +372,20 @@ class PurchaseOrder(models.Model):
         Obtenemos estado de ADQ pra OP
         """
         pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        total_invoices = 0.00
+        for inv in self.invoice_ids: # Facturas ingresadas
+            if inv and inv.state not in ('cancel', 'draft'):
+                total_invoices += inv.residual
+        _total = round(self.amount_total - total_invoices, 2)
         if not pays:
             self.state_pay_order = 'generated'
-            self.residual_pay_order = self.amount_total
+            self.residual_pay_order = _total
         else:
             total = 0.00
             for pay in pays:  # Soló contabilizadas
                 total += round(pay.amount, 2)
             self.improved_pay_order = total
-            self.residual_pay_order = round(self.amount_total - self.improved_pay_order, 2)
+            self.residual_pay_order = round(_total - self.improved_pay_order, 2)
             if float_is_zero(self.residual_pay_order, precision_rounding=0.01) or self.invoice_status == 'invoiced':
                 self.state_pay_order = 'paid'
             else:

@@ -92,7 +92,7 @@ class AccountInvoice(models.Model):
             }])
         return self.update({'quota_line_invoice': quota_line})
 
-    account_analytic_id = fields.Many2one('account.analytic.account', 'Centro de costo', readonly=True,
+    account_analytic_id = fields.Many2one('account.analytic.account', domain=[('usage', '=', 'movement')], string='Centro de costo', readonly=True,
                                           states={'draft': [('readonly', False)]})
     attach_invoice = fields.Binary('Adjuntar factura', attachment=True)
     attached_name = fields.Char('Nombre de adjunto')

@@ -17,7 +17,6 @@
         'account',
         'eliterp_accounting',
         'account_voucher',
-        'eliterp_operations',
         'eliterp_start',
         'purchase',
         'eliterp_hr'
