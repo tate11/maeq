@@ -241,6 +241,11 @@
             <field name="model">account.asset.asset</field>
             <field name="inherit_id" ref="account_asset.view_account_asset_asset_form"/>
             <field name="arch" type="xml">
+                <xpath expr="//field[@name='partner_id']" position="replace">
+                    <field string="Proveedor" name="partner_id"
+                           context="{'default_customer': 0, 'search_default_supplier': 1, 'default_supplier': 1, 'default_company_type': 'company'}"
+                           domain="[('supplier', '=', True)]"/>
+                </xpath>
                 <xpath expr="//div[hasclass('oe_title')]" position="inside">
                     <label for="machine_id" class="oe_edit_only" string="Máquina"/>
                     <h1>

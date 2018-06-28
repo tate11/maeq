@@ -713,6 +713,7 @@ class AccountVoucher(models.Model):
     custodian_id = fields.Many2one('eliterp.custodian.small.box', 'Custodio caja chica')
     # Viático
     viaticum_id = fields.Many2one('eliterp.travel.allowance.request', string="Solicitud viático")
+    expenses_pay = fields.Many2one('account.account', string="Cuenta contable")
     # Requerimiento de pago
     payment_request_id = fields.Many2one('eliterp.payment.request', string="Requerimiento de pago")
     # Orden de pago

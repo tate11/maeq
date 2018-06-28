@@ -1,7 +1,5 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_product_code_manager,product_code_manager,model_eliterp_product_code,stock.group_stock_manager,1,1,1,1
 access_line_product_manager,line_product_manager,model_eliterp_line_product,stock.group_stock_manager,1,1,1,1
-access_sub_line_product_manager,sub_line_product_manager,model_eliterp_sub_line_product,stock.group_stock_manager,1,1,1,1
 
 access_line_product_employee,line_product_employee,model_eliterp_line_product,base.group_user,1,0,0,0
-access_sub_line_product_employee,sub_line_product_employee,model_eliterp_sub_line_product,base.group_user,1,0,0,0

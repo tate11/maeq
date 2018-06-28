@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <!--Vistas - Mantenimiento de máquinas-->
+        <!--Vistas - Mantenimientos y reparaciones-->
         <record id="eliterp_view_form_maintenance_machines" model="ir.ui.view">
             <field name="name">eliterp_view_form_maintenance_machines</field>
             <field name="model">eliterp.maintenance.machines</field>

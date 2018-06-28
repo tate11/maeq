@@ -269,12 +269,25 @@
             <field name="name">
                 OTRAS COMPRAS DE BIENES Y SERVICIOS NO SUJETAS A RETENCIÓN (0%)
             </field>
-            <field eval="729" name="code"/>
+            <field eval="332" name="code"/>
             <field name="amount">0</field>
             <field name="type_tax_use">purchase</field>
             <field eval="'retention'" name="tax_type"/>
             <field eval="'rent'" name="retention_type"/>
             <field name="account_id" ref="eliterp_account_21512"/>
+            <field name="tax_group_id" ref="account.tax_group_taxes"/>
+        </record>
+        <record id="eliterp_tax_retention_purchase_6" model="account.tax.template">
+            <field name="chart_template_id" ref="eliterp_chart_template"/>
+            <field name="name">
+                SERVICIOS PREDOMINA LA MANO DE OBRA (2%)
+            </field>
+            <field eval="307" name="code"/>
+            <field name="amount">2</field>
+            <field name="type_tax_use">purchase</field>
+            <field eval="'retention'" name="tax_type"/>
+            <field eval="'rent'" name="retention_type"/>
+            <field name="account_id" ref="eliterp_account_2156"/>
             <field name="tax_group_id" ref="account.tax_group_taxes"/>
         </record>
 

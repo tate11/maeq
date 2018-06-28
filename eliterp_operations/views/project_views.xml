@@ -65,21 +65,19 @@
             </field>
         </record>
 
-        <!--Cliente
-        <record id="eliterp_view_form_sale_order_project" model="ir.ui.view">
-            <field name="name">eliterp_view_form_sale_order_project</field>
-            <field name="model">sale.order</field>
-            <field name="inherit_id" ref="sale.view_order_form"/>
+
+        <record id="eliterp_view_form_travel_allowance_request_project" model="ir.ui.view">
+            <field name="name">eliterp_view_form_travel_allowance_request_project</field>
+            <field name="model">eliterp.travel.allowance.request</field>
+            <field name="inherit_id" ref="eliterp_treasury.eliterp_view_form_travel_allowance_request"/>
             <field name="arch" type="xml">
-                <xpath expr="//field[@name='partner_id']" position="after">
+                <xpath expr="//field[@name='account_analytic_id']" position="after"><!--Centro de costo-->
                     <field name="project_id"
-                           domain="[('customer', '=', partner_id)]"
-                           options="{'no_create': True}"/>
+                           options="{'no_create': True, 'no_open': True}"/>
                 </xpath>
 
             </field>
         </record>
-        -->
 
         <record id="eliterp_view_form_purchase_order_project" model="ir.ui.view">
             <field name="name">eliterp_view_form_purchase_order_project</field>
