@@ -78,9 +78,6 @@
                                 <field name="account_analytic_id"
                                        attrs="{'readonly':[('state','!=', 'draft')]}"
                                        options="{'no_open': True, 'no_create': True}"/>
-                                <field name="project_id"
-                                       attrs="{'readonly':[('state','!=', 'draft')]}"
-                                       options="{'no_open': True, 'no_create': True}"/>
                                 <field name="amount_total"/>
                             </group>
                         </group>

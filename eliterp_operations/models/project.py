@@ -65,6 +65,12 @@ class SaleOrder(models.Model):
                                           string="Centro de costo")
 
 
+class TravelAllowanceRequest(models.Model):
+    _inherit = 'eliterp.travel.allowance.request'
+
+    project_id = fields.Many2one('eliterp.project', 'Proyecto')
+
+
 class EliterpProject(models.Model):
     _name = 'eliterp.project'
 

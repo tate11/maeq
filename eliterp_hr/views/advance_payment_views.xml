@@ -103,7 +103,6 @@
                                 <field name="employee_id"/>
                                 <field name="job_id"/>
                                 <field name="admission_date"/>
-                                <field name="account_id" invisible="1"/>
                                 <field name="antiquity"/>
                                 <field name="amount_advance" sum="Total"/>
                                 <field name="mobilization" sum="Total"/>

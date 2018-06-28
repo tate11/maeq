@@ -290,7 +290,7 @@ class CMC(models.Model):
     machine_id = fields.Many2one('eliterp.machine', string='Máquina', required=True, readonly=True,
                                  states={'draft': [('readonly', False)]})
     operator = fields.Many2one('hr.employee', related='prefix_id.responsable', string='Operador', readonly=True,
-                               required=True,
+                               required=True, store=True,
                                states={'draft': [('readonly', False)]})
     assistant = fields.Many2one('hr.employee', string='Ayudante', readonly=True,
                                 states={'draft': [('readonly', False)]})

@@ -28,21 +28,6 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="col-xs-12 col-md-6 o_setting_box">
-                                <div class="o_setting_right_pane">
-                                    <label for="default_settlement_travel_expenses"/>
-                                    <div class="row">
-                                        <div class="text-muted col-md-8">
-                                            Establecer cuenta para la liquidación de viáticos.
-                                        </div>
-                                    </div>
-                                    <div class="content-group">
-                                        <div class="mt16">
-                                            <field name="default_settlement_travel_expenses" class="o_light_label"/>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                     </div>
                 </xpath>
