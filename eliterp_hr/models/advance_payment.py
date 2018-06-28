@@ -6,12 +6,6 @@ from odoo import api, fields, models
 from odoo.exceptions import UserError
 from datetime import datetime
 
-class Employee(models.Model):
-    _inherit = 'hr.employee'
-
-    account_advance_payment = fields.Many2one('account.account', string="Cuenta anticipo",
-                                              domain=[('account_type', '=', 'movement')])
-
 
 class LinesAdvancePayment(models.Model):
     _name = 'eliterp.lines.advance.payment'
@@ -28,7 +22,6 @@ class LinesAdvancePayment(models.Model):
     employee_id = fields.Many2one('hr.employee', string='Empleado')
     job_id = fields.Many2one('hr.job', string='Cargo', related='employee_id.job_id', store=True)
     admission_date = fields.Date(related='employee_id.admission_date', store=True, string='Fecha ingreso')
-    account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
     amount_advance = fields.Float('Monto', default=0.00)
     mobilization = fields.Float(string='Movilización')
     antiquity = fields.Integer('Días')
@@ -61,13 +54,6 @@ class AdvancePayment(models.Model):
 
     _description = 'Anticipo de quincena'
 
-    @api.model
-    def _default_account(self):
-        """
-        Cuenta por defecto de nómina en empleado
-        """
-        account = self.env['account.account'].search([('name', '=', 'NÓMINA POR PAGAR')], limit=1)
-        return account[0].id if account else False
 
     @api.multi
     def print_advance(self):
@@ -110,7 +96,6 @@ class AdvancePayment(models.Model):
                 amount_advance = 80.0
             list_employees.append([0, 0, {
                 'employee_id': employee.id,
-                'account_id': employee.account_advance_payment.id,
                 'antiquity': antiquity,
                 'mobilization': round(employee.mobilization / 2, 2),
                 'amount_advance': amount_advance,
@@ -177,37 +162,28 @@ class AdvancePayment(models.Model):
         move_id = self.env['account.move'].create({'journal_id': self.journal_id.id,
                                                    'date': self.date
                                                    })
+        account_debit = self.journal_id.default_debit_account_id.id
+        account_credit = self.journal_id.default_credit_account_id.id
+        if not account_credit or not account_debit:
+            raise UserError('No existe cuenta acredora y/o deudora en diario.')
         self.env['account.move.line'].with_context(check_move_validity=False).create({
             'name': self.account_id.name,
             'journal_id': self.journal_id.id,
-            'account_id': self.account_id.id,
+            'account_id': account_credit,
             'move_id': move_id.id,
             'debit': 0.0,
             'credit': self.total,
             'date': self.date
         })
-        count = len(self.lines_advance)
-        for line in self.lines_advance:
-            count -= 1
-            if count == 0:
-                self.env['account.move.line'].with_context(check_move_validity=True).create(
-                    {'name': line.account_id.name + ": " + line.employee_id.name,
-                     'journal_id': self.journal_id.id,
-                     'account_id': line.account_id.id,
-                     'move_id': move_id.id,
-                     'credit': 0.0,
-                     'debit': line.amount_total,
-                     'date': self.date})
-            else:
-                self.env['account.move.line'].with_context(check_move_validity=False).create(
-                    {'name': line.account_id.name + ": " + line.employee_id.name,
-                     'journal_id': self.journal_id.id,
-                     'account_id': line.account_id.id,
-                     'move_id': move_id.id,
-                     'credit': 0.0,
-                     'debit': line.amount_total,
-                     'date': self.date})
-
+        self.env['account.move.line'].with_context(check_move_validity=True).create({
+            'name': self.account_id.name,
+            'journal_id': self.journal_id.id,
+            'account_id': account_debit,
+            'move_id': move_id.id,
+            'debit': self.total,
+            'credit': 0.0,
+            'date': self.date
+        })
         move_id.post()
         move_id.write({'ref': "Anticipo de " + self.period})
         return self.write({
@@ -244,8 +220,7 @@ class AdvancePayment(models.Model):
     name = fields.Char('No. Documento')
     period = fields.Char('Período', compute='_get_period', store=True)
     date = fields.Date('Fecha de emisión', default=fields.Date.context_today, required=True)
-    account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')],
-                                 default=_default_account)
+    account_id = fields.Many2one('account.account', string="Cuenta", domain=[('account_type', '=', 'movement')])
     lines_advance = fields.One2many('eliterp.lines.advance.payment', 'advanced_id', string='Líneas de anticipo')
     move_id = fields.Many2one('account.move', string='Asiento contable')
     total = fields.Float('Total de anticipo', compute='_get_total', store=True)

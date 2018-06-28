@@ -27,6 +27,8 @@
             <field name="code">ADQ</field>
             <field name="show_on_dashboard">False</field>
             <field name="sequence_id" ref="eliterp_sequence_advance_payment"/>
+            <field name="default_credit_account_id" ref="eliterp_accounting.eliterp_account_2161"/>
+            <field name="default_debit_account_id" ref="eliterp_accounting.eliterp_account_11254"/>
         </record>
         <record model="account.journal" id="eliterp_journal_payslip_run">
             <field name="name">Rol consolidado</field>

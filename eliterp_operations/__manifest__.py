@@ -21,6 +21,7 @@
         'sale',
         'account',
         'account_asset',
+        'eliterp_accounting',
         'eliterp_treasury'
     ],
     'data': [

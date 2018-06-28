@@ -28,11 +28,10 @@ class ResPartner(models.Model):
     @api.onchange('property_account_payable_id')
     def _onchange_property_account_payable(self):
         """
-        Se realiza esto para manejar cuentas seperadas de Proveedor/Cliente
+        No hacemos nada
         :return: self
         """
-        if self.property_account_payable_id:
-            self.property_account_receivable_id = self.property_account_payable_id.id
+        return
 
     @api.multi
     def action_view_pending_balance(self):

@@ -220,11 +220,10 @@ class PayslipRun(models.Model):
             loan_unsecured += round(role.loan_unsecured, 3)
             loan_mortgage += round(role.loan_mortgage, 3)
             spouses_extension += round(role.spouses_extension, 3)
+            # Añadimos ADQ
             advances.append(
                 {
-                    'employee': role.role_id.employee_id.name,
                     'amount': round(role.payment_advance, 3),
-                    'account': role.role_id.employee_id.account_advance_payment.id
                 })
             if role.tenth_3 == 0.00:
                 provision_tenth_3.append(role)
@@ -255,17 +254,10 @@ class PayslipRun(models.Model):
             amount_provision_tenth_4 += round((float(386) / 360) * tenth_4_object.worked_days, 3)
         # Creamos líneas de movimiento de egresos
         print('***EGRESOS***')
+        amount_advances = 0.00
         for advance in advances:  # Anticipos de quincena
-            self.env['account.move.line'].with_context(check_move_validity=False).create({
-                'name': advance['employee'],
-                'journal_id': self.journal_id.id,
-                'account_id': advance['account'],
-                'move_id': move_id.id,
-                'debit': 0.00,
-                'credit': advance['amount'],
-                'date': self.date_end
-            })
-            print("ANTICIPO DE " + advance['employee'] + ": " + str(advance['amount']))
+            amount_advances += round(advance['amount'], 3)
+        self._create_line_expenses('ADQ', move_id, amount_advances)  # ADQ
         self._create_line_expenses('IESS_9.45%', move_id, iess_personal)  # IESS 9.45%
         self._create_line_expenses('PRES_QUIRO', move_id, loan_unsecured)  # Préstamo quirografario
         self._create_line_expenses('MUL', move_id, penalty)  # Multas

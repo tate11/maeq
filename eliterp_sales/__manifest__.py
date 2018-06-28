@@ -16,7 +16,6 @@
         'sale_management',
         'sale',
         'hr',
-        'eliterp_operations'
     ],
     'data': [
         'views/out_invoice_views.xml',
