@@ -211,7 +211,7 @@ class PayOrder(models.Model):
     ], string="Tipo de origen", required=True)
     state = fields.Selection([
         ('draft', 'Borrador'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='draft', string="Estado", readonly=True, copy=False)
     currency_id = fields.Many2one('res.currency', string='Moneda', default=_default_currency)
     # Campos para traer los diferentes documentos para la OP
@@ -329,7 +329,7 @@ class AccountInvoice(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
@@ -397,7 +397,7 @@ class PurchaseOrder(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
@@ -457,7 +457,7 @@ class AdvancePayment(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
@@ -517,7 +517,7 @@ class PayslipRun(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
@@ -577,7 +577,7 @@ class ReplacementSmallBox(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
@@ -637,7 +637,7 @@ class PaymentRequest(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Pagada'),
+        ('paid', 'Cerrada'),
     ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)

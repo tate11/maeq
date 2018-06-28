@@ -48,3 +48,9 @@ class PurchaseOrder(models.Model):
     _inherit = 'purchase.order'
 
     reference = fields.Char('Referencia')
+    # CM
+    invoice_status = fields.Selection([
+        ('no', 'Por recibir'),
+        ('to invoice', 'Para facturar'),
+        ('invoiced', 'Realizado'),
+    ], string='Estado de facturación', compute='_get_invoiced', store=True, readonly=True, copy=False, default='no')
