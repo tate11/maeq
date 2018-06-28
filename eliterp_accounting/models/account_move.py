@@ -28,24 +28,7 @@ class ReasonMoveCancel(models.TransientModel):
 class AnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
     _order = 'name asc'
-
-    @api.multi
-    def name_get(self):
-        res = []
-        for analytic in self:
-            if analytic.usage == 'view':
-                if analytic.code:
-                    name = name + '[' + analytic.code + ']'
-                else:
-                    name = analytic.name
-            else:
-                if analytic.code:
-                    name = analytic.account_analytic.name + '/' + analytic.name + '[' + analytic.code + ']'
-                else:
-                    name = analytic.account_analytic.name + '/' + analytic.name
-            res.append((analytic.id, name))
-        return res
-
+   
     account_analytic = fields.Many2one('account.analytic.account', string="Centro de costo padre")
     usage = fields.Selection([
         ('view', 'Vista'),
