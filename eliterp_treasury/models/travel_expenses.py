@@ -408,8 +408,8 @@ class LiquidationSettlement(models.Model):
         """
         if not self.settlement_travel_expenses:
             raise UserError("No ha creado cuenta para liquidación de viáticos.")
-        # Validamos qué el Benficiario tenga Cuenta
-        account_employee = self.travel_allowance_request_id.beneficiary.account_advance_payment
+        # TODO: Validamos qué el Benficiario tenga Cuenta
+        account_employee = False
         if not account_employee:
             raise UserError(
                 "No tiene cuenta asignada el Empleado(a): %s" % self.travel_allowance_request_id.beneficiary.name)

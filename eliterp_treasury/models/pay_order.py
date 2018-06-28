@@ -211,7 +211,7 @@ class PayOrder(models.Model):
     ], string="Tipo de origen", required=True)
     state = fields.Selection([
         ('draft', 'Borrador'),
-        ('paid', 'Abonada'),
+        ('paid', 'Pagada'),
     ], default='draft', string="Estado", readonly=True, copy=False)
     currency_id = fields.Many2one('res.currency', string='Moneda', default=_default_currency)
     # Campos para traer los diferentes documentos para la OP
@@ -311,7 +311,7 @@ class AccountInvoice(models.Model):
         """
         Obtenemos estado de ADQ pra OP
         """
-        pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        pays = self.lines_pay_order
         if not pays:
             self.state_pay_order = 'generated'
             self.residual_pay_order = self.residual
@@ -329,8 +329,8 @@ class AccountInvoice(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Abonada'),
-    ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
+        ('paid', 'Pagada'),
+    ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
     lines_pay_order = fields.One2many('eliterp.pay.order', 'invoice_id', string='Órdenes de pago')
@@ -371,31 +371,34 @@ class PurchaseOrder(models.Model):
         """
         Obtenemos estado de ADQ pra OP
         """
-        pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        pays = self.lines_pay_order
         total_invoices = 0.00
-        for inv in self.invoice_ids: # Facturas ingresadas
+        for inv in self.invoice_ids:  # Facturas ingresadas
             if inv and inv.state not in ('cancel', 'draft'):
                 total_invoices += inv.residual
         _total = round(self.amount_total - total_invoices, 2)
-        if not pays:
-            self.state_pay_order = 'generated'
-            self.residual_pay_order = _total
+        if self.invoice_status == 'invoiced':
+            self.state_pay_order = 'paid'
         else:
-            total = 0.00
-            for pay in pays:  # Soló contabilizadas
-                total += round(pay.amount, 2)
-            self.improved_pay_order = total
-            self.residual_pay_order = round(_total - self.improved_pay_order, 2)
-            if float_is_zero(self.residual_pay_order, precision_rounding=0.01) or self.invoice_status == 'invoiced':
-                self.state_pay_order = 'paid'
+            if not pays:
+                self.state_pay_order = 'generated'
+                self.residual_pay_order = _total
             else:
-                self.state_pay_order = 'partial_payment'
+                total = 0.00
+                for pay in pays:  # Soló contabilizadas
+                    total += round(pay.amount, 2)
+                self.improved_pay_order = total
+                self.residual_pay_order = round(_total - self.improved_pay_order, 2)
+                if float_is_zero(self.residual_pay_order, precision_rounding=0.01) or self.invoice_status == 'invoiced':
+                    self.state_pay_order = 'paid'
+                else:
+                    self.state_pay_order = 'partial_payment'
 
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Abonada'),
-    ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
+        ('paid', 'Pagada'),
+    ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
     lines_pay_order = fields.One2many('eliterp.pay.order', 'purchase_order_id', string='Órdenes de pago')
@@ -436,7 +439,7 @@ class AdvancePayment(models.Model):
         """
         Obtenemos estado de ADQ pra OP
         """
-        pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        pays = self.lines_pay_order
         if not pays:
             self.state_pay_order = 'generated'
             self.residual_pay_order = self.total
@@ -454,8 +457,8 @@ class AdvancePayment(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Abonada'),
-    ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
+        ('paid', 'Pagada'),
+    ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
     lines_pay_order = fields.One2many('eliterp.pay.order', 'advance_payment_id', string='Órdenes de pago')
@@ -496,7 +499,7 @@ class PayslipRun(models.Model):
         """
         Obtenemos estado de ADQ pra OP
         """
-        pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        pays = self.lines_pay_order
         if not pays:
             self.state_pay_order = 'generated'
             self.residual_pay_order = self.total
@@ -514,8 +517,8 @@ class PayslipRun(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Abonada'),
-    ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
+        ('paid', 'Pagada'),
+    ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
     lines_pay_order = fields.One2many('eliterp.pay.order', 'payslip_run_id', string='Órdenes de pago')
@@ -556,7 +559,7 @@ class ReplacementSmallBox(models.Model):
         """
         Obtenemos estado de ADQ pra OP
         """
-        pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        pays = self.lines_pay_order
         if not pays:
             self.state_pay_order = 'generated'
             self.residual_pay_order = self.total_vouchers
@@ -574,8 +577,8 @@ class ReplacementSmallBox(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Abonada'),
-    ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
+        ('paid', 'Pagada'),
+    ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
     lines_pay_order = fields.One2many('eliterp.pay.order', 'replacement_small_box_id', string='Órdenes de pago')
@@ -616,7 +619,7 @@ class PaymentRequest(models.Model):
         """
         Obtenemos estado de ADQ pra OP
         """
-        pays = self.lines_pay_order.filtered(lambda x: x.state == 'paid')
+        pays = self.lines_pay_order
         if not pays:
             self.state_pay_order = 'generated'
             self.residual_pay_order = self.total
@@ -634,8 +637,8 @@ class PaymentRequest(models.Model):
     state_pay_order = fields.Selection([
         ('generated', 'Sin abonos'),
         ('partial_payment', 'Abono parcial'),
-        ('paid', 'Abonada'),
-    ], default='generated', string="Abono", compute='_get_customize_amount', readonly=True, copy=False)
+        ('paid', 'Pagada'),
+    ], default='generated', string="Estado de pago", compute='_get_customize_amount', readonly=True, copy=False)
     improved_pay_order = fields.Float('Abonado OP', compute='_get_customize_amount', store=True)
     residual_pay_order = fields.Float('Saldo OP', compute='_get_customize_amount', store=True)
     lines_pay_order = fields.One2many('eliterp.pay.order', 'payment_request_id', string='Órdenes de pago')

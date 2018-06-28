@@ -40,6 +40,20 @@ class AccountInvoice(models.Model):
             self.payment_term_id = self.partner_id.property_supplier_payment_term_id.id
         return res
 
+    def _prepare_invoice_line_from_po_line(self, line):
+        """
+        Agregamos el proyecto y CC de la OC a las líneas de factura
+        :param line:
+        :return:
+        """
+        data = super(AccountInvoice, self)._prepare_invoice_line_from_po_line(line)
+        order = line.order_id
+        data.update({
+            'account_analytic_id': order.account_analytic_id.id,
+            'project_id': order.project_id.id
+        })
+        return data
+
     # Load all unsold PO lines
     @api.onchange('purchase_id')
     def purchase_order_change(self):
@@ -61,9 +75,9 @@ class AccountInvoice(models.Model):
 
         self.invoice_line_ids += new_lines
         self.payment_term_id = self.purchase_id.payment_term_id
-        self.account_analytic_id = self.purchase_id.account_analytic_id.id # MARZ
+        self.account_analytic_id = self.purchase_id.account_analytic_id.id  # MARZ
         self.project_id = self.purchase_id.project_id.id  # MARZ
-        self.account_id = self.partner_id.property_account_payable_id # MARZ
+        self.account_id = self.partner_id.property_account_payable_id  # MARZ
         self.env.context = dict(self.env.context, from_purchase_order_change=True)
         self.purchase_id = False
         return {}
@@ -78,7 +92,7 @@ class AccountInvoice(models.Model):
         if self.amount_of_fees <= 1:
             raise UserError('Número de cuotas debe ser mayor a 1.')
         quota_line = []
-        self.quota_line_invoice.unlink() # Borramos líneas anteriores
+        self.quota_line_invoice.unlink()  # Borramos líneas anteriores
         for x in range(1, self.amount_of_fees):
             start_date = datetime.strptime(self.date_invoice, "%Y-%m-%d")
             carry, new_month = divmod(start_date.month + x, 12)
@@ -92,7 +106,8 @@ class AccountInvoice(models.Model):
             }])
         return self.update({'quota_line_invoice': quota_line})
 
-    account_analytic_id = fields.Many2one('account.analytic.account', domain=[('usage', '=', 'movement')], string='Centro de costo', readonly=True,
+    account_analytic_id = fields.Many2one('account.analytic.account', domain=[('usage', '=', 'movement')],
+                                          string='Centro de costo', readonly=True,
                                           states={'draft': [('readonly', False)]})
     attach_invoice = fields.Binary('Adjuntar factura', attachment=True)
     attached_name = fields.Char('Nombre de adjunto')
@@ -102,7 +117,7 @@ class AccountInvoice(models.Model):
         ('cash', 'Contado'),
         ('credit', 'Crédito'),
         ('credit_fees', 'Crédito cuotas')
-    ], string='Condición de pago'  , readonly=True, states={'draft': [('readonly', False)]})
+    ], string='Condición de pago', readonly=True, states={'draft': [('readonly', False)]})
     amount_of_fees = fields.Integer('Cantidad de cuotas', readonly=True, states={'draft': [('readonly', False)]},
                                     default=1)
     quota_line_invoice = fields.One2many('eliterp.quota.line.invoice', 'invoice_id', string='Línea de cuotas',

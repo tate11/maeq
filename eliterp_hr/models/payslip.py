@@ -8,21 +8,6 @@ import time
 from odoo.tools.safe_eval import safe_eval
 
 
-class Employee(models.Model):
-    _inherit = 'hr.employee'
-
-    @api.model
-    def _default_account(self):
-        """
-        Cuenta por defecto de nómina en empleado
-        """
-        account = self.env['account.account'].search([('name', '=', 'NÓMINA POR PAGAR')], limit=1)
-        return account[0].id if account else False
-
-    account_payroll = fields.Many2one('account.account', string="Cuenta nómina",
-                                      domain=[('account_type', '=', 'movement')], default=_default_account)
-
-
 class SalaryRule(models.Model):
     _inherit = 'hr.salary.rule'
 

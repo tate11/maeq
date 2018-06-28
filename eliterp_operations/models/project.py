@@ -30,7 +30,7 @@ class Location(models.Model):
 class AccountInvoice(models.Model):
     _inherit = 'account.invoice'
 
-    project_id = fields.Many2one('eliterp.project', 'Proyecto', states={'draft': [('readonly', False)]})
+    project_id = fields.Many2one('eliterp.project', 'Proyecto')
 
     @api.multi
     def finalize_invoice_move_lines(self, move_lines):
@@ -61,6 +61,8 @@ class SaleOrder(models.Model):
     _inherit = 'sale.order'
 
     project_id = fields.Many2one('eliterp.project', 'Proyecto')
+    account_analytic_id = fields.Many2one('account.analytic.account', domain=[('usage', '=', 'movement')],
+                                          string="Centro de costo")
 
 
 class EliterpProject(models.Model):

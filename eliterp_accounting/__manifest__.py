@@ -19,7 +19,7 @@
         'sale',
         'stock',
         'payment',
-        'purchase',
+        'purchase'
     ],
     'data': [
         'data/accounts.xml',

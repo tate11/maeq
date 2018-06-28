@@ -119,12 +119,12 @@
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
-        <record model="account.account.template" id="eliterp_account_11221">
+        <record model="account.account.template" id="eliterp_account_11221"><!--Default-->
             <field name="name">DOCUMENTOS POR COBRAR CLIENTES NO RELACIONADOS</field>
             <field name="code">1.1.2.2.1</field>
             <field name="reconcile" eval="True"/>
             <field eval="'movement'" name="account_type"/>
-            <field ref="eliterp_account_type_other" name="user_type_id"/>
+            <field ref="account.data_account_type_receivable" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
         <record model="account.account.template" id="eliterp_account_11222">
@@ -859,12 +859,12 @@
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
-        <record model="account.account.template" id="eliterp_account_2111">
+        <record model="account.account.template" id="eliterp_account_2111"><!--Default-->
             <field name="name">CUENTAS Y DOCUMENTOS POR PAGAR LOCALES</field>
             <field name="code">2.1.1.1</field>
             <field name="reconcile" eval="True"/>
             <field eval="'movement'" name="account_type"/>
-            <field ref="eliterp_account_type_other" name="user_type_id"/>
+            <field ref="account.data_account_type_payable" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
         <record model="account.account.template" id="eliterp_account_2112">
@@ -1219,8 +1219,7 @@
             <field ref="eliterp_account_type_other" name="user_type_id"/>
             <field name="chart_template_id" ref="eliterp_chart_template"/>
         </record>
-        <record model="account.account.template"
-                id="eliterp_account_2161"><!--OJO: Poner por defecto a empleado y rol-->
+        <record model="account.account.template" id="eliterp_account_2161">
             <field name="name">NÓMINA POR PAGAR</field>
             <field name="code">2.1.6.1</field>
             <field name="reconcile" eval="True"/>
@@ -2807,8 +2806,8 @@
 
         <record id="eliterp_chart_template" model="account.chart.template">
             <field name="property_account_expense_categ_id" ref="eliterp_account_512"/>
-            <field name="property_account_receivable_id" ref="eliterp_account_1121"/>
-            <field name="property_account_payable_id" ref="eliterp_account_2211"/>
+            <field name="property_account_receivable_id" ref="eliterp_account_11221"/>
+            <field name="property_account_payable_id" ref="eliterp_account_2111"/>
             <!--
             field name="income_currency_exchange_account_id" ref="False"/>
             <field name="property_account_income_categ_id" ref="False"/>

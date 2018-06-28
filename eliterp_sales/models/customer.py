@@ -11,11 +11,10 @@ class ResPartner(models.Model):
     @api.onchange('property_account_receivable_id')
     def _onchange_property_account_receivable_id(self):
         """
-        Se realiza esto para manejar cuentas seperadas de Proveedor/Cliente
+        Le colocamos cuentas por defecto del plan de cuentas
         :return: self
         """
-        if self.property_account_receivable_id:
-            self.property_account_payable_id = self.property_account_receivable_id.id
+        return
 
     origen_income = fields.Selection([('b', 'Empleado Público'),
                                       ('v', 'Empleado Privado'),

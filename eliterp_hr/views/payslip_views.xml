@@ -1,16 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <odoo>
     <data>
-        <record id="eliterp_view_form_employee_field_account_payroll" model="ir.ui.view">
-            <field name="name">eliterp_view_form_employee_field_account_payroll</field>
-            <field name="model">hr.employee</field>
-            <field name="inherit_id" ref="eliterp_hr.eliterp_view_form_employee"/>
-            <field name="arch" type="xml">
-                <xpath expr="//field[@name='struct_id']" position="after"><!--Estructura salarial-->
-                    <field name="account_payroll" required="1" options="{'no_create':True}"/>
-                </xpath>
-            </field>
-        </record>
         <!--Vistas del menú Estrucutras salariales-->
         <record id="eliterp_view_tree_payroll_structure" model="ir.ui.view">
             <field name="name">eliterp_view_tree_payroll_structure</field>
