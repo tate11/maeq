@@ -26,7 +26,6 @@
         'security/treasury_security.xml',
         'security/ir.model.access.csv',
         'views/withhold_views.xml',
-        'views/programmed_payment_views.xml',
         'views/invoice_views.xml',
         'views/small_box_views.xml',
         'views/travel_expenses_views.xml',

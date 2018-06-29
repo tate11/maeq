@@ -370,7 +370,7 @@ class ChecksIssuedReport(models.TransientModel):
 
 
 class ScheduledPaymentsReportPDF(models.AbstractModel):
-    _name = 'report.eliterp_treasury.eliterp_report_scheduled_payments'
+    _name = 'report.eliterp_treasury.eliterp_report_pay_orders'
 
     def get_days_mora(self, vencimiento):
         delinquency = 0
@@ -382,7 +382,7 @@ class ScheduledPaymentsReportPDF(models.AbstractModel):
         arg = []
         if doc['form_pay'] != 'todas':
             arg.append(('way_to_pay', '=', doc['form_pay']))
-        pays = self.env['eliterp.programmed.payment'].search(arg)
+        pays = self.env['eliterp.pay.order'].search(arg)
         for pay in pays:
             pay_day = pay.date
             if (pay_day >= doc['start_date'] and pay_day <= doc['end_date']):
@@ -410,17 +410,17 @@ class ScheduledPaymentsReportPDF(models.AbstractModel):
     def get_report_values(self, docids, data=None):
         return {
             'doc_ids': docids,
-            'doc_model': 'eliterp.scheduled.payments.report',
-            'docs': self.env['eliterp.scheduled.payments.report'].browse(docids),
+            'doc_model': 'eliterp.pay.orders.report',
+            'docs': self.env['eliterp.pay.orders.report'].browse(docids),
             'get_lines': self._get_lines,
             'data': data,
         }
 
 
 class ScheduledPaymentsReport(models.TransientModel):
-    _name = 'eliterp.scheduled.payments.report'
+    _name = 'eliterp.pay.orders.report'
 
-    _description = "Ventana para reporte de pagos programados"
+    _description = "Ventana para reporte de ordenes de pago"
 
     @api.multi
     def print_report_pdf(self):
@@ -428,7 +428,7 @@ class ScheduledPaymentsReport(models.TransientModel):
         Imprimimos reporte en pdf
         """
         self.ensure_one()
-        return self.env.ref('eliterp_treasury.eliterp_action_report_scheduled_payments_report').report_action(self)
+        return self.env.ref('eliterp_treasury.eliterp_action_report_pay_orders_report').report_action(self)
 
     start_date = fields.Date('Fecha inicio', required=True)
     end_date = fields.Date('Fecha fin', required=True, default=fields.Date.context_today)

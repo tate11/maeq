@@ -35,7 +35,7 @@
                     >
                         <field name="date"/>
                         <field name="name" string="No. Documento"/>
-                        <field name="partner_id"/>
+                        <field name="partner_id" string="Cliente/Proveedor"/>
                         <field name="ref"/>
                         <field name="journal_id"/>
                         <field name="amount" string="Monto" sum="Total"/>
@@ -193,11 +193,14 @@
                                 <h1>
                                     <field name="name" class="oe_inline" placeholder="p.e Administración"/>
                                 </h1>
-                                <label for="account_analytic" class="oe_edit_only"/>
-                                <h2>
-                                    <field name="account_analytic" attrs="{'invisible':[('usage','=','view')],
-                               'required':[('usage','!=','view')]}"/>
-                                </h2>
+                                <div attrs="{'invisible':[('usage','=','view')]}">
+                                   <label for="account_analytic" class="oe_edit_only"/>
+                                    <h2>
+                                        <field name="account_analytic"
+                                               context="{'default_usage': 'view'}"
+                                               attrs="{'required':[('usage','!=','view')]}"/>
+                                    </h2>
+                                </div>
                             </div>
                             <group col="4">
                                 <field name="usage"/>

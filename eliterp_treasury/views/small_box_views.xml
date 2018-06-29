@@ -147,7 +147,7 @@
                                 string="Aperturar caja"
                                 class="oe_highlight"/>
                         <button name="to_approve"
-                                states="open"
+                                attrs="{'invisible':['|', ('state','!=', 'open'), ('lines_voucher','=', [])]}"
                                 type="object"
                                 string="Solicitar aprobación"
                                 class="oe_highlight"/>
