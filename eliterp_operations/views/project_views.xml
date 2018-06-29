@@ -29,7 +29,7 @@
                             <field name="code"/>
                             <field name="reference"/>
                             <field name="customer"/>
-                            <field name="account_analytic_id" options="{'no_create': True, 'no_open': True}"/>
+                            <field name="account_analytic_id" domain="[('usage', '=', 'movement')]" options="{'no_create': True, 'no_open': True}"/>
                         </group>
                         <notebook>
                             <page string="Ubicaciones">
