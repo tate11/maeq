@@ -28,7 +28,7 @@ class ReasonMoveCancel(models.TransientModel):
 class AnalyticAccount(models.Model):
     _inherit = 'account.analytic.account'
     _order = 'name asc'
-
+   
     @api.multi
     def name_get(self):
         res = []

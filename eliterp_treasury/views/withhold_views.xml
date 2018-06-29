@@ -191,7 +191,7 @@
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"
                                    required="1"
                                    options="{'no_create': True}"
-                                   domain="[('customer', '=', True)]"/>
+                                   domain="[('is_contact', '=', False), ('customer','=',True)]"/>
                             <field name="invoice_id"
                                    required="1"
                                    attrs="{'readonly': [('state', '!=', 'draft')]}"

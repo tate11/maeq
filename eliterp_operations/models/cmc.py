@@ -146,7 +146,7 @@ class CMC(models.Model):
                 get_param = self.env['ir.config_parameter'].sudo().get_param
                 if line.product_uom_id.id != quant_uom.id and get_param('stock.propagate_uom') != '1':
                     product_qty = line.product_uom_id._compute_quantity(line.product_quantity, quant_uom,
-                                                                     rounding_method='HALF-UP')
+                                                                        rounding_method='HALF-UP')
                 else:
                     product_qty = line.product_quantity
                 moves |= Move.create({
@@ -298,7 +298,10 @@ class CMC(models.Model):
                                    states={'draft': [('readonly', False)]})
     gang_id = fields.Many2one('eliterp.gang', 'Cuadrilla', required=True, readonly=True,
                               states={'draft': [('readonly', False)]})
-    work_id = fields.Many2one('eliterp.work', 'Obra', required=True, readonly=True,
+    work_id = fields.Many2one('product.product', domain=[
+        ('sale_ok', '=', True),
+        ('type', '=', 'service')
+    ], string='Producto/Servicio', required=True, readonly=True,
                               states={'draft': [('readonly', False)]})
     block = fields.Char('Bloque', required=True, readonly=True,
                         states={'draft': [('readonly', False)]})

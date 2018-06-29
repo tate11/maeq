@@ -28,7 +28,6 @@
                                     <p t-field="doc.employee_id"/>
                                 </div>
                             </div>
-
                             <table class="table table-condensed">
                                 <thead>
                                     <tr>

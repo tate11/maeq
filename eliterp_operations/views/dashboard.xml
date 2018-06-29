@@ -110,6 +110,7 @@
                 </p>
             </field>
         </record>
+        <!--TODO: Pendientes por qué es un prodcuto
         <record id="eliterp_action_work" model="ir.actions.act_window">
             <field name="name">Obras</field>
             <field name="res_model">eliterp.work</field>
@@ -121,6 +122,7 @@
                 </p>
             </field>
         </record>
+        -->
         <record id="eliterp_action_project" model="ir.actions.act_window">
             <field name="name">Proyecto</field>
             <field name="res_model">eliterp.project</field>
@@ -233,11 +235,12 @@
                   parent="eliterp_menu_operations_project_sales"
                   action="eliterp_operations.eliterp_action_project"
                   sequence="1"/>
+        <!--TODO: No se necesita es producto
         <menuitem id="eliterp_menu_operations_project_work_sales"
                   name="Obras"
                   parent="eliterp_menu_operations_project_sales"
                   action="eliterp_operations.eliterp_action_work"
                   sequence="2"/>
-
+        -->
     </data>
 </odoo>

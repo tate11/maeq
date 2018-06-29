@@ -227,13 +227,13 @@
             <field name="target">new</field>
         </record>
 
-        <record id="eliterp_action_scheduled_payments_report" model="ir.actions.act_window">
-            <field name="name">Reporte de pagos programados</field>
-            <field name="res_model">eliterp.scheduled.payments.report</field>
+        <record id="eliterp_action_pay_orders_report" model="ir.actions.act_window">
+            <field name="name">Reporte de órdenes de pago</field>
+            <field name="res_model">eliterp.pay.orders.report</field>
             <field name="type">ir.actions.act_window</field>
             <field name="view_type">form</field>
             <field name="view_mode">form</field>
-            <field name="view_id" ref="eliterp_treasury.eliterp_view_form_scheduled_payments_report_wizard"/>
+            <field name="view_id" ref="eliterp_treasury.eliterp_view_form_pay_orders_report_wizard"/>
             <field name="target">new</field>
         </record>
 
@@ -270,9 +270,9 @@
                   action="eliterp_action_checks_issued_report"
                   parent="eliterp_menu_treasury_reports"
                   sequence="4"/>
-        <menuitem id="eliterp_menu_scheduled_payments_report"
-                  name="Pagos programados"
-                  action="eliterp_action_scheduled_payments_report"
+        <menuitem id="eliterp_menu_pay_orders_report"
+                  name="Órdenes de pago"
+                  action="eliterp_action_pay_orders_report"
                   parent="eliterp_menu_treasury_reports"
                   sequence="5"/>
 

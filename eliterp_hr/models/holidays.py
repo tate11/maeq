@@ -148,7 +148,7 @@ class Holidays(models.Model):
         """
         Validamos qué vacaciones no sean mayores a las por gozar
         """
-        if self.is_vacations:
+        if self.is_vacations and self.holiday_type == 'employee':
             total = 0
             for line in self.lines_vacations:
                 total += line.vacations_available
@@ -255,7 +255,7 @@ class Holidays(models.Model):
         es para vacaciones y asigar departamento si tiene
         """
         self.department_id = self.employee_id.department_id
-        if self.is_vacations:
+        if self.is_vacations and self.holiday_type == 'employee':
             employee = self.employee_id
             lines_vacations = self.lines_vacations.browse([])
             data = self._get_lines_vacations(employee)

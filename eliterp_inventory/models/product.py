@@ -91,6 +91,5 @@ class ProductTemplate(models.Model):
         return super(ProductTemplate, self).create(vals)
 
     line_product_id = fields.Many2one('eliterp.line.product', 'Línea', required=True)
-    sub_line_product_id = fields.Many2one('eliterp.sub.line.product', 'SubLínea')
     product_code_id = fields.Many2one('eliterp.product.code', 'Código interno')
     measure = fields.Text('Medida del producto')

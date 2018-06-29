@@ -11,6 +11,7 @@ class Work(models.Model):
 
     _description = 'Obra'
 
+    # TODO: Pendiente la obra es un producto
     name = fields.Char('Nombre', required=True)
 
     _sql_constraints = [

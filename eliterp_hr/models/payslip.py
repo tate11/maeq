@@ -191,6 +191,7 @@ class Payslip(models.Model):
 
     worked_days = fields.Integer(string="Días trabajados", default=30)
     number_absences = fields.Integer(string="Nº de ausencias", default=0)
+    extra_hours = fields.Float('Horas extras ($)') # TODO: MAEQ, hasta igualar en día a día
     # Egresos
     input_line_ids_2 = fields.One2many('eliterp.payslip.input.2', 'payslip_id', string='Egresos rol',
                                        readonly=True, states={'draft': [('readonly', False)]})
