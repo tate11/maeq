@@ -93,7 +93,20 @@ class AccountInvoiceLine(models.Model):
 
 class AccountAssetAsset(models.Model):
     _inherit = 'account.asset.asset'
+
     machine_id = fields.Many2one('eliterp.machine', 'Máquina')
+
+    @api.onchange('machine_id')
+    def _onchange_machine_id(self):
+        """
+        Cambiar nombre del Activo
+        """
+        if self.machine_id:
+            self.name = self.machine_id.name
+
+    _sql_constraints = [
+        ('machine_id', 'unique(machine_id)', 'Ya existe un activo para está máquina.'),
+    ]
 
 
 class Machine(models.Model):

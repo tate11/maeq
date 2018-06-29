@@ -250,6 +250,7 @@
                     <label for="machine_id" class="oe_edit_only" string="Máquina"/>
                     <h1>
                         <field name="machine_id"
+                               domain="[('type', '=', 'own')]"
                                context="{'default_type': 'own'}"
                                placeholder="p.e CAT001"/>
                     </h1>
