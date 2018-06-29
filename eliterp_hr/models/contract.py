@@ -21,7 +21,7 @@ class Employee(models.Model):
             day_ = 0.0328767  # Equivalencia en meses (Días exactos)
             star_date = datetime.strptime(self.admission_date, '%Y-%m-%d').date()
             end_date = datetime.today().date()
-            days = abs(end_date - star_date).days
+            days = abs(end_date - star_date).days + self.previous_contract_days
             months = round(days * day_, 0)
             if months >= 13:
                 self.working_time = True
