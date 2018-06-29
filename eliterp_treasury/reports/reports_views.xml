@@ -127,10 +127,10 @@
             </field>
         </record>
 
-        <!--Ventana emergente Reporte de pagos programados-->
-        <record id="eliterp_view_form_scheduled_payments_report_wizard" model="ir.ui.view">
-            <field name="name">eliterp_view_form_scheduled_payments_report_wizard</field>
-            <field name="model">eliterp.scheduled.payments.report</field>
+        <!--Ventana emergente Reporte de órdenes de pago-->
+        <record id="eliterp_view_form_pay_orders_report_wizard" model="ir.ui.view">
+            <field name="name">eliterp_view_form_pay_orders_report_wizard</field>
+            <field name="model">eliterp.pay.orders.report</field>
             <field name="arch" type="xml">
                 <form>
                     <group>

@@ -23,7 +23,6 @@
                 </button>
                 <xpath expr="//sheet/div[1]" position="before">
                     <field name="have_withhold" invisible="1"/>
-                    <field name="have_programmed_payment" invisible="1"/>
                     <div class="oe_button_box" name="button_box">
                         <button name="open_withhold"
                                 string="Retención"

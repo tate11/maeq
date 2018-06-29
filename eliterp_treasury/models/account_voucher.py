@@ -192,7 +192,8 @@ class AccountVoucher(models.Model):
                 total += line.amount_invoice
             voucher.total_invoices = total
 
-    def move_voucher_sale(self, name, voucher, credit, debit, account_credit, account_debit, balance):
+    def move_voucher_sale(self, name, voucher, credit, debit, account_credit, account_debit, balance, project,
+                          analytic):
         """
         VENTAS: Creamos movmiento para comprobante de ingreso
         :param name:
@@ -202,6 +203,8 @@ class AccountVoucher(models.Model):
         :param account_credit:
         :param account_debit:
         :param balance:
+        :param project:
+        :param analytic:
         :return: object
         """
         move_id = self.env['account.move'].create({
@@ -217,7 +220,9 @@ class AccountVoucher(models.Model):
                 'move_id': move_id.id,
                 'credit': balance,
                 'debit': 0.0,
-                'date': voucher.date
+                'date': voucher.date,
+                'project_id': project,
+                'analytic_account_id': analytic
             })
         self.env['account.move.line'].with_context(check_move_validity=False).create({
             'name': voucher.partner_id.name,
@@ -227,7 +232,9 @@ class AccountVoucher(models.Model):
             'move_id': move_id.id,
             'credit': (credit - balance) if balance > 0 else credit,
             'debit': 0.0,
-            'date': voucher.date
+            'date': voucher.date,
+            'project_id': project,
+            'analytic_account_id': analytic
         })
         self.env['account.move.line'].with_context(check_move_validity=True).create({
             'name': voucher.partner_id.name,
@@ -237,7 +244,9 @@ class AccountVoucher(models.Model):
             'move_id': move_id.id,
             'credit': 0.0,
             'debit': debit,
-            'date': voucher.date
+            'date': voucher.date,
+            'project_id': project,
+            'analytic_account_id': analytic
         })
         return move_id
 
@@ -346,8 +355,8 @@ class AccountVoucher(models.Model):
             move_id.with_context(eliterp_moves=True, move_name=new_name).post()
             # OC
             if self.type_pay == 'oc':
-                self.movement_voucher() # Generamos Asiento diario por anticipo
-            self.pay_order_id.update({'state': 'paid'}) # Cambiamos estado de la OP
+                self.movement_voucher()  # Generamos Asiento diario por anticipo
+            self.pay_order_id.update({'state': 'paid'})  # Cambiamos estado de la OP
             return self.write({
                 'state': 'posted',
                 'name': new_name,

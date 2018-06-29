@@ -176,7 +176,7 @@
                     </notebook>
                 </xpath>
                 <xpath expr="//button[@name='toggle_active']" position="attributes"><!--Botón Activo-->
-                    <attribute name="invisible">1</attribute>
+                    <attribute name="groups">base.group_erp_manager</attribute>
                 </xpath>
             </field>
         </record>

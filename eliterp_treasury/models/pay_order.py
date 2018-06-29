@@ -477,7 +477,7 @@ class PayslipRun(models.Model):
         self.flag_change = True
         view = self.env.ref('eliterp_treasury.eliterp_view_form_pay_wizard')
         context = {
-            'default_default_date': self.date_to,
+            'default_default_date': self.date_start,
             'default_type': 'rc',
             'default_default_amount': self.residual_pay_order,
             'default_amount': self.residual_pay_order
