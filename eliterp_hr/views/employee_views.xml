@@ -136,6 +136,7 @@
                             <group string="Contabilidad" col="4">
                                 <field name="struct_id"/>
                                 <field name="benefits"/>
+                                <field name="previous_contract_days"/>
                                 <field name="working_time" invisible="1"/>
                                 <field name="address_home_id"
                                        invisible="1"/><!--Dirección Privada, no funciona instalación-->

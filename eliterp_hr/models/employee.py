@@ -272,3 +272,4 @@ class Employee(models.Model):
     spouses = fields.Boolean('Ext. conyugues', default=False)
     departure_date = fields.Date('Fecha de salida',
                                  help="Si se registra este campo se anulará el contrato del empleado relacionado.")
+    previous_contract_days = fields.Integer('Días ant. dis.', help='Días para antiguedad discontinua para un empleado.')
