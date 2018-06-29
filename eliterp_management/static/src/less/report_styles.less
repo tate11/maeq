@@ -53,6 +53,22 @@
             td { vertical-align:top; }
         }
     }
+    .tr_sum { /*Para sumas al final de tablas*/
+        font-size: 9px;
+        border-top: 3px solid @gray !important;
+        td{
+            background-color: @gray;
+            color: #fff;
+        }
+        td:last-child{
+            background-color: @gray;
+            color: #fff;
+        }
+        td:first-child {
+            background-color: #fff;
+        }
+
+    }
     table {
         border: 1px solid @gray;
         thead {

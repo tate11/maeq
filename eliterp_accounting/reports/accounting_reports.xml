@@ -72,7 +72,7 @@
                 name="eliterp_accounting.eliterp_report_account_move"
                 file="eliterp_accounting.eliterp_report_account_move"
                 print_report_name="'Asiento contable - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a5_landscape"
         />
         <!--Conciliaciones bancarias-->
         <template id="eliterp_bank_conciliation">
@@ -310,7 +310,7 @@
                 name="eliterp_accounting.eliterp_report_account_payment"
                 file="eliterp_accounting.eliterp_report_account_payment"
                 print_report_name="'Deposito - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a5_landscape"
         />
         <!--Notas de crédito-->
         <template id="eliterp_report_credit_notes">
@@ -386,7 +386,7 @@
                 name="eliterp_accounting.eliterp_report_credit_notes"
                 file="eliterp_accounting.eliterp_report_credit_notes"
                 print_report_name="'Nota de crédito bancaria - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a5_landscape"
         />
         <!--Notas de débito-->
         <template id="eliterp_report_debit_notes">
@@ -462,7 +462,7 @@
                 name="eliterp_accounting.eliterp_report_debit_notes"
                 file="eliterp_accounting.eliterp_report_debit_notes"
                 print_report_name="'Nota de débito - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a5_landscape"
         />
         <!--Transferencias-->
         <template id="eliterp_report_account_payment_tr">
@@ -538,7 +538,7 @@
                 name="eliterp_accounting.eliterp_report_account_payment_tr"
                 file="eliterp_accounting.eliterp_report_account_payment_tr"
                 print_report_name="'Transferencias - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a5_landscape"
         />
         <!--TODO: Factura de proveedor, se pueden utilizar las mismas del sistema-->
         <template id="eliterp_report_invoice_supplier">
