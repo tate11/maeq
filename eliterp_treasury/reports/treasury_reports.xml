@@ -46,7 +46,7 @@
                                         </td>
                                         <td>
                                             <span t-if="line.type_payment == 'bank'"
-                                                  t-esc="'%s - %s' % (line.bank_id.name, line.check-number)"/>
+                                                  t-esc="'%s - %s' % (line.bank_id.name, line.check_number)"/>
                                             <span t-if="line.type_payment == 'cash'">/</span>
                                             <span t-if="line.type_payment == 'transfer'"
                                                   t-esc="'%s' % line.bank_id.name"/>
@@ -74,7 +74,7 @@
                 name="eliterp_treasury.eliterp_report_account_voucher_sale"
                 file="eliterp_treasury.eliterp_report_account_voucher_sale"
                 print_report_name="'Pagos - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a5_landscape"
         />
         <!--Pagos (Comprobante de egreso)-->
         <template id="eliterp_report_account_voucher_purchase">
@@ -90,10 +90,6 @@
                                     <strong>Fecha emisión:</strong>
                                     <p t-field="doc.date"/>
                                 </div>
-                                <div class="col-xs-3" t-if="doc.receipt_for">
-                                    <strong>Pago para:</strong>
-                                    <p t-field="doc.receipt_for"/>
-                                </div>
                                 <div class="col-xs-3" t-if="doc.beneficiary">
                                     <strong>Beneficiario:</strong>
                                     <p t-field="doc.beneficiary"/>
@@ -102,12 +98,16 @@
                                     <strong>Concepto:</strong>
                                     <p t-field="doc.concept"/>
                                 </div>
+                                <div class="col-xs-3">
+                                    <strong>Monto:</strong>
+                                    <p t-esc='"%.2f" %doc.amount_cancel'/>
+                                </div>
                             </div>
 
                             <div class="row">
-                                <div class="col-xs-3" t-if="doc.amount_cancel">
-                                    <strong>Monto:</strong>
-                                    <p t-esc='"%.2f" %doc.amount_cancel'/>
+                                <div class="col-xs-3" t-if="doc.type_egress">
+                                    <strong>Forma de pago:</strong>
+                                    <p t-field="doc.type_egress"/>
                                 </div>
                                 <div class="col-xs-3" t-if="doc.bank_id">
                                     <strong>Banco:</strong>
@@ -285,7 +285,7 @@
                 name="eliterp_treasury.eliterp_report_replacement_small_box"
                 file="eliterp_treasury.eliterp_report_replacement_small_box"
                 print_report_name="'Reposición caja chica - %s' % (object.name or '/')"
-                paperformat="eliterp_management.eliterp_paperformat_a4_landscape"
+                paperformat="eliterp_management.eliterp_paperformat_a4_portrait"
         />
         <!--Comprobantes caja chica-->
         <template id="eliterp_report_voucher_small_box">
@@ -545,7 +545,7 @@
                 Reportes del módulo Tesoderia
         -->
         <!--Reporte de cuentas por cobrar-->
-        <template id="eliterp_report_accounts_receivable">
+        <template id="elclaeiterp_report_accounts_receivable">
             <t t-call="web.html_container">
                 <t t-foreach="docs" t-as="doc">
                     <t t-set="report_code">REPO-TESO-001-V1</t>
