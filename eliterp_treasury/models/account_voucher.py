@@ -280,7 +280,7 @@ class AccountVoucher(models.Model):
             move_name, check = self._get_names(self.type_egress, self.bank_id)
             if self.type_egress == 'bank':  # Soló con cheques generamos el consecutivo
                 self.env['eliterp.checks'].create({
-                    'partner_id': self.partner_id.id if self.partner_id else '/',
+                    'partner_id': self.partner_id.id if self.partner_id else False,
                     'name': check,
                     'recipient': self.beneficiary,
                     'type': 'issued',
@@ -608,11 +608,12 @@ class AccountVoucher(models.Model):
         Número del siguiente cheque según secuencia, caso contrario colocamos en falso
         """
         if self.bank_id:
+            self.account_id = self.bank_id.account_id
             if self.type_egress == 'bank':
                 check_number = self.bank_id.sequence_id.number_next_actual
                 self.check_number = check_number
-                self.account_id = self.bank_id.account_id
             else:
+
                 self.check_number = False
         else:
             self.check_number = False

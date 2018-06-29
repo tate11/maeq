@@ -155,6 +155,7 @@ class VoucherSmallBox(models.Model):
         return result
 
     @api.one
+    @api.depends('lines_account.amount')
     def _get_amount_total(self):
         """
         Obtenemos el total del comprobante
