@@ -280,7 +280,7 @@ class AccountVoucher(models.Model):
             move_name, check = self._get_names(self.type_egress, self.bank_id)
             if self.type_egress == 'bank':  # Soló con cheques generamos el consecutivo
                 self.env['eliterp.checks'].create({
-                    'partner_id': self.partner_id.id,
+                    'partner_id': self.partner_id.id if self.partner_id else '/',
                     'name': check,
                     'recipient': self.beneficiary,
                     'type': 'issued',
@@ -385,7 +385,7 @@ class AccountVoucher(models.Model):
                     # Creamos cheque del cobro
                     self.env['eliterp.checks'].create({
                         'partner_id': self.partner_id.id,
-                        'check_number': payment.check_number,
+                        'name': payment.check_number,
                         'recipient': payment.drawer,
                         'type': 'receipts',
                         'date': payment.date_issue,
