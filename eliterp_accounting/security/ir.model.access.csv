@@ -1,6 +1,8 @@
 id,name,model_id:id,group_id:id,perm_read,perm_write,perm_create,perm_unlink
 access_lines_account_period_manager,lines_account_period_manager,model_eliterp_lines_account_period,account.group_account_manager,1,1,1,1
+access_lines_account_period_user,lines_account_period_user,model_eliterp_lines_account_period,account.group_account_invoice,1,0,0,0
 access_account_period_manager,account_period_manager,model_eliterp_account_period,account.group_account_manager,1,1,1,1
+access_account_period_user,account_period_user,model_eliterp_account_period,account.group_account_invoice,1,0,0,0
 
 access_lines_banks_move_manager,lines_banks_move_manager,model_eliterp_lines_banks_move,account.group_account_manager,1,1,1,1
 access_bank_conciliation_manager,bank_conciliation_manager,model_eliterp_bank_conciliation,account.group_account_manager,1,1,1,1
@@ -26,7 +28,7 @@ access_tax_support_user,tax_support_user,model_eliterp_tax_support,account.group
 access_sri_authorization_manager,sri_authorization_manager,model_eliterp_sri_authorization,account.group_account_manager,1,1,1,1
 access_sri_authorization_user,sri_authorization_user,model_eliterp_sri_authorization,account.group_account_invoice,1,0,0,0
 access_way_pay_manager,way_pay_manager,model_eliterp_way_pay,account.group_account_manager,1,1,1,1
-access_sri_authorization_user,sri_authorization_user,model_eliterp_sri_authorization,account.group_account_invoice,1,0,0,0
+access_way_pay_user,way_pay_user,model_eliterp_way_pay,account.group_account_invoice,1,0,0,0
 
 
 

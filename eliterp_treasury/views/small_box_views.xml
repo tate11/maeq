@@ -84,7 +84,6 @@
                         </div>
                         <group>
                             <field name="has_invoice" invisible="1"/>
-                            <field name="journal_id" invisible="1"/>
                             <group>
                                 <field name="date" required="1"/>
                                 <field name="beneficiary"/>
