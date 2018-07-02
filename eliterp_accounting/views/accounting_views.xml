@@ -194,17 +194,19 @@
                                     <field name="name" class="oe_inline" placeholder="p.e Administración"/>
                                 </h1>
                                 <div attrs="{'invisible':[('usage','=','view')]}">
-                                   <label for="account_analytic" class="oe_edit_only"/>
+                                    <label for="account_analytic" class="oe_edit_only"/>
                                     <h2>
                                         <field name="account_analytic"
+                                               domain="[('usage', '=', 'view')]"
                                                context="{'default_usage': 'view'}"
                                                attrs="{'required':[('usage','!=','view')]}"/>
                                     </h2>
                                 </div>
                             </div>
                             <group col="4">
-                                <field name="usage"/>
                                 <field name="code"/>
+                                 <field name="usage"
+                                       invisible="context.get('default_usage', False)"/>
                             </group>
                         </sheet>
                         <div class="oe_chatter">

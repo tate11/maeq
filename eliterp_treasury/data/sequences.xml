@@ -95,26 +95,12 @@
             <field name="sequence_id" ref="eliterp_sequence_withhold_purchase"/>
         </record>
 
-        <record model="account.journal" id="eliterp_journal_voucher_small_box">
-            <field name="name">Comprobante caja chica</field>
-            <field name="type">general</field>
-            <field name="code">VDC</field>
-            <field name="show_on_dashboard">False</field>
-            <field name="sequence_id" ref="eliterp_sequence_voucher_small_box"/>
-        </record>
         <record model="account.journal" id="eliterp_journal_replacement_small_box">
             <field name="name">Reposición caja chica</field>
             <field name="type">general</field>
             <field name="code">CJA</field>
             <field name="show_on_dashboard">False</field>
             <field name="sequence_id" ref="eliterp_sequence_replacement_small_box"/>
-        </record>
-        <record model="account.journal" id="eliterp_journal__voucher_viatic">
-            <field name="name">Comprobante viático</field>
-            <field name="type">general</field>
-            <field name="code">CVT</field>
-            <field name="show_on_dashboard">False</field>
-            <field name="sequence_id" ref="eliterp_sequence_voucher_viatic"/>
         </record>
 
         <record model="account.journal" id="eliterp_journal_voucher_sale">

@@ -99,16 +99,10 @@ class VoucherSmallBox(models.Model):
                 raise UserError("Debe ingresar al menos una línea de cuenta.")
         return self.write({
             'state': 'confirm',
-            'name': self.journal_id.sequence_id.next_by_id(),
+            'name': self.env['ir.sequence'].next_by_code('voucher.small.box'),
             'replacement_small_box_id': self.custodian_id.replacement_small_box_id.id
         })
 
-    @api.model
-    def _default_journal(self):
-        """
-        Obtenemos diario por defecto
-        """
-        return self.env['account.journal'].search([('name', '=', 'Comprobante caja chica')])[0].id
 
     @api.multi
     def view_invoice(self):
@@ -184,7 +178,6 @@ class VoucherSmallBox(models.Model):
     name = fields.Char(string="No. Documento", copy=False)
     type_voucher = fields.Selection([('vale', 'Vale'), ('invoice', 'Factura')], string="Tipo", default='vale',
                                     readonly=True, states={'draft': [('readonly', False)]})
-    journal_id = fields.Many2one('account.journal', 'Diario', default=_default_journal)
     beneficiary = fields.Char(string="Beneficiario", readonly=True, states={'draft': [('readonly', False)]})
     date = fields.Date('Fecha registro', default=fields.Date.context_today, required=True,
                        readonly=True, states={'draft': [('readonly', False)]})
