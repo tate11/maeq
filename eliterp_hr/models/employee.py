@@ -196,6 +196,17 @@ class Employee(models.Model):
         return res
 
     @api.multi
+    def re_entry(self):
+        """
+        Reingreso de empleado
+        """
+        self.write({
+            'active': True,
+            'departure_date': False
+        })
+
+
+    @api.multi
     def write(self, vals):
         """
         Modificamos la fecha de ingreso del contrato al cambiar la del empleado
