@@ -54,6 +54,11 @@
                     <button name="open_documents" string="Documentos" type="object" class="oe_stat_button"
                             icon="fa-archive">
                     </button>
+                    <button name="re_entry" string="Reingreso"
+                            attrs="{'invisible':[('departure_date', '=', False)]}"
+                            type="object" class="oe_stat_button"
+                            icon="fa-check">
+                    </button>
                 </xpath>
                 <xpath expr="//label[@for='name']" position="replace"/><!--Nombre-->
                 <xpath expr="//field[@name='category_ids']" position="attributes"><!--Etiquetas-->
