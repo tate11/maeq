@@ -21,6 +21,7 @@
         'data/sequences.xml',
         'data/res.country.state.csv',
         'data/eliterp.canton.csv',
+        'data/eliterp.parish.csv',
         'security/management_security.xml',
         'security/ir.model.access.csv',
         'reports/paperformat_reports.xml',
